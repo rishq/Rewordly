@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Only used by the platform splash/launcher. Compose colors live in core/ui/theme/Color.kt. -->
+  <color name="brand_primary">#4C56AF</color>
+  <color name="brand_background">#FBF8FF</color>
+  <color name="brand_background_dark">#131318</color>
+  <color name="brand_on_primary">#FFFFFF</color>
+</resources>
