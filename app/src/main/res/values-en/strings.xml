@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="splash_tagline">Words in real context</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_learn">Learn</string>
+    <string name="nav_review">Review</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_profile">Profile</string>
+
+    <string name="action_skip">Skip</string>
+    <string name="action_next">Next</string>
+    <string name="action_previous">Previous</string>
+    <string name="action_get_started">Get started</string>
+    <string name="action_back">Back</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_ok">Got it</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_clear_all">Clear all</string>
+    <string name="action_save">Save</string>
+    <string name="action_unsave">Remove from saved</string>
+    <string name="action_learned">Learned</string>
+    <string name="action_mark_not_learned">Back to learning</string>
+    <string name="action_continue_learning">Continue learning</string>
+    <string name="action_start_review">Start review</string>
+    <string name="action_reveal">Reveal translation</string>
+    <string name="action_know">I know it</string>
+    <string name="action_dont_know">I don\'t know it</string>
+    <string name="action_review_again">Review again</string>
+
+    <string name="state_loading">Loading…</string>
+    <string name="state_error_title">Something went wrong</string>
+    <string name="error_network">No internet connection.</string>
+    <string name="error_timeout">The server took too long to respond.</string>
+    <string name="error_server">Server error. Please try again later.</string>
+    <string name="error_empty_response">The response was empty.</string>
+    <string name="error_database">Couldn\'t read local data.</string>
+    <string name="error_unknown">An unexpected error occurred.</string>
+
+    <string name="onboarding_title_1">Learn new English words</string>
+    <string name="onboarding_body_1">A small daily set of words with translation, pronunciation, and difficulty level.</string>
+    <string name="onboarding_title_2">Understand words through real sentences</string>
+    <string name="onboarding_body_2">Every word comes with real English examples and their translations.</string>
+    <string name="onboarding_title_3">Build vocabulary through regular practice</string>
+    <string name="onboarding_body_3">Set a daily goal, review words, and keep your streak going.</string>
+    <string name="a11y_page_indicator">Page %1$d of %2$d</string>
+
+    <string name="greeting_morning">Good morning</string>
+    <string name="greeting_afternoon">Good afternoon</string>
+    <string name="greeting_evening">Good evening</string>
+    <string name="greeting_night">Good night</string>
+    <string name="home_subtitle">Ready to learn something new?</string>
+    <string name="home_progress_title">Your progress</string>
+    <string name="home_progress_value">%1$d / %2$d</string>
+    <plurals name="a11y_progress">
+        <item quantity="one">%1$d of %2$d word learned today</item>
+        <item quantity="other">%1$d of %2$d words learned today</item>
+    </plurals>
+    <string name="percent">%1$d%%</string>
+    <string name="home_review_title">Today\'s review</string>
+    <string name="home_streak">Streak</string>
+    <string name="home_words_learned">Words learned</string>
+    <string name="home_recent_words">Recent words</string>
+
+    <string name="learn_title">Cards</string>
+    <string name="learn_position">%1$d of %2$d</string>
+    <string name="learn_example">Example</string>
+    <string name="learn_empty_title">No words yet</string>
+    <string name="learn_empty_message">The vocabulary for this language hasn\'t been loaded yet.</string>
+    <string name="quoted">“%1$s”</string>
+    <string name="a11y_pronunciation">Pronunciation %1$s</string>
+    <string name="status_saved">Saved</string>
+    <string name="status_learned">Learned</string>
+    <string name="word_list_subtitle">%1$s · %2$s</string>
+
+    <string name="word_details_title">Word details</string>
+    <string name="word_section_translation">Translation</string>
+    <string name="word_section_pronunciation">Pronunciation</string>
+    <string name="word_section_part_of_speech">Part of speech</string>
+    <string name="word_section_difficulty">Difficulty</string>
+    <string name="word_section_examples">Examples</string>
+    <string name="word_section_forms">Word forms</string>
+    <string name="word_section_related">Related words</string>
+    <string name="word_section_synonyms">Synonyms</string>
+    <string name="word_not_found_title">Word not found</string>
+    <string name="word_not_found_message">It may have been removed from the vocabulary.</string>
+
+    <string name="pos_noun">noun</string>
+    <string name="pos_verb">verb</string>
+    <string name="pos_adjective">adjective</string>
+    <string name="pos_adverb">adverb</string>
+    <string name="pos_pronoun">pronoun</string>
+    <string name="pos_preposition">preposition</string>
+    <string name="pos_conjunction">conjunction</string>
+    <string name="pos_interjection">interjection</string>
+    <string name="pos_phrase">phrase</string>
+
+    <string name="difficulty_a1">A1 · Beginner</string>
+    <string name="difficulty_a2">A2 · Elementary</string>
+    <string name="difficulty_b1">B1 · Intermediate</string>
+    <string name="difficulty_b2">B2 · Upper intermediate</string>
+    <string name="difficulty_c1">C1 · Advanced</string>
+    <string name="difficulty_c2">C2 · Proficient</string>
+
+    <string name="review_title">Review</string>
+    <string name="review_think">Think about the meaning, then check yourself.</string>
+    <string name="review_empty_title">Nothing to review</string>
+    <string name="review_empty_message">Learn a few words and they will show up here.</string>
+    <string name="review_finished_title">Review complete</string>
+    <string name="review_finished_message">Known: %1$d · Unknown: %2$d</string>
+
+    <string name="search_title">Search</string>
+    <string name="search_hint">Word or translation</string>
+    <string name="search_recent">Recent searches</string>
+    <string name="search_idle_title">Find a word</string>
+    <string name="search_idle_message">Search by English word or Russian translation.</string>
+    <string name="search_empty_title">No results</string>
+    <string name="search_empty_message">No words match “%1$s”.</string>
+
+    <string name="profile_title">Progress</string>
+    <string name="profile_words_learned">Words learned</string>
+    <string name="profile_words_reviewed">Words reviewed</string>
+    <string name="profile_current_streak">Current streak</string>
+    <string name="profile_longest_streak">Longest streak</string>
+    <string name="profile_daily_goal">Daily goal</string>
+    <string name="profile_activity">Activity this week</string>
+    <plurals name="a11y_activity_chart">
+        <item quantity="one">%1$d word learned over the last %2$d days</item>
+        <item quantity="other">%1$d words learned over the last %2$d days</item>
+    </plurals>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_group_language">Language</string>
+    <string name="settings_group_learning">Learning</string>
+    <string name="settings_group_appearance">Appearance</string>
+    <string name="settings_group_info">Information</string>
+    <string name="settings_interface_language">Interface language</string>
+    <string name="settings_learning_language">Learning language</string>
+    <string name="settings_daily_goal">Daily goal</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_hint">Daily practice reminders</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_system">System default</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_about">About</string>
+    <string name="settings_version">Version %1$s</string>
+    <string name="settings_about_text">Rewordly helps you learn English vocabulary through contextual cards with examples and translations.</string>
+    <string name="settings_privacy">Privacy policy</string>
+    <string name="settings_privacy_text">All of your learning data is stored only on this device. The app does not collect personal data or share it with third parties.</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_english">English</string>
+    <string name="learning_language_english">English</string>
+
+    <plurals name="words_count">
+        <item quantity="one">%d word</item>
+        <item quantity="other">%d words</item>
+    </plurals>
+    <plurals name="days_count">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <plurals name="words_today_goal">
+        <item quantity="one">Today\'s goal: %d word</item>
+        <item quantity="other">Today\'s goal: %d words</item>
+    </plurals>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="Theme.Rewordly" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <item name="android:windowBackground">@color/brand_background_dark</item>
+  </style>
+
+  <style name="Theme.Rewordly.Starting" parent="Theme.SplashScreen">
+    <item name="windowSplashScreenBackground">@color/brand_background_dark</item>
+    <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
+    <item name="postSplashScreenTheme">@style/Theme.Rewordly</item>
+  </style>
+</resources>

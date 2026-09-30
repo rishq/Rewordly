@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Rewordly</string>
+    <string name="splash_tagline">Слова в живом контексте</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Главная</string>
+    <string name="nav_learn">Учить</string>
+    <string name="nav_review">Повторение</string>
+    <string name="nav_search">Поиск</string>
+    <string name="nav_profile">Профиль</string>
+
+    <!-- Common actions -->
+    <string name="action_skip">Пропустить</string>
+    <string name="action_next">Далее</string>
+    <string name="action_previous">Назад</string>
+    <string name="action_get_started">Начать</string>
+    <string name="action_back">Назад</string>
+    <string name="action_retry">Повторить</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="action_ok">Понятно</string>
+    <string name="action_clear">Очистить</string>
+    <string name="action_clear_all">Очистить всё</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_unsave">Убрать из сохранённых</string>
+    <string name="action_learned">Выучено</string>
+    <string name="action_mark_not_learned">Вернуть в изучение</string>
+    <string name="action_continue_learning">Продолжить обучение</string>
+    <string name="action_start_review">Начать повторение</string>
+    <string name="action_reveal">Показать перевод</string>
+    <string name="action_know">Я знаю</string>
+    <string name="action_dont_know">Не знаю</string>
+    <string name="action_review_again">Повторить ещё раз</string>
+
+    <!-- States -->
+    <string name="state_loading">Загрузка…</string>
+    <string name="state_error_title">Что-то пошло не так</string>
+    <string name="error_network">Нет подключения к интернету.</string>
+    <string name="error_timeout">Сервер не ответил вовремя.</string>
+    <string name="error_server">Ошибка сервера. Попробуйте позже.</string>
+    <string name="error_empty_response">Получен пустой ответ.</string>
+    <string name="error_database">Не удалось прочитать локальные данные.</string>
+    <string name="error_unknown">Произошла непредвиденная ошибка.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title_1">Учите новые английские слова</string>
+    <string name="onboarding_body_1">Каждый день — небольшая подборка слов с переводом, транскрипцией и уровнем сложности.</string>
+    <string name="onboarding_title_2">Понимайте слова через живые примеры</string>
+    <string name="onboarding_body_2">Каждое слово показано в настоящих английских предложениях с переводом на русский.</string>
+    <string name="onboarding_title_3">Расширяйте словарь с регулярной практикой</string>
+    <string name="onboarding_body_3">Ставьте дневную цель, повторяйте слова и следите за своей серией занятий.</string>
+    <string name="a11y_page_indicator">Страница %1$d из %2$d</string>
+
+    <!-- Home -->
+    <string name="greeting_morning">Доброе утро</string>
+    <string name="greeting_afternoon">Добрый день</string>
+    <string name="greeting_evening">Добрый вечер</string>
+    <string name="greeting_night">Доброй ночи</string>
+    <string name="home_subtitle">Готовы узнать что-то новое?</string>
+    <string name="home_progress_title">Ваш прогресс</string>
+    <string name="home_progress_value">%1$d / %2$d</string>
+    <plurals name="a11y_progress">
+        <item quantity="one">Выучено %1$d из %2$d слова сегодня</item>
+        <item quantity="few">Выучено %1$d из %2$d слов сегодня</item>
+        <item quantity="many">Выучено %1$d из %2$d слов сегодня</item>
+        <item quantity="other">Выучено %1$d из %2$d слова сегодня</item>
+    </plurals>
+    <string name="percent">%1$d%%</string>
+    <string name="home_review_title">На повторение сегодня</string>
+    <string name="home_streak">Серия</string>
+    <string name="home_words_learned">Выучено слов</string>
+    <string name="home_recent_words">Недавние слова</string>
+
+    <!-- Learn -->
+    <string name="learn_title">Карточки</string>
+    <string name="learn_position">%1$d из %2$d</string>
+    <string name="learn_example">Пример</string>
+    <string name="learn_empty_title">Слов пока нет</string>
+    <string name="learn_empty_message">Словарь для этого языка ещё не загружен.</string>
+    <string name="quoted">«%1$s»</string>
+    <string name="a11y_pronunciation">Произношение %1$s</string>
+    <string name="status_saved">Сохранено</string>
+    <string name="status_learned">Выучено</string>
+    <string name="word_list_subtitle">%1$s · %2$s</string>
+
+    <!-- Word details -->
+    <string name="word_details_title">О слове</string>
+    <string name="word_section_translation">Перевод</string>
+    <string name="word_section_pronunciation">Произношение</string>
+    <string name="word_section_part_of_speech">Часть речи</string>
+    <string name="word_section_difficulty">Уровень сложности</string>
+    <string name="word_section_examples">Примеры</string>
+    <string name="word_section_forms">Формы слова</string>
+    <string name="word_section_related">Связанные слова</string>
+    <string name="word_section_synonyms">Синонимы</string>
+    <string name="word_not_found_title">Слово не найдено</string>
+    <string name="word_not_found_message">Возможно, оно было удалено из словаря.</string>
+
+    <!-- Parts of speech -->
+    <string name="pos_noun">существительное</string>
+    <string name="pos_verb">глагол</string>
+    <string name="pos_adjective">прилагательное</string>
+    <string name="pos_adverb">наречие</string>
+    <string name="pos_pronoun">местоимение</string>
+    <string name="pos_preposition">предлог</string>
+    <string name="pos_conjunction">союз</string>
+    <string name="pos_interjection">междометие</string>
+    <string name="pos_phrase">фраза</string>
+
+    <!-- Difficulty -->
+    <string name="difficulty_a1">A1 · Начальный</string>
+    <string name="difficulty_a2">A2 · Элементарный</string>
+    <string name="difficulty_b1">B1 · Средний</string>
+    <string name="difficulty_b2">B2 · Выше среднего</string>
+    <string name="difficulty_c1">C1 · Продвинутый</string>
+    <string name="difficulty_c2">C2 · Профессиональный</string>
+
+    <!-- Review -->
+    <string name="review_title">Повторение</string>
+    <string name="review_think">Вспомните значение слова, затем проверьте себя.</string>
+    <string name="review_empty_title">Нечего повторять</string>
+    <string name="review_empty_message">Изучите несколько слов, и они появятся здесь.</string>
+    <string name="review_finished_title">Повторение завершено</string>
+    <string name="review_finished_message">Знаю: %1$d · Не знаю: %2$d</string>
+
+    <!-- Search -->
+    <string name="search_title">Поиск</string>
+    <string name="search_hint">Слово или перевод</string>
+    <string name="search_recent">Недавние запросы</string>
+    <string name="search_idle_title">Найдите слово</string>
+    <string name="search_idle_message">Ищите по английскому слову или русскому переводу.</string>
+    <string name="search_empty_title">Ничего не найдено</string>
+    <string name="search_empty_message">По запросу «%1$s» слов нет.</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Прогресс</string>
+    <string name="profile_words_learned">Выучено слов</string>
+    <string name="profile_words_reviewed">Повторено слов</string>
+    <string name="profile_current_streak">Текущая серия</string>
+    <string name="profile_longest_streak">Лучшая серия</string>
+    <string name="profile_daily_goal">Дневная цель</string>
+    <string name="profile_activity">Активность за неделю</string>
+    <plurals name="a11y_activity_chart">
+        <item quantity="one">%1$d слово выучено за последние %2$d дн.</item>
+        <item quantity="few">%1$d слова выучено за последние %2$d дн.</item>
+        <item quantity="many">%1$d слов выучено за последние %2$d дн.</item>
+        <item quantity="other">%1$d слова выучено за последние %2$d дн.</item>
+    </plurals>
+
+    <!-- Settings -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_group_language">Язык</string>
+    <string name="settings_group_learning">Обучение</string>
+    <string name="settings_group_appearance">Оформление</string>
+    <string name="settings_group_info">Информация</string>
+    <string name="settings_interface_language">Язык интерфейса</string>
+    <string name="settings_learning_language">Изучаемый язык</string>
+    <string name="settings_daily_goal">Дневная цель</string>
+    <string name="settings_notifications">Уведомления</string>
+    <string name="settings_notifications_hint">Напоминания о ежедневной практике</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_theme_system">Как в системе</string>
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_dark">Тёмная</string>
+    <string name="settings_about">О приложении</string>
+    <string name="settings_version">Версия %1$s</string>
+    <string name="settings_about_text">Rewordly помогает учить английские слова через контекстные карточки с примерами и переводом.</string>
+    <string name="settings_privacy">Политика конфиденциальности</string>
+    <string name="settings_privacy_text">Все данные о вашем обучении хранятся только на этом устройстве. Приложение не собирает личные данные и не передаёт их третьим лицам.</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_english">English</string>
+    <string name="learning_language_english">Английский</string>
+
+    <plurals name="words_count">
+        <item quantity="one">%d слово</item>
+        <item quantity="few">%d слова</item>
+        <item quantity="many">%d слов</item>
+        <item quantity="other">%d слова</item>
+    </plurals>
+    <plurals name="days_count">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+        <item quantity="other">%d дня</item>
+    </plurals>
+    <plurals name="words_today_goal">
+        <item quantity="one">Цель на сегодня: %d слово</item>
+        <item quantity="few">Цель на сегодня: %d слова</item>
+        <item quantity="many">Цель на сегодня: %d слов</item>
+        <item quantity="other">Цель на сегодня: %d слова</item>
+    </plurals>
+</resources>
