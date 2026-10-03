@@ -36,9 +36,14 @@ If neither is available the user sees *"AI is not configured"* and nothing is se
 
 | Provider | API | Default model | Key page |
 | --- | --- | --- | --- |
-| OpenAI | Responses API (`/v1/responses`), falls back to `/v1/chat/completions` | `gpt-6.1-sol` | `platform.openai.com/api-keys` |
-| Anthropic | Messages API (`/v1/messages`) | `claude-sonnet-5-5` | `console.anthropic.com` |
-| Google | Gemini (`models/{model}:generateContent`) | `gemini-3.8-flash` | `aistudio.google.com/apikey` |
+| OpenAI | Responses API (`/v1/responses`), falls back to `/v1/chat/completions` | `gpt-6-luna` | `platform.openai.com/api-keys` |
+| Anthropic | Messages API (`/v1/messages`) | `claude-haiku-4-5-20251001` | `console.anthropic.com` |
+| Google | Gemini (`models/{model}:generateContent`) | `gemini-3.5-flash-lite` | `aistudio.google.com/apikey` |
+
+Each default is deliberately the provider's **cheap tier**, not its flagship. Generating a vocabulary entry is
+a small, tightly-specified structured task — the prompt pins the schema and every answer is validated item by
+item downstream — so a flagship model buys accuracy the app cannot use while costing far more per call. The
+stronger tiers are still offered as suggestions.
 
 The model name is **typed, not picked from a fixed list** — every one of these vendors retires models on a
 schedule, so each provider ships a few suggestions and a "use the default" affordance instead of a hard-coded

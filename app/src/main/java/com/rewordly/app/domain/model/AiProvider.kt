@@ -23,6 +23,11 @@ enum class AiApiStyle {
  *
  * The model names below are only *defaults and suggestions*: every one of these vendors retires models on a
  * schedule, so the model field in settings stays editable and nothing here is treated as authoritative.
+ *
+ * Each default is deliberately the provider's **cheap tier**, not its flagship. Generating a vocabulary entry
+ * is a small, tightly-specified structured task — the prompt pins the schema and every answer is validated
+ * item by item downstream — so a flagship model buys accuracy the app cannot use while costing far more per
+ * call. The stronger tiers stay in [suggestedModels] for anyone who wants them.
  */
 enum class AiProvider(
     val apiStyle: AiApiStyle,
@@ -31,7 +36,7 @@ enum class AiProvider(
     /** Base URL ending in a slash; the style-specific path is appended to it. */
     val baseUrl: String,
     val defaultModel: String,
-    /** Offered as one-tap choices. The field stays free text, because model names change often. */
+    /** Offered as one-tap choices, cheapest tier first. The field stays free text, because model names change. */
     val suggestedModels: List<String>,
     /** Where the user issues a key. Provider metadata like [baseUrl], not a translated resource. */
     val keyConsoleUrl: String,
@@ -40,24 +45,24 @@ enum class AiProvider(
         apiStyle = AiApiStyle.OPENAI,
         displayName = "OpenAI",
         baseUrl = "https://api.openai.com/v1/",
-        defaultModel = "gpt-6.1-sol",
-        suggestedModels = listOf("gpt-6.1-sol", "gpt-6-luna", "gpt-6-astra"),
+        defaultModel = "gpt-6-luna",
+        suggestedModels = listOf("gpt-6-luna", "gpt-6-astra", "gpt-6.1-sol"),
         keyConsoleUrl = "https://platform.openai.com/api-keys",
     ),
     ANTHROPIC(
         apiStyle = AiApiStyle.ANTHROPIC,
         displayName = "Anthropic Claude",
         baseUrl = "https://api.anthropic.com/v1/",
-        defaultModel = "claude-sonnet-5-5",
-        suggestedModels = listOf("claude-sonnet-5-5", "claude-haiku-4-5-20251001", "claude-opus-5-5"),
+        defaultModel = "claude-haiku-4-5-20251001",
+        suggestedModels = listOf("claude-haiku-4-5-20251001", "claude-sonnet-5-5", "claude-opus-5-5"),
         keyConsoleUrl = "https://console.anthropic.com/settings/keys",
     ),
     GOOGLE(
         apiStyle = AiApiStyle.GEMINI,
         displayName = "Google Gemini",
         baseUrl = "https://generativelanguage.googleapis.com/v1beta/",
-        defaultModel = "gemini-3.8-flash",
-        suggestedModels = listOf("gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-3.1-pro-preview"),
+        defaultModel = "gemini-3.5-flash-lite",
+        suggestedModels = listOf("gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-3.1-pro-preview"),
         keyConsoleUrl = "https://aistudio.google.com/app/apikey",
     ),
     ;
