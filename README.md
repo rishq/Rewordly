@@ -99,10 +99,12 @@ Two GitHub Actions workflows live in `.github/workflows/`.
 | Job | What it does |
 | --- | --- |
 | `Lint, ktlint and unit tests` | `ktlintCheck`, `lintDebug`, `testDebugUnitTest`, `assembleDebug`. Uploads the debug APK, the lint HTML report, the ktlint report and the test results as artifacts. |
-| `Instrumented tests (API 30 / API 35)` | Runs `connectedDebugAndroidTest` on an emulator, as a matrix over the oldest API level worth exercising and the one the app targets. Waits for the first job so a style failure does not burn 25 minutes of emulator time. |
 
 `lintDebug` is a real gate: `abortOnError = true` is set in `app/build.gradle.kts`, so any lint error fails the
 build. Run `./gradlew lintDebug` locally before pushing.
+
+The instrumented suite (`app/src/androidTest`, `./gradlew connectedDebugAndroidTest`) is **not** run in CI — it
+needs a booted emulator or a connected device. Run it locally before a release.
 
 ### `release.yml` — pushing a tag like `v0.1.0`
 
