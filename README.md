@@ -18,14 +18,6 @@ Native Android app for learning English vocabulary through contextual cards (STE
   </sub>
 </p>
 
-> The two screens above are **rendered mockups, not device captures** — this project has no emulator
-> available on the build machine. Every colour, size and string is taken from the real sources
-> (`core/ui/theme/Color.kt`, `Dimens.kt`, `Shape.kt`, `Type.kt` and `values/strings.xml`) and the
-> widget structure mirrors the Compose screens, so they stay honest about the app's look — but they
-> are not screenshots. Individual screens: [`screen-home.png`](docs/images/screen-home.png),
-> [`screen-learn.png`](docs/images/screen-learn.png), plus dark-theme variants
-> ([home](docs/images/screen-home-dark.png), [learn](docs/images/screen-learn-dark.png)).
-
 - Kotlin, Jetpack Compose, Material 3, Navigation Compose (type-safe routes)
 - Hilt, Room (words, examples, progress), DataStore (settings, onboarding, recent searches)
 - Retrofit/OkHttp for AI vocabulary generation — either the project's own backend or a provider the user
