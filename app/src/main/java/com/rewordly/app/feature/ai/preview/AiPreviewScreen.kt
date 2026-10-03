@@ -136,6 +136,7 @@ private fun PreviewList(
 ) {
     LazyColumn(
         modifier = modifier
+            .testTag(AI_PREVIEW_LIST_TAG)
             .widthIn(max = Dimens.maxContentWidth)
             .fillMaxWidth(),
         contentPadding = PaddingValues(Dimens.screenPadding),
@@ -314,3 +315,6 @@ fun SaveBar(state: AiPreviewUiState.Content, onEvent: (AiPreviewEvent) -> Unit) 
         }
     }
 }
+
+/** Stable handle for UI tests: the lazy list of previewed words. */
+const val AI_PREVIEW_LIST_TAG = "ai_preview_list"

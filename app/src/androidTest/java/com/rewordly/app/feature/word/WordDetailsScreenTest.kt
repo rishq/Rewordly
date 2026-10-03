@@ -38,9 +38,14 @@ class WordDetailsScreenTest {
 
         compose.onNodeWithText("achieve").assertIsDisplayed()
         compose.onNodeWithText("достигать").assertIsDisplayed()
-        compose.onNodeWithText(word.definition).assertIsDisplayed()
-        compose.onNodeWithText("She achieved all her goals this year.", substring = true).assertIsDisplayed()
-        compose.onNodeWithText("В этом году она достигла всех своих целей.").assertIsDisplayed()
+        // Everything below the card has to be scrolled to: the screen is smaller than the entry.
+        compose.onNodeWithText(word.definition).performScrollTo().assertIsDisplayed()
+        compose.onNodeWithText("She achieved all her goals this year.", substring = true)
+            .performScrollTo()
+            .assertIsDisplayed()
+        compose.onNodeWithText("В этом году она достигла всех своих целей.")
+            .performScrollTo()
+            .assertIsDisplayed()
         compose.onNodeWithText("accomplish").performScrollTo().assertIsDisplayed()
     }
 
@@ -49,7 +54,7 @@ class WordDetailsScreenTest {
         compose.setRewordlyContent { WordDetailsContent(item = item, onSearchWord = {}) }
 
         compose.onNodeWithText(uiString(R.string.word_section_difficulty)).performScrollTo().assertIsDisplayed()
-        compose.onNodeWithText(uiString(R.string.status_learning)).assertIsDisplayed()
-        compose.onNodeWithText(uiString(R.string.word_reviews_value, 2, 1)).assertIsDisplayed()
+        compose.onNodeWithText(uiString(R.string.status_learning)).performScrollTo().assertIsDisplayed()
+        compose.onNodeWithText(uiString(R.string.word_reviews_value, 2, 1)).performScrollTo().assertIsDisplayed()
     }
 }

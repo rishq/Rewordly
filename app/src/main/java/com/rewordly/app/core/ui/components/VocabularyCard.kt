@@ -32,8 +32,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import com.rewordly.app.R
 import com.rewordly.app.core.ui.labelRes
@@ -61,7 +61,8 @@ fun VocabularyCard(
     val partOfSpeech = stringResource(word.partOfSpeech.labelRes)
     val difficulty = stringResource(word.difficulty.labelRes)
     val visibleExamples = word.examples.take(MAX_EXAMPLES_ON_CARD)
-    // Only the headline text is merged for screen readers; controls below stay individually focusable.
+    // The headline is merged into a single node so a screen reader reads it as one phrase, but the
+    // individual texts stay in the tree; clearing them would hide the word from tooling as well.
     val headlineDescription = listOfNotNull(
         word.text,
         stringResource(R.string.a11y_pronunciation, word.pronunciation),
@@ -88,7 +89,7 @@ fun VocabularyCard(
             ) {
                 CardHeader(word = word, difficulty = difficulty, isSaved = isSaved, isLearned = isLearned)
                 Column(
-                    modifier = Modifier.clearAndSetSemantics { contentDescription = headlineDescription },
+                    modifier = Modifier.semantics(mergeDescendants = true) { contentDescription = headlineDescription },
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(Dimens.spaceMd),
                 ) {

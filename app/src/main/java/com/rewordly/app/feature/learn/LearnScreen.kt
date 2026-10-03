@@ -38,7 +38,6 @@ import com.rewordly.app.R
 import com.rewordly.app.core.ui.components.EmptyState
 import com.rewordly.app.core.ui.components.LoadingState
 import com.rewordly.app.core.ui.components.PrimaryButton
-import com.rewordly.app.core.ui.components.PronunciationButton
 import com.rewordly.app.core.ui.components.StudyAnswerBar
 import com.rewordly.app.core.ui.components.SwipeableCard
 import com.rewordly.app.core.ui.components.VocabularyCard
@@ -194,7 +193,7 @@ private fun LearnHeader(state: LearnUiState.Content) {
     }
 }
 
-/** Listen, save and open the full entry: secondary to answering, so they are compact icon buttons. */
+/** Save and open the full entry: secondary to answering, so they are compact icon buttons. */
 @Composable
 private fun LearnSecondaryActions(
     state: LearnUiState.Content,
@@ -211,7 +210,6 @@ private fun LearnSecondaryActions(
         horizontalArrangement = Arrangement.spacedBy(Dimens.spaceSm, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        PronunciationButton(text = state.current.word.text)
         FilledTonalIconButton(
             onClick = { onEvent(LearnUiEvent.ToggleSaved) },
             modifier = Modifier.semantics { contentDescription = saveLabel },

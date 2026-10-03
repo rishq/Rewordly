@@ -105,9 +105,13 @@ class ReviewScreenTest {
     @Test
     fun flippingTheCard_neverExposesBothFacesAtOnce() {
         val word = items[0].word.text
-        show(inProgress())
+        val state = mutableStateOf<ReviewUiState>(inProgress())
+        compose.setRewordlyContent {
+            ReviewContent(state = state.value, onEvent = {}, onOpenWord = {}, onStartLearning = {})
+        }
         assertEquals(1, compose.onAllNodesWithText(word, useUnmergedTree = true).fetchSemanticsNodes().size)
-        show(inProgress(revealed = true))
+        state.value = inProgress(revealed = true)
+        compose.waitForIdle()
         assertEquals(1, compose.onAllNodesWithText(word, useUnmergedTree = true).fetchSemanticsNodes().size)
     }
 

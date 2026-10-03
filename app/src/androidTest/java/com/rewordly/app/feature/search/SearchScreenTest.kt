@@ -6,6 +6,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import com.rewordly.app.R
 import com.rewordly.app.data.local.MockVocabulary
@@ -83,9 +84,10 @@ class SearchScreenTest {
     @Test
     fun difficultyAndStatusFilters_areSelectable() {
         show(SearchUiState.Results(words))
-        compose.onNodeWithText(uiString(R.string.filter_b1)).performClick()
+        // The chip rows scroll sideways, so the later chips start outside a narrow viewport.
+        compose.onNodeWithText(uiString(R.string.filter_b1)).performScrollTo().performClick()
         assertEquals(DifficultyFilter.B1, filters.difficulty)
-        compose.onNodeWithText(uiString(R.string.status_saved)).performClick()
+        compose.onNodeWithText(uiString(R.string.status_saved)).performScrollTo().performClick()
         assertEquals(StatusFilter.SAVED, filters.status)
     }
 

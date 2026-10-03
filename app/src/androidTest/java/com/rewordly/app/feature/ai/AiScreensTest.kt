@@ -7,11 +7,13 @@ import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsOff
 import androidx.compose.ui.test.assertIsOn
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextInput
 import com.rewordly.app.R
 import com.rewordly.app.core.common.AppError
@@ -31,6 +33,7 @@ import com.rewordly.app.feature.ai.generate.AiGenerateContent
 import com.rewordly.app.feature.ai.generate.AiGenerateEvent
 import com.rewordly.app.feature.ai.generate.AiGenerateUiState
 import com.rewordly.app.feature.ai.generate.GenerationStatus
+import com.rewordly.app.feature.ai.preview.AI_PREVIEW_LIST_TAG
 import com.rewordly.app.feature.ai.preview.AiPreviewContent
 import com.rewordly.app.feature.ai.preview.AiPreviewEvent
 import com.rewordly.app.feature.ai.preview.AiPreviewUiState
@@ -336,6 +339,8 @@ class AiScreensTest {
     @Test
     fun preview_duplicate_isMarked_notSelectable_andOpensTheExistingWord() {
         showPreview(previewState(sample))
+        // The list is lazy, so the third card only exists once the list has been scrolled to it.
+        compose.onNodeWithTag(AI_PREVIEW_LIST_TAG).performScrollToNode(hasTestTag("ai_check_2"))
         compose.onNodeWithTag("ai_check_2").assertIsNotEnabled()
         compose.onNodeWithText(uiString(R.string.ai_preview_duplicate)).assertExists()
         compose.onNodeWithTag("ai_open_existing_2").performClick()
@@ -364,8 +369,9 @@ class AiScreensTest {
         compose.onNodeWithTag("ai_select_all").performClick()
         compose.onNodeWithTag("ai_select_none").performClick()
         compose.onNodeWithTag("ai_regenerate_all").performClick()
-        compose.onNodeWithTag("ai_regen_0").performClick()
-        compose.onNodeWithTag("ai_details_1").performClick()
+        // The per-word actions live at the bottom of each card, below the fold on a small screen.
+        compose.onNodeWithTag("ai_regen_0").performScrollTo().performClick()
+        compose.onNodeWithTag("ai_details_1").performScrollTo().performClick()
         assertEquals(
             listOf(
                 AiPreviewEvent.SetAllSelected(true),
