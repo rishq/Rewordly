@@ -36,13 +36,13 @@ class AiProviderTest {
     }
 
     @Test
-    fun theDefault_isTheCheapestTierAndIsListedFirst() {
-        // Word generation is a small, tightly-specified structured task, so the default is deliberately the
-        // cheap tier rather than the flagship. Keeping it first in the list makes the one-tap choices read
-        // cheapest to strongest, and pins the convention against a future reorder.
+    fun theDefault_isListedFirstAmongTheSuggestions() {
+        // The default is deliberately a cheap model rather than the flagship, and it heads the one-tap list so
+        // the choices read default first. Pinning the position keeps a future reorder from quietly changing
+        // which model a fresh install actually sends.
         AiProvider.entries.forEach { provider ->
             assertEquals(
-                "${provider.name} should default to the first (cheapest) suggestion",
+                "${provider.name} should list its default first",
                 provider.suggestedModels.first(),
                 provider.defaultModel,
             )
