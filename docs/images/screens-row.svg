@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2271.8 2512.0" width="2271.8" height="2512.0" role="img" aria-label="Rewordly — главная и карточки">
+  <title>Rewordly — главная и карточки</title>
+  <rect width="2271.8" height="2512.0" fill="#FBF8FF"/>
+  <g transform="translate(56,56)"><g transform="scale(2.625)">  <rect width="411.4" height="914.3" fill="#FBF8FF"/>
+  <text x="20.0" y="21.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1B1B21">17:39</text>
+  <g fill="#1B1B21">
+    <rect x="330.0" y="21.0" width="3.2" height="5.0" rx="1"/>
+    <rect x="335.0" y="18.0" width="3.2" height="8.0" rx="1"/>
+    <rect x="340.0" y="15.0" width="3.2" height="11.0" rx="1"/>
+    <rect x="345.0" y="12.0" width="3.2" height="14.0" rx="1"/>
+  </g>
+  <g fill="none" stroke="#1B1B21" stroke-width="1.8" stroke-linecap="round">
+    <path d="M360.0 25.5 a3 3 0 0 1 4.5 0"/>
+    <path d="M357.0 22.0 a7.5 7.5 0 0 1 10.5 0"/>
+    <path d="M354.0 18.5 a12 12 0 0 1 16.5 0"/>
+  </g>
+  <rect x="382.0" y="15.0" width="22" height="11" rx="2.6" fill="none" stroke="#1B1B21" stroke-width="1.6"/>
+  <rect x="405.5" y="18.0" width="2" height="5" rx="1" fill="#1B1B21"/>
+  <rect x="384.0" y="17.0" width="15" height="7" rx="1.6" fill="#1B1B21"/>
+  <rect x="0" y="28.0" width="411.4" height="64.0" fill="#FBF8FF"/>
+  <text x="20.0" y="62.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="22" font-weight="600" fill="#1B1B21">Главная</text>
+  <text x="20.0" y="128.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="600" fill="#1B1B21">Добрый день</text>
+  <text x="20.0" y="158.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" fill="#46464F">Готовы узнать что-то новое?</text>
+  <rect x="20.0" y="184.0" width="371.4" height="218.0" rx="24.0" fill="none" stroke="#E3E1EC" stroke-width="1.4" opacity="1"/>
+  <text x="40.0" y="219.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1B1B21">План на сегодня</text>
+  <text x="40.0" y="244.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1B1B21">К повторению: 12 · Новых слов: 8</text>
+  <rect x="40.0" y="256.0" width="331.4" height="56.0" rx="28.0" fill="#4C56AF"/>
+  <g transform="translate(126.4,275.0) scale(0.7500)" fill="#FFFFFF">
+    <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+  </g>
+  <text x="218.7" y="289.4" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" text-anchor="middle" fill="#FFFFFF">Начать повторение</text>
+  <rect x="40.0" y="320.0" width="331.4" height="56.0" rx="28.0" fill="none" stroke="#4C56AF" stroke-width="1.6"/>
+  <g transform="translate(126.4,339.0) scale(0.7500)" fill="#4C56AF">
+    <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
+  </g>
+  <text x="218.7" y="353.4" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" text-anchor="middle" fill="#4C56AF">Учить новые слова</text>
+  <rect x="20.0" y="418.0" width="371.4" height="182.0" rx="32.0" fill="#FFDAD4"/>
+  <g transform="translate(40.0,434.0) scale(1.3333)" fill="#3F0400">
+    <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+  </g>
+  <text x="88.0" y="450.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#3F0400">На повторение сегодня</text>
+  <text x="88.0" y="488.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="700" fill="#3F0400">12 слов</text>
+  <rect x="40.0" y="504.0" width="331.4" height="5" rx="2.5" fill="#FFDAD4" opacity="0.45"/>
+  <rect x="40.0" y="504.0" width="116.0" height="5" rx="2.5" fill="#9C4234"/>
+  <rect x="40.0" y="521.0" width="331.4" height="56.0" rx="28.0" fill="#4C56AF"/>
+  <g transform="translate(126.4,540.0) scale(0.7500)" fill="#FFFFFF">
+    <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+  </g>
+  <text x="218.7" y="554.4" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" text-anchor="middle" fill="#FFFFFF">Начать повторение</text>
+  <rect x="20.0" y="616.0" width="371.4" height="204.0" rx="32.0" fill="#4C56AF"/>
+  <circle cx="84.0" cy="680.0" r="39.0" fill="none" stroke="#FFFFFF" stroke-width="10.0" opacity="0.25"/>
+  <circle cx="84.0" cy="680.0" r="39.0" fill="none" stroke="#FFFFFF" stroke-width="10.0" stroke-linecap="round" stroke-dasharray="147.0 9999" transform="rotate(-90 84.0 680.0)"/>
+  <text x="84.0" y="686.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#FFFFFF">60%</text>
+  <text x="144.0" y="656.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF">Ваш прогресс</text>
+  <text x="144.0" y="694.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">6 / 10</text>
+  <text x="144.0" y="718.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#FFFFFF" opacity="0.9">10 слов сегодня</text>
+  <rect x="40.0" y="744.0" width="331.4" height="56.0" rx="28.0" fill="#FFFFFF" opacity="0.22"/>
+  <text x="205.7" y="778.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" text-anchor="middle" fill="#FFFFFF">Продолжить обучение</text>
+  <rect x="20.0" y="836.0" width="181.7" height="116.0" rx="24.0" fill="#EAE7EF"/>
+  <g transform="translate(36.0,852.0) scale(1.0000)" fill="#9C4234">
+    <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
+  </g>
+  <text x="36.0" y="910.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="700" fill="#1B1B21">7</text>
+  <text x="36.0" y="932.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#46464F">Серия</text>
+  <rect x="209.7" y="836.0" width="181.7" height="116.0" rx="24.0" fill="#EAE7EF"/>
+  <g transform="translate(225.7,852.0) scale(1.0000)" fill="#9C4234">
+    <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
+  </g>
+  <text x="225.7" y="910.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="700" fill="#1B1B21">8</text>
+  <text x="225.7" y="932.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#46464F">Новых слов</text>
+  <rect x="20.0" y="960.0" width="181.7" height="116.0" rx="24.0" fill="#EAE7EF"/>
+  <g transform="translate(36.0,976.0) scale(1.0000)" fill="#9C4234">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+  </g>
+  <text x="36.0" y="1034.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="700" fill="#1B1B21">240</text>
+  <text x="36.0" y="1056.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#46464F">Всего в словаре</text>
+  <rect x="209.7" y="960.0" width="181.7" height="116.0" rx="24.0" fill="#EAE7EF"/>
+  <g transform="translate(225.7,976.0) scale(1.0000)" fill="#9C4234">
+    <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+  </g>
+  <text x="225.7" y="1034.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="700" fill="#1B1B21">36</text>
+  <text x="225.7" y="1056.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#46464F">Сохранено</text>
+  <text x="20.0" y="1108.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#1B1B21">Недавние слова</text>
+  <rect x="20.0" y="1118.0" width="371.4" height="64.0" rx="24.0" fill="#F5F2FA"/>
+  <text x="36.0" y="1148.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1B1B21">resilient</text>
+  <text x="36.0" y="1170.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#46464F">устойчивый · прилагательное</text>
+  <g transform="translate(351.4,1138.0) scale(1.0000)" fill="#46464F">
+    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+  </g>
+  <rect x="20.0" y="1190.0" width="371.4" height="64.0" rx="24.0" fill="#F5F2FA"/>
+  <text x="36.0" y="1220.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1B1B21">endeavour</text>
+  <text x="36.0" y="1242.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" fill="#46464F">стремление · существительное</text>
+  <g transform="translate(351.4,1210.0) scale(1.0000)" fill="#46464F">
+    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+  </g>
+  <rect x="0" y="834.3" width="411.4" height="80.0" fill="#FBF8FF"/>
+  <rect x="0" y="834.3" width="411.4" height="1" fill="#E3E1EC" opacity="0.6"/>
+  <rect x="36.6" y="846.3" width="64.0" height="32.0" rx="16.0" fill="#DFE0FF"/>
+  <g transform="translate(56.6,850.3) scale(1.0000)" fill="#1B2678">
+    <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+  </g>
+  <text x="68.6" y="892.3" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle" fill="#1B2678">Главная</text>
+  <g transform="translate(193.7,850.3) scale(1.0000)" fill="#777680">
+    <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
+  </g>
+  <text x="205.7" y="892.3" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" text-anchor="middle" fill="#777680">Учить</text>
+  <g transform="translate(330.8,850.3) scale(1.0000)" fill="#777680">
+    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+  </g>
+  <text x="342.8" y="892.3" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" text-anchor="middle" fill="#777680">Профиль</text>
+  <rect x="151.7" y="906.3" width="108" height="4" rx="2" fill="#1B1B21" opacity="0.4"/>
+</g></g>
+  <g transform="translate(1191.925,56)"><g transform="scale(2.625)">  <rect width="411.4" height="914.3" fill="#FBF8FF"/>
+  <text x="20.0" y="21.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1B1B21">17:39</text>
+  <g fill="#1B1B21">
+    <rect x="330.0" y="21.0" width="3.2" height="5.0" rx="1"/>
+    <rect x="335.0" y="18.0" width="3.2" height="8.0" rx="1"/>
+    <rect x="340.0" y="15.0" width="3.2" height="11.0" rx="1"/>
+    <rect x="345.0" y="12.0" width="3.2" height="14.0" rx="1"/>
+  </g>
+  <g fill="none" stroke="#1B1B21" stroke-width="1.8" stroke-linecap="round">
+    <path d="M360.0 25.5 a3 3 0 0 1 4.5 0"/>
+    <path d="M357.0 22.0 a7.5 7.5 0 0 1 10.5 0"/>
+    <path d="M354.0 18.5 a12 12 0 0 1 16.5 0"/>
+  </g>
+  <rect x="382.0" y="15.0" width="22" height="11" rx="2.6" fill="none" stroke="#1B1B21" stroke-width="1.6"/>
+  <rect x="405.5" y="18.0" width="2" height="5" rx="1" fill="#1B1B21"/>
+  <rect x="384.0" y="17.0" width="15" height="7" rx="1.6" fill="#1B1B21"/>
+  <rect x="0" y="28.0" width="411.4" height="64.0" fill="#FBF8FF"/>
+  <text x="20.0" y="62.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="22" font-weight="600" fill="#1B1B21">Карточки</text>
+  <text x="391.4" y="116.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" text-anchor="end" fill="#46464F">3 из 12</text>
+  <rect x="20.0" y="128.0" width="371.4" height="6" rx="3" fill="#EAE7EF"/>
+  <rect x="20.0" y="128.0" width="92.8" height="6" rx="3" fill="#4C56AF"/>
+  <defs>
+    <linearGradient id="vgl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DFE0FF"/>
+      <stop offset="100%" stop-color="#F5F2FA"/>
+    </linearGradient>
+  </defs>
+  <rect x="20.0" y="150.0" width="371.4" height="360.0" rx="32.0" fill="url(#vgl)"/>
+  <rect x="40.0" y="170.0" width="113.2" height="30.0" rx="12.0" fill="#E0E1F9"/>
+  <text x="96.6" y="190.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" text-anchor="middle" fill="#181A2C">B1 · Средний</text>
+  <g transform="translate(347.4,171.0) scale(1.0000)" fill="#9C4234">
+    <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z"/>
+  </g>
+  <circle cx="315.4" cy="184.0" r="20.0" fill="#EAE7EF" opacity="0.8"/>
+  <g transform="translate(305.4,174.0) scale(0.8333)" fill="#4C56AF">
+    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+  </g>
+  <text x="205.7" y="315.6" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="46" font-weight="700" text-anchor="middle" fill="#1B1B21">resilient</text>
+  <text x="205.7" y="347.6" font-family="Georgia, 'Times New Roman', serif" font-size="18" text-anchor="middle" fill="#46464F">/rɪˈzɪliənt/</text>
+  <rect x="142.9" y="361.6" width="125.6" height="28.0" rx="12.0" fill="#E0E1F9"/>
+  <text x="205.7" y="380.6" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#181A2C">прилагательное</text>
+  <rect x="181.7" y="407.6" width="48.0" height="1.4" fill="#E3E1EC"/>
+  <text x="205.7" y="443.6" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="24" font-weight="500" text-anchor="middle" fill="#4C56AF">устойчивый, жизнестойкий</text>
+  <text x="205.7" y="548.0" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" text-anchor="middle" fill="#46464F">Вспомните значение слова, затем проверьте себя.</text>
+  <rect x="20.0" y="560.0" width="371.4" height="56.0" rx="28.0" fill="#4C56AF"/>
+  <g transform="translate(130.3,579.0) scale(0.7500)" fill="#FFFFFF">
+    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+  </g>
+  <text x="218.7" y="593.4" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" text-anchor="middle" fill="#FFFFFF">Показать перевод</text>
+  <rect x="20.0" y="750.3" width="181.7" height="72.0" rx="32.0" fill="#4C56AF"/>
+  <g transform="translate(32.0,775.3) scale(0.9167)" fill="#FFFFFF">
+    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+  </g>
+  <text x="120.8" y="784.3" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#FFFFFF">Я вспомнил</text>
+  <text x="120.8" y="800.3" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#FFFFFF">это слово</text>
+  <rect x="209.7" y="750.3" width="181.7" height="72.0" rx="32.0" fill="#EAE7EF"/>
+  <text x="290.5" y="784.3" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#1B1B21">Я не вспомнил</text>
+  <text x="290.5" y="800.3" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#1B1B21">это слово</text>
+  <g transform="translate(357.4,775.3) scale(0.9167)" fill="#1B1B21">
+    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+  </g>
+  <rect x="0" y="834.3" width="411.4" height="80.0" fill="#FBF8FF"/>
+  <rect x="0" y="834.3" width="411.4" height="1" fill="#E3E1EC" opacity="0.6"/>
+  <g transform="translate(56.6,850.3) scale(1.0000)" fill="#777680">
+    <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+  </g>
+  <text x="68.6" y="892.3" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" text-anchor="middle" fill="#777680">Главная</text>
+  <rect x="173.7" y="846.3" width="64.0" height="32.0" rx="16.0" fill="#DFE0FF"/>
+  <g transform="translate(193.7,850.3) scale(1.0000)" fill="#1B2678">
+    <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
+  </g>
+  <text x="205.7" y="892.3" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" text-anchor="middle" fill="#1B2678">Учить</text>
+  <g transform="translate(330.8,850.3) scale(1.0000)" fill="#777680">
+    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+  </g>
+  <text x="342.8" y="892.3" font-family="Roboto, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" text-anchor="middle" fill="#777680">Профиль</text>
+  <rect x="151.7" y="906.3" width="108" height="4" rx="2" fill="#1B1B21" opacity="0.4"/>
+</g></g>
+</svg>
