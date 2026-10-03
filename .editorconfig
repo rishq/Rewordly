@@ -17,3 +17,7 @@ ij_kotlin_allow_trailing_comma_on_call_site = true
 
 [*.{xml,toml,yml,yaml,json}]
 indent_size = 2
+
+# Bundled learning content: sentences and translations stay on one readable line.
+[app/src/main/java/com/rewordly/app/data/local/MockVocabulary.kt]
+max_line_length = 200

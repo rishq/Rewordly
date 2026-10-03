@@ -20,14 +20,14 @@
     <string name="action_clear_all">Clear all</string>
     <string name="action_save">Save</string>
     <string name="action_unsave">Remove from saved</string>
-    <string name="action_learned">Learned</string>
-    <string name="action_mark_not_learned">Back to learning</string>
     <string name="action_continue_learning">Continue learning</string>
     <string name="action_start_review">Start review</string>
     <string name="action_reveal">Reveal translation</string>
     <string name="action_know">I know it</string>
     <string name="action_dont_know">I don\'t know it</string>
     <string name="action_review_again">Review again</string>
+    <string name="action_listen">Listen</string>
+    <string name="action_stop">Stop</string>
 
     <string name="state_loading">Loading…</string>
     <string name="state_error_title">Something went wrong</string>
@@ -62,16 +62,39 @@
     <string name="home_streak">Streak</string>
     <string name="home_words_learned">Words learned</string>
     <string name="home_recent_words">Recent words</string>
+    <string name="home_saved_words">Saved</string>
+    <string name="home_empty_vocabulary_title">The dictionary is empty</string>
+    <string name="home_empty_vocabulary_message">The local vocabulary hasn\'t been loaded yet. Restart the app to try again.</string>
+    <string name="goal_reached_title">Daily goal reached</string>
+    <string name="goal_reached_message">You learned %1$d of %2$d words. Now make them stick with a review.</string>
+    <string name="goal_reached_action">Go to review</string>
 
     <string name="learn_title">Cards</string>
     <string name="learn_position">%1$d of %2$d</string>
+    <string name="learn_completed">Answered %1$d of %2$d</string>
     <string name="learn_example">Example</string>
-    <string name="learn_empty_title">No words yet</string>
-    <string name="learn_empty_message">The vocabulary for this language hasn\'t been loaded yet.</string>
-    <string name="quoted">“%1$s”</string>
+    <string name="learn_definition">Definition</string>
+    <string name="learn_pronunciation">Pronunciation</string>
+    <string name="learn_finished_title">Session complete</string>
+    <string name="learn_finished_message">Cards answered: %1$d of %2$d</string>
+    <string name="study_swipe_hint">Swipe the card left or right to answer</string>
+    <string name="study_answer_known">I already know this word</string>
+    <string name="study_answer_study">Study this word</string>
+    <string name="study_answer_remembered">I remembered this word</string>
+    <string name="study_answer_forgot">I did not remember this word</string>
+    <string name="study_submit_failed">Could not save your answer. Try again.</string>
+    <string name="quote_open">“</string>
+    <string name="quote_close">”</string>
     <string name="a11y_pronunciation">Pronunciation %1$s</string>
+    <string name="a11y_pronounce">Pronounce: %1$s</string>
+    <string name="a11y_stop_speech">Stop pronunciation</string>
+    <string name="a11y_card_expand">Show details</string>
+    <string name="a11y_card_collapse">Hide details</string>
+    <string name="a11y_open_details">Open details for %1$s</string>
     <string name="status_saved">Saved</string>
     <string name="status_learned">Learned</string>
+    <string name="status_new">New</string>
+    <string name="status_learning">Learning</string>
     <string name="word_list_subtitle">%1$s · %2$s</string>
 
     <string name="word_details_title">Word details</string>
@@ -83,6 +106,13 @@
     <string name="word_section_forms">Word forms</string>
     <string name="word_section_related">Related words</string>
     <string name="word_section_synonyms">Synonyms</string>
+    <string name="word_section_progress">Learning progress</string>
+    <string name="word_reviews_value">Successful reviews: %1$d · Mistakes: %2$d</string>
+    <string name="word_last_viewed">Last viewed: %1$s</string>
+    <plurals name="views_count">
+        <item quantity="one">%d view</item>
+        <item quantity="other">%d views</item>
+    </plurals>
     <string name="word_not_found_title">Word not found</string>
     <string name="word_not_found_message">It may have been removed from the vocabulary.</string>
 
@@ -108,7 +138,6 @@
     <string name="review_empty_title">Nothing to review</string>
     <string name="review_empty_message">Learn a few words and they will show up here.</string>
     <string name="review_finished_title">Review complete</string>
-    <string name="review_finished_message">Known: %1$d · Unknown: %2$d</string>
 
     <string name="search_title">Search</string>
     <string name="search_hint">Word or translation</string>
@@ -117,6 +146,16 @@
     <string name="search_idle_message">Search by English word or Russian translation.</string>
     <string name="search_empty_title">No results</string>
     <string name="search_empty_message">No words match “%1$s”.</string>
+    <string name="search_empty_filters_message">No words match the selected filters.</string>
+
+    <string name="filter_all">All</string>
+
+    <string name="saved_title">Saved</string>
+    <string name="saved_search_hint">Search saved words</string>
+    <string name="saved_empty_title">Nothing saved yet</string>
+    <string name="saved_empty_message">Tap “Save” under a word and it will show up here.</string>
+    <string name="saved_no_matches_title">No matches</string>
+    <string name="saved_no_matches_message">None of your saved words match. Try another word or translation.</string>
 
     <string name="profile_title">Progress</string>
     <string name="profile_words_learned">Words learned</string>
@@ -165,4 +204,447 @@
         <item quantity="one">Today\'s goal: %d word</item>
         <item quantity="other">Today\'s goal: %d words</item>
     </plurals>
+
+    <!-- STEP 3: learning & spaced repetition -->
+    <string name="learn_empty_title">Every word is learned</string>
+    <string name="learn_empty_message">You reached the end of the list: every word was answered correctly often enough. New words show up here as soon as you add them to your vocabulary.</string>
+    <string name="action_open_settings">Open settings</string>
+    <string name="action_review_more">Review more</string>
+    <string name="action_learn_new">Learn new words</string>
+    <string name="review_finished_message">Reviewed: %1$d · Remembered: %2$d</string>
+    <string name="review_submit_failed">Could not save your answer. Tap the button again.</string>
+    <string name="review_empty_done_title">All done for today!</string>
+    <string name="review_empty_done_message">Every word is reviewed. Come back tomorrow or learn some new words.</string>
+    <string name="rating_again">Again</string>
+    <string name="rating_hard">Hard</string>
+    <string name="rating_good">Good</string>
+    <string name="rating_easy">Easy</string>
+    <plurals name="review_due_today">
+        <item quantity="one">Due today: %d word</item>
+        <item quantity="other">Due today: %d words</item>
+    </plurals>
+    <plurals name="review_remaining">
+        <item quantity="one">%d more word due</item>
+        <item quantity="other">%d more words due</item>
+    </plurals>
+    <plurals name="review_feedback_next">
+        <item quantity="one">%1$s · next review in %2$d day</item>
+        <item quantity="other">%1$s · next review in %2$d days</item>
+    </plurals>
+
+    <string name="home_review_progress">Reviewed today: %1$d of %2$d</string>
+    <string name="home_review_done_title">All reviewed!</string>
+    <string name="home_review_done_message">Great work. More words will be due for review later.</string>
+    <string name="home_new_words">New words</string>
+    <string name="home_total_words">Vocabulary size</string>
+    <string name="home_no_new_words">No new words</string>
+
+    <string name="stats_title">Review statistics</string>
+    <string name="stats_total_reviews">Total reviews</string>
+    <string name="stats_correct">Correct answers</string>
+    <string name="stats_incorrect">Incorrect answers</string>
+    <string name="stats_remembered">Words remembered</string>
+    <string name="stats_forgotten">Words forgotten</string>
+    <string name="stats_difficulty">Average difficulty</string>
+    <string name="stats_difficulty_value">%1$s of 5</string>
+    <string name="stats_completion">Completed today</string>
+    <string name="stats_none">—</string>
+    <string name="action_history">Review history</string>
+
+    <string name="history_title">Review history</string>
+    <string name="history_empty_title">No history yet</string>
+    <string name="history_empty_message">Learn and review words and your activity will show up here.</string>
+    <string name="history_calendar_title">Activity calendar</string>
+    <string name="history_days_title">By day</string>
+    <string name="history_day_summary">Words: %1$d · Correct: %2$d · Incorrect: %3$d</string>
+    <string name="history_learned">New words learned: %1$d</string>
+    <string name="history_time">Time: %1$s</string>
+    <string name="history_time_less_than_minute">under a minute</string>
+    <string name="history_time_minutes">%1$d min</string>
+    <string name="history_legend_less">Less</string>
+    <string name="history_legend_more">More</string>
+    <string name="a11y_heatmap">Activity calendar for %1$d weeks: %2$d active days</string>
+    <string name="a11y_history_day">%1$s: %2$d actions</string>
+
+    <string name="settings_reminder_time">Reminder time</string>
+    <string name="settings_notifications_blocked">Notifications are turned off in system settings. Toggle the switch to allow them.</string>
+    <string name="settings_notifications_denied_title">Permission needed</string>
+    <string name="settings_notifications_denied_text">To receive reminders, allow notifications for Rewordly in system settings.</string>
+
+    <string name="notification_channel_name">Study reminders</string>
+    <string name="notification_channel_encouragement">Encouragement after a session</string>
+    <string name="notification_action_start">Start learning</string>
+    <string name="notification_action_review">Review words</string>
+
+    <string name="notification_due_title">Time to review your words</string>
+    <plurals name="notification_due_text">
+        <item quantity="one">%d word is waiting for review. It takes a couple of minutes.</item>
+        <item quantity="other">%d words are waiting for review. It takes a couple of minutes.</item>
+    </plurals>
+
+    <string name="notification_goal_title">Today\'s goal is not reached yet</string>
+    <plurals name="notification_goal_text">
+        <item quantity="one">%1$d word left out of %2$d. Shall we continue?</item>
+        <item quantity="other">%1$d words left out of %2$d. Shall we continue?</item>
+    </plurals>
+
+    <string name="notification_streak_title">Keep your streak going</string>
+    <plurals name="notification_streak_text">
+        <item quantity="one">Your streak is %d day. A little practice today keeps it alive.</item>
+        <item quantity="other">Your streak is %d days. A little practice today keeps it alive.</item>
+    </plurals>
+
+    <string name="notification_daily_title">Time to practise</string>
+    <string name="notification_daily_text">A couple of minutes of English today keeps the habit going.</string>
+
+    <string name="notification_done_title">Today\'s goal is complete</string>
+    <plurals name="notification_done_text">
+        <item quantity="one">%d new word today. Nicely done!</item>
+        <item quantity="other">%d new words today. Nicely done!</item>
+    </plurals>
+
+    <!-- STEP 7: reminder settings -->
+    <string name="settings_group_reminders">Reminders</string>
+    <string name="settings_reminder_frequency">Reminder frequency</string>
+    <string name="settings_reminder_frequency_every_day">Every day</string>
+    <string name="settings_reminder_frequency_selected_days">Selected days</string>
+    <string name="settings_reminder_days">Reminder days</string>
+    <string name="settings_reminder_days_all">All days</string>
+    <string name="settings_reminder_days_none">Pick at least one day, otherwise no reminder will arrive.</string>
+    <string name="settings_quiet_hours">Quiet hours</string>
+    <string name="settings_quiet_hours_hint">No notifications during this window</string>
+    <string name="settings_quiet_hours_start">Quiet hours start</string>
+    <string name="settings_quiet_hours_end">Quiet hours end</string>
+    <string name="settings_quiet_hours_summary">Quiet hours %1$s–%2$s</string>
+    <string name="settings_notification_kinds">Notification types</string>
+    <string name="settings_notification_kinds_hint">Which reminders you want to receive</string>
+    <string name="settings_reminder_preview">Reminders will arrive: %1$s at %2$s</string>
+    <string name="settings_reminder_preview_suffix"> · %1$s</string>
+
+    <string name="notification_kind_due">Words waiting for review</string>
+    <string name="notification_kind_goal">Daily goal not reached</string>
+    <string name="notification_kind_streak">Streak at risk</string>
+    <string name="notification_kind_daily">Daily reminder</string>
+    <string name="notification_kind_done">Encouragement after a session</string>
+
+    <string name="weekday_mon">Mon</string>
+    <string name="weekday_tue">Tue</string>
+    <string name="weekday_wed">Wed</string>
+    <string name="weekday_thu">Thu</string>
+    <string name="weekday_fri">Fri</string>
+    <string name="weekday_sat">Sat</string>
+    <string name="weekday_sun">Sun</string>
+
+    <!-- STEP 7: home screen widget -->
+    <string name="widget_label">Rewordly progress</string>
+    <string name="widget_description">Today\'s progress, streak and words waiting for review</string>
+    <string name="widget_empty">Start learning to see your progress</string>
+    <string name="widget_goal_progress">Today %1$d of %2$d</string>
+    <string name="widget_goal_reached">Goal reached: %d word</string>
+    <plurals name="widget_streak">
+        <item quantity="one">Streak: %d day</item>
+        <item quantity="other">Streak: %d days</item>
+    </plurals>
+    <plurals name="widget_due">
+        <item quantity="one">%d word to review</item>
+        <item quantity="other">%d words to review</item>
+    </plurals>
+    <string name="widget_action_start">Start learning</string>
+    <string name="widget_action_review">Review</string>
+    <string name="widget_action_refresh">Refresh progress</string>
+
+    <!-- STEP 4: AI vocabulary -->
+    <string name="error_rate_limited">Request limit reached. Please try again later.</string>
+    <string name="error_invalid_response">The service returned an unexpected answer. Please try again.</string>
+    <string name="error_backend_not_configured">The AI server is not configured. Set REWORDLY_API_BASE_URL when building the app.</string>
+    <string name="error_ai_not_configured">AI is not set up. Add your own API key in settings.</string>
+    <string name="error_invalid_api_key">%1$s rejected the API key. Check the key in settings.</string>
+    <string name="error_provider_rejected">%1$s returned error %2$d. %3$s</string>
+    <string name="error_provider_rejected_bare">%1$s returned error %2$d.</string>
+    <plurals name="ai_rate_limit_retry">
+        <item quantity="one">Request limit reached. Try again in %d second.</item>
+        <item quantity="other">Request limit reached. Try again in %d seconds.</item>
+    </plurals>
+    <plurals name="ai_rate_limit_retry_minutes">
+        <item quantity="one">Request limit reached. Try again in %d minute.</item>
+        <item quantity="other">Request limit reached. Try again in %d minutes.</item>
+    </plurals>
+
+    <string name="ai_title">AI Vocabulary</string>
+    <string name="ai_subtitle">Discover new words for your level and interests. Words are saved only after you confirm.</string>
+    <string name="ai_action_topic">Generate by topic</string>
+    <string name="ai_action_topic_hint">Words for a topic and level you choose</string>
+    <string name="ai_action_text">Extract from text</string>
+    <string name="ai_action_text_hint">Find useful words in your English text</string>
+    <string name="ai_action_word">Explore a word</string>
+    <string name="ai_action_word_hint">Translation, examples, synonyms and level of one word</string>
+    <string name="ai_action_history">Generation history</string>
+    <string name="ai_home_card">AI Vocabulary</string>
+    <string name="ai_home_card_hint">Create words by topic or from text</string>
+
+    <string name="ai_title_topic">Generate by topic</string>
+    <string name="ai_title_text">Extract from text</string>
+    <string name="ai_title_word">Explore a word</string>
+    <string name="ai_topic_section">Topic</string>
+    <string name="ai_topic_custom_label">Custom topic</string>
+    <string name="ai_topic_custom_hint">For example: software development</string>
+    <string name="ai_topic_technology">Technology</string>
+    <string name="ai_topic_programming">Programming</string>
+    <string name="ai_topic_business">Business</string>
+    <string name="ai_topic_travel">Travel</string>
+    <string name="ai_topic_science">Science</string>
+    <string name="ai_topic_everyday">Everyday English</string>
+    <string name="ai_topic_movies">Movies</string>
+    <string name="ai_topic_communication">Communication</string>
+    <string name="ai_topic_education">Education</string>
+    <string name="ai_topic_custom">Custom topic</string>
+    <string name="ai_text_label">English text</string>
+    <string name="ai_text_hint">Paste the text to pick words from</string>
+    <string name="ai_text_counter">%1$d / %2$d</string>
+    <string name="ai_text_too_short">Add more text: at least %1$d characters are needed.</string>
+    <string name="ai_word_label">English word</string>
+    <string name="ai_word_invalid">Enter a single English word or a short expression.</string>
+    <string name="ai_settings_section">Settings</string>
+    <string name="ai_level">English level</string>
+    <string name="ai_word_count">Number of words</string>
+    <string name="ai_include_examples">Example sentences</string>
+    <string name="ai_include_synonyms">Synonyms</string>
+    <string name="ai_include_pronunciation">Pronunciation</string>
+    <string name="ai_generate">Generate</string>
+    <string name="ai_extract">Pick words</string>
+    <string name="ai_explore">Explore</string>
+    <string name="ai_cancel">Cancel</string>
+    <string name="ai_loading">Creating words…</string>
+    <string name="ai_empty_response">Nothing was found. Change your request and try again.</string>
+    <string name="ai_suggestion">Did you mean \"%1$s\"?</string>
+    <string name="ai_suggestion_apply">Use this</string>
+    <string name="ai_usage_remaining">Requests left: %1$d</string>
+    <string name="ai_usage_daily">Today: %1$d of %2$d</string>
+    <string name="ai_usage_monthly">This month: %1$d of %2$d</string>
+    <string name="ai_provider_notice">Words are created by an external AI service through the Rewordly server. Check translations and examples before saving.</string>
+    <string name="ai_provider_notice_own">Words are created by %1$s directly with your API key. Check translations and examples before saving.</string>
+    <string name="ai_privacy_notice">The pasted text is sent to the Rewordly server and processed by an external AI service. Do not paste personal or confidential information. The text itself is not stored on this device.</string>
+    <string name="ai_privacy_title">Sending text</string>
+    <string name="ai_privacy_confirm">Send</string>
+
+    <string name="ai_preview_title">Preview</string>
+    <string name="ai_preview_hint">Select the words you want to add to your vocabulary.</string>
+    <string name="ai_preview_select_all">Select all</string>
+    <string name="ai_preview_select_none">Clear selection</string>
+    <string name="ai_preview_save">Save selected (%1$d)</string>
+    <string name="ai_preview_regenerate_all">Regenerate all</string>
+    <string name="ai_preview_regenerate_word">Replace word</string>
+    <string name="ai_preview_details">Details</string>
+    <string name="ai_preview_duplicate">Already in vocabulary</string>
+    <string name="ai_preview_open_existing">Open</string>
+    <string name="ai_preview_regeneration_unavailable">Regeneration is unavailable: the original text is not stored on this device.</string>
+    <string name="ai_preview_not_found">This generation is no longer stored.</string>
+    <string name="ai_preview_regenerating">Refreshing…</string>
+    <string name="ai_preview_select_item">Select word %1$s</string>
+    <plurals name="ai_saved_message">
+        <item quantity="one">Added to vocabulary: %d word</item>
+        <item quantity="other">Added to vocabulary: %d words</item>
+    </plurals>
+    <string name="ai_saved_nothing">There are no new words to save.</string>
+
+    <string name="ai_history_title">Generation history</string>
+    <string name="ai_history_empty_title">History is empty</string>
+    <string name="ai_history_empty_message">Your recent generations will appear here.</string>
+    <string name="ai_history_text_summary">Text · %1$d chars</string>
+    <string name="ai_history_entry_meta">%1$s · %2$s · words: %3$d</string>
+    <string name="ai_history_delete">Delete entry</string>
+    <string name="ai_history_clear">Clear history</string>
+    <string name="ai_history_clear_title">Clear history?</string>
+    <string name="ai_history_clear_text">All stored generation results will be deleted. Words already added to your vocabulary stay.</string>
+    <string name="ai_history_open_unavailable">The result of this generation is not stored.</string>
+    <string name="ai_mode_topic">Topic</string>
+    <string name="ai_mode_text">Text</string>
+    <string name="ai_mode_word">Word</string>
+    <string name="ai_topic_invalid">Enter a topic (up to 60 characters).</string>
+    <string name="ai_text_too_long">The text is too long: at most %1$d characters.</string>
+
+    <!-- STEP 5: personalized learning -->
+    <string name="home_plan_title">Today\'s plan</string>
+    <string name="home_plan_summary">To review: %1$d · New words: %2$d</string>
+    <string name="home_plan_all_done">Nothing left for today</string>
+    <string name="home_plan_all_done_message">There is nothing to review and no new words yet. Come back later, or add words with the AI vocabulary.</string>
+    <string name="home_plan_eased_off">Fewer new words today: several words are still hard for you.</string>
+    <string name="home_weak_words_title">Your weak words</string>
+    <string name="home_weak_words_hint">These are the words you get wrong most often.</string>
+    <string name="home_recommended_title">Recommended for you</string>
+    <string name="home_recommended_hint">Picked for your level and interests.</string>
+    <string name="home_check_level_title">Check your level</string>
+    <string name="home_check_level_message">A short word check helps the app pick better recommendations.</string>
+    <string name="home_check_level_action">Take the check</string>
+    <string name="home_learning_progress">Learning progress</string>
+
+    <string name="reason_due_for_review">Due for review</string>
+    <string name="reason_often_mistaken">Often missed</string>
+    <string name="reason_difficult">Difficult word</string>
+    <string name="reason_matches_level">Fits your level</string>
+    <string name="reason_matches_interests">Your interest</string>
+    <string name="reason_new_for_you">New for you</string>
+
+    <string name="placement_title">Level check</string>
+    <string name="placement_intro_title">Estimate your level</string>
+    <string name="placement_intro_message">A few word questions, from easy to hard. This is not an official exam: the result is only an estimate, and you can always change your level by hand.</string>
+    <string name="placement_progress">Question %1$d of %2$d</string>
+    <string name="placement_question">Choose the translation of the word</string>
+    <string name="placement_result_title">Your approximate level</string>
+    <string name="placement_result_score">Correct answers: %1$d of %2$d</string>
+    <string name="placement_result_uncertain">You answered very few questions, so the estimate may be rough.</string>
+    <string name="placement_result_disclaimer">This is only an approximate estimate, not the result of an official exam. You can change your level at any time.</string>
+    <string name="placement_result_apply">Use this level</string>
+    <string name="placement_retry">Start over</string>
+    <string name="placement_empty_title">Not enough words</string>
+    <string name="placement_empty_message">The check needs more words in the vocabulary.</string>
+
+    <string name="settings_group_profile">Learning profile</string>
+    <string name="settings_level">English level</string>
+    <string name="settings_level_none">Not set</string>
+    <string name="settings_goal">Learning goal</string>
+    <string name="settings_interests">Interests</string>
+    <string name="settings_interests_none">None selected</string>
+    <string name="settings_session_length">Words per session</string>
+    <string name="settings_placement">Level check</string>
+    <string name="settings_placement_hint">A short check to estimate your level</string>
+    <string name="settings_interests_title">Topics you are interested in</string>
+
+    <string name="goal_casual">Casual learning</string>
+    <string name="goal_travel">Travel</string>
+    <string name="goal_work">Work</string>
+    <string name="goal_academic">Academic English</string>
+
+    <string name="insights_title">Learning insights</string>
+    <string name="insights_introduced">Words introduced</string>
+    <string name="insights_mastered">Words mastered</string>
+    <string name="insights_in_review">Still in review</string>
+    <string name="insights_accuracy">Accuracy over recent answers</string>
+    <string name="insights_accuracy_value">%1$d%% · answers: %2$d</string>
+    <string name="insights_weak_title">Frequently missed</string>
+    <string name="insights_empty_title">No insights yet</string>
+    <string name="insights_empty_message">Start learning words and clear statistics will appear here.</string>
+    <string name="insights_explanation">Introduced means you opened the word. Mastered means you recall it reliably. The rest are still being reviewed.</string>
+
+    <!-- Bring your own AI: provider, model and API key -->
+    <string name="settings_group_ai">AI</string>
+    <string name="settings_ai_provider">Provider</string>
+    <string name="settings_ai_provider_none">Not selected</string>
+    <string name="settings_ai_model">Model</string>
+    <string name="settings_ai_model_default">Default: %1$s</string>
+    <string name="settings_ai_model_suggestions">Available models</string>
+    <string name="settings_ai_api_key">API key</string>
+    <string name="settings_ai_api_key_none">Not set</string>
+    <string name="settings_ai_api_key_where">The key stays on this device and goes straight to %1$s.</string>
+    <string name="settings_ai_api_key_clear">Remove key</string>
+    <string name="settings_ai_get_key">Where to get a key</string>
+    <string name="settings_ai_hint_empty">Pick a provider and paste your own API key to generate words through it.</string>
+    <string name="settings_ai_hint_no_key">Paste an API key to generate through %1$s.</string>
+    <string name="settings_ai_hint_ready">Word generation runs through %1$s.</string>
+    <string name="a11y_show_key">Show key</string>
+    <string name="a11y_hide_key">Hide key</string>
+
+    <!-- Data: import, export, backup -->
+    <string name="settings_group_data">Data</string>
+    <string name="settings_data_management">Import and export</string>
+    <string name="settings_data_management_hint">CSV and JSON files, backup</string>
+
+    <string name="data_title">Data</string>
+    <string name="data_back">Back</string>
+    <string name="data_stats_title">On this device</string>
+    <string name="data_stat_words">Words</string>
+    <string name="data_stat_examples">Examples</string>
+    <string name="data_stat_tracked">With progress</string>
+    <string name="data_stat_history">History entries</string>
+    <string name="data_stat_days">Active days</string>
+
+    <string name="data_import_title">Import vocabulary</string>
+    <string name="data_import_description">Pick a CSV or JSON file with words. Nothing is saved until you confirm the import.</string>
+    <string name="data_import_action">Choose file</string>
+    <string name="data_import_format_hint">CSV columns: word, translation, part_of_speech, definition, definition_translation, example, example_translation, topic, difficulty. Only the first two are required.</string>
+
+    <string name="data_preview_title">File preview</string>
+    <string name="data_preview_entries">Entries found: %1$d</string>
+    <string name="data_preview_new">New: %1$d</string>
+    <string name="data_preview_duplicates">Matches: %1$d</string>
+    <string name="data_preview_issues">Rows skipped: %1$d</string>
+    <string name="data_preview_truncated">The file has more entries than can be loaded at once. The rest will not be imported.</string>
+    <string name="data_preview_empty_title">No entries found</string>
+    <string name="data_preview_empty_message">The file has no usable rows. Check that the word and the translation are filled in.</string>
+    <string name="data_preview_issues_title">Skipped rows</string>
+    <string name="data_preview_duplicates_title">Matches</string>
+    <string name="data_preview_list_title">Entries in the file</string>
+    <string name="data_preview_more">…and %1$d more</string>
+    <string name="data_issue_row">Row %1$d</string>
+    <string name="data_issue_line">Row %1$d — %2$s</string>
+    <string name="data_issue_missing_word">the word is missing</string>
+    <string name="data_issue_missing_translation">the translation is missing</string>
+    <string name="data_issue_malformed_row">the row could not be read</string>
+    <string name="data_issue_invalid_format">unsupported file format</string>
+    <string name="data_issue_unsupported_version">the file is newer than this app supports</string>
+    <string name="data_issue_too_long">the text is too long</string>
+    <string name="data_issue_limit_exceeded">the entry limit was reached</string>
+    <string name="data_duplicate_within_file">repeated inside the file</string>
+    <string name="data_duplicate_existing">already in your vocabulary</string>
+
+    <string name="data_duplicates_title">What to do with matches</string>
+    <string name="data_duplicates_message">Words are compared ignoring case and extra spaces. Entries that may mean different things are never merged automatically.</string>
+    <string name="data_policy_skip">Skip</string>
+    <string name="data_policy_skip_hint">Keep what is already in your vocabulary</string>
+    <string name="data_policy_replace">Replace</string>
+    <string name="data_policy_replace_hint">Update the translation, definition and examples; progress is kept</string>
+    <string name="data_policy_keep_both">Add as new</string>
+    <string name="data_policy_keep_both_hint">Keep both meanings as separate words</string>
+    <string name="data_import_confirm">Import</string>
+    <string name="data_cancel">Cancel</string>
+    <string name="data_import_done">Import finished</string>
+    <string name="data_import_summary">Added: %1$d · Replaced: %2$d · Skipped: %3$d</string>
+
+    <string name="data_export_title">Export</string>
+    <string name="data_export_description">The file is saved wherever you choose. The app never sends it anywhere.</string>
+    <string name="data_export_csv">Vocabulary as CSV</string>
+    <string name="data_export_json">Vocabulary as JSON</string>
+    <string name="data_export_backup">Backup</string>
+    <string name="data_export_backup_hint">Words, examples, progress, review schedule and settings</string>
+    <string name="data_export_done">File saved</string>
+    <string name="data_export_done_kind">Saved: %1$s</string>
+    <string name="data_export_working">Saving…</string>
+    <string name="data_export_empty_title">Vocabulary is empty</string>
+    <string name="data_export_empty_message">A file without words will be saved: header only in CSV, an empty list in JSON.</string>
+
+    <string name="data_restore_title">Restore</string>
+    <string name="data_restore_description">Pick a backup file. It is validated completely before any data changes.</string>
+    <string name="data_restore_action">Choose backup</string>
+    <string name="data_restore_strategy_title">How to restore</string>
+    <string name="data_restore_merge">Add what is missing</string>
+    <string name="data_restore_merge_hint">Nothing is deleted, progress on the device stays</string>
+    <string name="data_restore_replace">Replace everything</string>
+    <string name="data_restore_replace_hint">Current words, progress and history will be deleted</string>
+    <string name="data_restore_confirm_title">Replace all data?</string>
+    <string name="data_restore_confirm_message">Your current vocabulary, progress and history will be deleted and replaced by the contents of the backup. This cannot be undone.</string>
+    <string name="data_restore_confirm">Restore</string>
+    <string name="data_restore_done">Data restored</string>
+    <string name="data_restore_summary">Words added: %1$d · updated: %2$d · progress: %3$d · history: %4$d</string>
+    <string name="data_restore_from">Backup from %1$s</string>
+    <string name="data_restore_backup_title">Backup contents</string>
+    <string name="data_restore_backup_version">App version: %1$s</string>
+    <string name="data_restore_backup_words">Words in the backup: %1$d</string>
+    <string name="data_restore_backup_examples">Examples: %1$d</string>
+    <string name="data_restore_backup_progress">Progress entries: %1$d</string>
+    <string name="data_restore_backup_history">History entries: %1$d</string>
+    <string name="data_backup_unreadable">The file is damaged or unreadable</string>
+    <string name="data_backup_not_a_backup">This is not a Rewordly backup</string>
+    <string name="data_backup_unsupported_version">The backup was written by a newer app version</string>
+    <string name="data_backup_empty">The backup contains no words</string>
+    <string name="data_backup_too_large">The backup is too large to restore</string>
+    <string name="data_working">Working…</string>
+
+    <string name="error_offline">No internet connection</string>
+    <string name="error_file_unreadable">Could not read the file</string>
+    <string name="error_file_too_large">The file is too large</string>
+    <string name="error_file_write_failed">Could not save the file</string>
+
+    <string name="ai_offline_title">You are offline</string>
+    <string name="ai_offline_message">Generating words needs the internet. Saved words, search and review work without it.</string>
+    <string name="ai_offline_retry">Retry</string>
 </resources>

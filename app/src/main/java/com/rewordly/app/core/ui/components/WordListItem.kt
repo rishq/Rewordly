@@ -58,10 +58,11 @@ fun WordListItem(item: WordWithProgress, onClick: () -> Unit, modifier: Modifier
                     ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
             }
+            Pill(text = stringResource(word.difficulty.labelRes).substringBefore(' '))
             if (item.progress.status == WordStatus.LEARNED) {
                 Icon(
                     imageVector = Icons.Filled.CheckCircle,

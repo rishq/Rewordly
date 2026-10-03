@@ -44,3 +44,9 @@ captures/
 .idea/
 *.iml
 .DS_Store
+
+# Local agent tooling and its workspace data — machine-specific, not project source
+.agents/
+.claude/
+.workbuddy-ai/
+skills-lock.json

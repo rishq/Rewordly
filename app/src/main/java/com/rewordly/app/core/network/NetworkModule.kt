@@ -45,5 +45,10 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideVocabularyApi(retrofit: Retrofit): VocabularyApi = retrofit.create(VocabularyApi::class.java)
+    fun provideVocabularyGenerationApi(retrofit: Retrofit): VocabularyGenerationApi =
+        retrofit.create(VocabularyGenerationApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideBackendConfig(): BackendConfig = BackendConfig(BuildConfig.API_BASE_URL)
 }

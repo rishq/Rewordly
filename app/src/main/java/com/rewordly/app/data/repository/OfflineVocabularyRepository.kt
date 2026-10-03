@@ -10,8 +10,9 @@ import com.rewordly.app.data.local.exampleEntities
 import com.rewordly.app.data.local.toDomain
 import com.rewordly.app.data.local.toEntity
 import com.rewordly.app.domain.model.LearningLanguage
+import com.rewordly.app.domain.model.Word
+import com.rewordly.app.domain.model.WordKeys
 import com.rewordly.app.domain.model.WordProgress
-import com.rewordly.app.domain.model.WordStatus
 import com.rewordly.app.domain.model.WordWithProgress
 import com.rewordly.app.domain.repository.VocabularyRepository
 import javax.inject.Inject
@@ -45,24 +46,50 @@ class OfflineVocabularyRepository @Inject constructor(
     override fun observeRecentWords(language: LearningLanguage, limit: Int): Flow<List<WordWithProgress>> =
         wordDao.observeRecent(language.tag, limit).map { list -> list.map { it.toDomain() } }
 
+    override fun observeSavedWords(language: LearningLanguage): Flow<List<WordWithProgress>> =
+        wordDao.observeSaved(language.tag).map { list -> list.map { it.toDomain() } }
+
     override fun observeWord(wordId: String): Flow<WordWithProgress?> =
         wordDao.observeById(wordId).map { it?.toDomain() }.distinctUntilChanged()
-
-    override fun searchWords(language: LearningLanguage, query: String): Flow<List<WordWithProgress>> {
-        val escaped = query.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
-        return wordDao.search(language.tag, pattern = "%$escaped%", prefix = "$escaped%")
-            .map { list -> list.map { it.toDomain() } }
-    }
 
     override suspend fun setSaved(wordId: String, saved: Boolean): AppResult<Unit> =
         updateProgress(wordId) { it.copy(isSaved = saved) }
 
-    override suspend fun setStatus(wordId: String, status: WordStatus): AppResult<Unit> =
-        updateProgress(wordId) { it.copy(status = status, lastReviewedAt = timeProvider.nowMillis()) }
+    override suspend fun recordView(wordId: String): AppResult<Unit> =
+        updateProgress(wordId) { it.copy(views = it.views + 1, lastViewedAt = timeProvider.nowMillis()) }
+
+    override suspend fun findExistingIds(
+        language: LearningLanguage,
+        keys: Collection<String>,
+    ): AppResult<Map<String, String>> = safeDbCall {
+        if (keys.isEmpty()) {
+            emptyMap()
+        } else {
+            wordDao.findByNormalizedText(language.tag, keys.map(WordKeys::normalize).distinct())
+                .associate { WordKeys.normalize(it.text) to it.id }
+        }
+    }
+
+    override suspend fun addWords(words: List<Word>): AppResult<List<String>> = safeDbCall {
+        val existing = wordDao.findByNormalizedText(
+            LearningLanguage.ENGLISH.tag,
+            words.map { WordKeys.normalize(it.text) }.distinct(),
+        ).map { WordKeys.normalize(it.text) }.toSet()
+        val fresh = words.distinctBy { WordKeys.normalize(it.text) }
+            .filter { WordKeys.normalize(it.text) !in existing }
+        val base = timeProvider.nowMillis()
+        wordDao.insertVocabulary(
+            words = fresh.mapIndexed { index, word -> word.toEntity(createdAt = base + index) },
+            examples = fresh.flatMap { it.exampleEntities() },
+        )
+        fresh.map { it.id }
+    }
+
+    private suspend fun progress(wordId: String): WordProgress =
+        progressDao.get(wordId)?.toDomain() ?: WordProgress(wordId = wordId)
 
     private suspend fun updateProgress(wordId: String, transform: (WordProgress) -> WordProgress): AppResult<Unit> =
         safeDbCall {
-            val current = progressDao.get(wordId)?.toDomain() ?: WordProgress(wordId = wordId)
-            progressDao.upsert(transform(current).toEntity(updatedAt = timeProvider.nowMillis()))
+            progressDao.upsert(transform(progress(wordId)).toEntity(updatedAt = timeProvider.nowMillis()))
         }
 }

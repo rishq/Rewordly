@@ -16,6 +16,8 @@ interface TimeProvider {
     fun currentHour(): Int = Instant.ofEpochMilli(nowMillis()).atZone(zone()).hour
 
     fun startOfTodayMillis(): Long = today().atStartOfDay(zone()).toInstant().toEpochMilli()
+
+    fun startOfTomorrowMillis(): Long = today().plusDays(1).atStartOfDay(zone()).toInstant().toEpochMilli()
 }
 
 @Singleton

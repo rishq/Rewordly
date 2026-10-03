@@ -23,14 +23,14 @@
     <string name="action_clear_all">Очистить всё</string>
     <string name="action_save">Сохранить</string>
     <string name="action_unsave">Убрать из сохранённых</string>
-    <string name="action_learned">Выучено</string>
-    <string name="action_mark_not_learned">Вернуть в изучение</string>
     <string name="action_continue_learning">Продолжить обучение</string>
     <string name="action_start_review">Начать повторение</string>
     <string name="action_reveal">Показать перевод</string>
     <string name="action_know">Я знаю</string>
     <string name="action_dont_know">Не знаю</string>
     <string name="action_review_again">Повторить ещё раз</string>
+    <string name="action_listen">Слушать</string>
+    <string name="action_stop">Остановить</string>
 
     <!-- States -->
     <string name="state_loading">Загрузка…</string>
@@ -70,17 +70,40 @@
     <string name="home_streak">Серия</string>
     <string name="home_words_learned">Выучено слов</string>
     <string name="home_recent_words">Недавние слова</string>
+    <string name="home_saved_words">Сохранено</string>
+    <string name="home_empty_vocabulary_title">Словарь пока пуст</string>
+    <string name="home_empty_vocabulary_message">Локальный словарь ещё не загружен. Перезапустите приложение, чтобы попробовать снова.</string>
+    <string name="goal_reached_title">Цель на сегодня выполнена</string>
+    <string name="goal_reached_message">Выучено %1$d слов из %2$d. Можно закрепить их повторением.</string>
+    <string name="goal_reached_action">Перейти к повторению</string>
 
     <!-- Learn -->
     <string name="learn_title">Карточки</string>
     <string name="learn_position">%1$d из %2$d</string>
+    <string name="learn_completed">Пройдено %1$d из %2$d</string>
     <string name="learn_example">Пример</string>
-    <string name="learn_empty_title">Слов пока нет</string>
-    <string name="learn_empty_message">Словарь для этого языка ещё не загружен.</string>
-    <string name="quoted">«%1$s»</string>
+    <string name="learn_definition">Значение</string>
+    <string name="learn_pronunciation">Произношение</string>
+    <string name="learn_finished_title">Занятие завершено</string>
+    <string name="learn_finished_message">Карточек пройдено: %1$d из %2$d</string>
+    <string name="study_swipe_hint">Свайпните карточку влево или вправо, чтобы ответить</string>
+    <string name="study_answer_known">Я знаю это слово</string>
+    <string name="study_answer_study">Учить это слово</string>
+    <string name="study_answer_remembered">Я вспомнил это слово</string>
+    <string name="study_answer_forgot">Я не вспомнил это слово</string>
+    <string name="study_submit_failed">Не удалось сохранить ответ. Попробуйте ещё раз.</string>
+    <string name="quote_open">«</string>
+    <string name="quote_close">»</string>
     <string name="a11y_pronunciation">Произношение %1$s</string>
+    <string name="a11y_pronounce">Произнести: %1$s</string>
+    <string name="a11y_stop_speech">Остановить произношение</string>
+    <string name="a11y_card_expand">Показать подробности</string>
+    <string name="a11y_card_collapse">Свернуть подробности</string>
+    <string name="a11y_open_details">Открыть подробности слова %1$s</string>
     <string name="status_saved">Сохранено</string>
     <string name="status_learned">Выучено</string>
+    <string name="status_new">Новое</string>
+    <string name="status_learning">Изучается</string>
     <string name="word_list_subtitle">%1$s · %2$s</string>
 
     <!-- Word details -->
@@ -93,6 +116,15 @@
     <string name="word_section_forms">Формы слова</string>
     <string name="word_section_related">Связанные слова</string>
     <string name="word_section_synonyms">Синонимы</string>
+    <string name="word_section_progress">Прогресс</string>
+    <string name="word_reviews_value">Успешных повторений: %1$d · Ошибок: %2$d</string>
+    <string name="word_last_viewed">Последний просмотр: %1$s</string>
+    <plurals name="views_count">
+        <item quantity="one">%d просмотр</item>
+        <item quantity="few">%d просмотра</item>
+        <item quantity="many">%d просмотров</item>
+        <item quantity="other">%d просмотра</item>
+    </plurals>
     <string name="word_not_found_title">Слово не найдено</string>
     <string name="word_not_found_message">Возможно, оно было удалено из словаря.</string>
 
@@ -121,7 +153,6 @@
     <string name="review_empty_title">Нечего повторять</string>
     <string name="review_empty_message">Изучите несколько слов, и они появятся здесь.</string>
     <string name="review_finished_title">Повторение завершено</string>
-    <string name="review_finished_message">Знаю: %1$d · Не знаю: %2$d</string>
 
     <!-- Search -->
     <string name="search_title">Поиск</string>
@@ -131,6 +162,22 @@
     <string name="search_idle_message">Ищите по английскому слову или русскому переводу.</string>
     <string name="search_empty_title">Ничего не найдено</string>
     <string name="search_empty_message">По запросу «%1$s» слов нет.</string>
+    <string name="search_empty_filters_message">Нет слов, подходящих под выбранные фильтры.</string>
+
+    <!-- Filters -->
+    <string name="filter_all">Все</string>
+    <string name="filter_a1" translatable="false">A1</string>
+    <string name="filter_a2" translatable="false">A2</string>
+    <string name="filter_b1" translatable="false">B1</string>
+    <string name="filter_b2" translatable="false">B2</string>
+
+    <!-- Saved words -->
+    <string name="saved_title">Сохранённые</string>
+    <string name="saved_search_hint">Поиск по сохранённым</string>
+    <string name="saved_empty_title">Здесь пока пусто</string>
+    <string name="saved_empty_message">Нажмите «Сохранить» под словом, и оно появится в этом списке.</string>
+    <string name="saved_no_matches_title">Совпадений нет</string>
+    <string name="saved_no_matches_message">Среди сохранённых слов нет подходящих. Попробуйте другое слово или перевод.</string>
 
     <!-- Profile -->
     <string name="profile_title">Прогресс</string>
@@ -189,4 +236,471 @@
         <item quantity="many">Цель на сегодня: %d слов</item>
         <item quantity="other">Цель на сегодня: %d слова</item>
     </plurals>
+
+    <!-- STEP 3: learning & spaced repetition -->
+    <string name="learn_empty_title">Все слова выучены</string>
+    <string name="learn_empty_message">Вы дошли до конца списка: каждое слово отвечено правильно нужное число раз. Новые слова появятся здесь, как только вы добавите их в словарь.</string>
+    <string name="action_open_settings">Открыть настройки</string>
+    <string name="action_review_more">Повторить ещё</string>
+    <string name="action_learn_new">Учить новые слова</string>
+    <string name="review_finished_message">Повторено слов: %1$d · Запомнили: %2$d</string>
+    <string name="review_submit_failed">Не удалось сохранить ответ. Нажмите кнопку ещё раз.</string>
+    <string name="review_empty_done_title">На сегодня всё!</string>
+    <string name="review_empty_done_message">Все слова повторены. Загляните завтра или выучите новые слова.</string>
+    <string name="rating_again">Снова</string>
+    <string name="rating_hard">Трудно</string>
+    <string name="rating_good">Хорошо</string>
+    <string name="rating_easy">Легко</string>
+    <plurals name="review_due_today">
+        <item quantity="one">К повторению сегодня: %d слово</item>
+        <item quantity="few">К повторению сегодня: %d слова</item>
+        <item quantity="many">К повторению сегодня: %d слов</item>
+        <item quantity="other">К повторению сегодня: %d слова</item>
+    </plurals>
+    <plurals name="review_remaining">
+        <item quantity="one">Ещё к повторению: %d слово</item>
+        <item quantity="few">Ещё к повторению: %d слова</item>
+        <item quantity="many">Ещё к повторению: %d слов</item>
+        <item quantity="other">Ещё к повторению: %d слова</item>
+    </plurals>
+    <plurals name="review_feedback_next">
+        <item quantity="one">%1$s · повтор через %2$d день</item>
+        <item quantity="few">%1$s · повтор через %2$d дня</item>
+        <item quantity="many">%1$s · повтор через %2$d дней</item>
+        <item quantity="other">%1$s · повтор через %2$d дня</item>
+    </plurals>
+
+    <string name="home_review_progress">Повторено сегодня: %1$d из %2$d</string>
+    <string name="home_review_done_title">Всё повторено!</string>
+    <string name="home_review_done_message">Отличная работа. Новые слова для повторения появятся позже.</string>
+    <string name="home_new_words">Новых слов</string>
+    <string name="home_total_words">Всего в словаре</string>
+    <string name="home_no_new_words">Новых слов нет</string>
+
+    <string name="stats_title">Статистика повторений</string>
+    <string name="stats_total_reviews">Всего повторений</string>
+    <string name="stats_correct">Верных ответов</string>
+    <string name="stats_incorrect">Неверных ответов</string>
+    <string name="stats_remembered">Запомнено слов</string>
+    <string name="stats_forgotten">Забыто слов</string>
+    <string name="stats_difficulty">Средняя сложность</string>
+    <string name="stats_difficulty_value">%1$s из 5</string>
+    <string name="stats_completion">Выполнено сегодня</string>
+    <string name="stats_none">—</string>
+    <string name="action_history">История повторений</string>
+
+    <string name="history_title">История повторений</string>
+    <string name="history_empty_title">История пока пуста</string>
+    <string name="history_empty_message">Учите и повторяйте слова, и здесь появится ваша активность.</string>
+    <string name="history_calendar_title">Календарь активности</string>
+    <string name="history_days_title">По дням</string>
+    <string name="history_day_summary">Слов: %1$d · Верно: %2$d · Неверно: %3$d</string>
+    <string name="history_learned">Выучено новых: %1$d</string>
+    <string name="history_time">Время: %1$s</string>
+    <string name="history_time_less_than_minute">меньше минуты</string>
+    <string name="history_time_minutes">%1$d мин</string>
+    <string name="history_legend_less">Меньше</string>
+    <string name="history_legend_more">Больше</string>
+    <string name="a11y_heatmap">Календарь активности за %1$d нед.: активных дней %2$d</string>
+    <string name="a11y_history_day">%1$s: действий %2$d</string>
+
+    <string name="settings_reminder_time">Время напоминания</string>
+    <string name="settings_notifications_blocked">Уведомления отключены в системе. Включите переключатель, чтобы разрешить их.</string>
+    <string name="settings_notifications_denied_title">Нужно разрешение</string>
+    <string name="settings_notifications_denied_text">Чтобы получать напоминания, разрешите уведомления для Rewordly в настройках системы.</string>
+
+    <string name="notification_channel_name">Напоминания о занятиях</string>
+    <string name="notification_channel_encouragement">Поддержка после занятия</string>
+    <string name="notification_action_start">Начать занятие</string>
+    <string name="notification_action_review">Повторить слова</string>
+
+    <string name="notification_due_title">Пора повторить слова</string>
+    <plurals name="notification_due_text">
+        <item quantity="one">%d слово ждёт повторения. Это займёт пару минут.</item>
+        <item quantity="few">%d слова ждут повторения. Это займёт пару минут.</item>
+        <item quantity="many">%d слов ждут повторения. Это займёт пару минут.</item>
+        <item quantity="other">%d слова ждут повторения. Это займёт пару минут.</item>
+    </plurals>
+
+    <string name="notification_goal_title">Цель дня ещё не достигнута</string>
+    <plurals name="notification_goal_text">
+        <item quantity="one">Осталось %1$d слово из %2$d. Продолжим?</item>
+        <item quantity="few">Осталось %1$d слова из %2$d. Продолжим?</item>
+        <item quantity="many">Осталось %1$d слов из %2$d. Продолжим?</item>
+        <item quantity="other">Осталось %1$d слова из %2$d. Продолжим?</item>
+    </plurals>
+
+    <string name="notification_streak_title">Не прерывайте серию</string>
+    <plurals name="notification_streak_text">
+        <item quantity="one">Ваша серия — %d день. Немного практики сегодня, и она продолжится.</item>
+        <item quantity="few">Ваша серия — %d дня. Немного практики сегодня, и она продолжится.</item>
+        <item quantity="many">Ваша серия — %d дней. Немного практики сегодня, и она продолжится.</item>
+        <item quantity="other">Ваша серия — %d дня. Немного практики сегодня, и она продолжится.</item>
+    </plurals>
+
+    <string name="notification_daily_title">Время позаниматься</string>
+    <string name="notification_daily_text">Пара минут английского сегодня — и привычка сохранится.</string>
+
+    <string name="notification_done_title">Цель дня выполнена</string>
+    <plurals name="notification_done_text">
+        <item quantity="one">%d новое слово сегодня. Отличная работа!</item>
+        <item quantity="few">%d новых слова сегодня. Отличная работа!</item>
+        <item quantity="many">%d новых слов сегодня. Отличная работа!</item>
+        <item quantity="other">%d новых слова сегодня. Отличная работа!</item>
+    </plurals>
+
+    <!-- STEP 7: reminder settings -->
+    <string name="settings_group_reminders">Напоминания</string>
+    <string name="settings_reminder_frequency">Частота напоминаний</string>
+    <string name="settings_reminder_frequency_every_day">Каждый день</string>
+    <string name="settings_reminder_frequency_selected_days">Выбранные дни</string>
+    <string name="settings_reminder_days">Дни напоминаний</string>
+    <string name="settings_reminder_days_all">Все дни</string>
+    <string name="settings_reminder_days_none">Выберите хотя бы один день — иначе напоминания не придут.</string>
+    <string name="settings_quiet_hours">Тихие часы</string>
+    <string name="settings_quiet_hours_hint">В это время уведомления не приходят</string>
+    <string name="settings_quiet_hours_start">Начало тихих часов</string>
+    <string name="settings_quiet_hours_end">Конец тихих часов</string>
+    <string name="settings_quiet_hours_summary">Тихие часы %1$s–%2$s</string>
+    <string name="settings_notification_kinds">Типы уведомлений</string>
+    <string name="settings_notification_kinds_hint">Какие напоминания вы хотите получать</string>
+    <string name="settings_reminder_preview">Напоминание будет приходить: %1$s в %2$s</string>
+    <string name="settings_reminder_preview_suffix"> · %1$s</string>
+
+    <string name="notification_kind_due">Слова к повторению</string>
+    <string name="notification_kind_goal">Цель дня не достигнута</string>
+    <string name="notification_kind_streak">Серия под угрозой</string>
+    <string name="notification_kind_daily">Ежедневное напоминание</string>
+    <string name="notification_kind_done">Поддержка после занятия</string>
+
+    <string name="weekday_mon">Пн</string>
+    <string name="weekday_tue">Вт</string>
+    <string name="weekday_wed">Ср</string>
+    <string name="weekday_thu">Чт</string>
+    <string name="weekday_fri">Пт</string>
+    <string name="weekday_sat">Сб</string>
+    <string name="weekday_sun">Вс</string>
+
+    <!-- STEP 7: home screen widget -->
+    <string name="widget_label">Прогресс Rewordly</string>
+    <string name="widget_description">Прогресс на сегодня, серия и слова к повторению</string>
+    <string name="widget_empty">Начните занятие, чтобы увидеть прогресс</string>
+    <string name="widget_goal_progress">Сегодня %1$d из %2$d</string>
+    <string name="widget_goal_reached">Цель дня: %d слово</string>
+    <plurals name="widget_streak">
+        <item quantity="one">Серия: %d день</item>
+        <item quantity="few">Серия: %d дня</item>
+        <item quantity="many">Серия: %d дней</item>
+        <item quantity="other">Серия: %d дня</item>
+    </plurals>
+    <plurals name="widget_due">
+        <item quantity="one">%d слово к повторению</item>
+        <item quantity="few">%d слова к повторению</item>
+        <item quantity="many">%d слов к повторению</item>
+        <item quantity="other">%d слова к повторению</item>
+    </plurals>
+    <string name="widget_action_start">Начать занятие</string>
+    <string name="widget_action_review">Повторить</string>
+    <string name="widget_action_refresh">Обновить прогресс</string>
+
+    <!-- STEP 4: AI vocabulary -->
+    <string name="error_rate_limited">Достигнут лимит запросов. Попробуйте позже.</string>
+    <string name="error_invalid_response">Сервис вернул неожиданный ответ. Попробуйте ещё раз.</string>
+    <string name="error_backend_not_configured">Сервер ИИ не настроен. Укажите REWORDLY_API_BASE_URL при сборке приложения.</string>
+    <string name="error_ai_not_configured">ИИ не настроен. Добавьте свой API-ключ в настройках.</string>
+    <string name="error_invalid_api_key">%1$s отклонил API-ключ. Проверьте ключ в настройках.</string>
+    <string name="error_provider_rejected">%1$s вернул ошибку %2$d. %3$s</string>
+    <string name="error_provider_rejected_bare">%1$s вернул ошибку %2$d.</string>
+    <plurals name="ai_rate_limit_retry">
+        <item quantity="one">Достигнут лимит запросов. Повторите через %d секунду.</item>
+        <item quantity="few">Достигнут лимит запросов. Повторите через %d секунды.</item>
+        <item quantity="many">Достигнут лимит запросов. Повторите через %d секунд.</item>
+        <item quantity="other">Достигнут лимит запросов. Повторите через %d секунды.</item>
+    </plurals>
+    <plurals name="ai_rate_limit_retry_minutes">
+        <item quantity="one">Достигнут лимит запросов. Повторите через %d минуту.</item>
+        <item quantity="few">Достигнут лимит запросов. Повторите через %d минуты.</item>
+        <item quantity="many">Достигнут лимит запросов. Повторите через %d минут.</item>
+        <item quantity="other">Достигнут лимит запросов. Повторите через %d минуты.</item>
+    </plurals>
+
+    <string name="ai_title">ИИ-словарь</string>
+    <string name="ai_subtitle">Найдите новые слова под ваш уровень и интересы. Слова сохраняются только после вашего подтверждения.</string>
+    <string name="ai_action_topic">Генерация по теме</string>
+    <string name="ai_action_topic_hint">Слова по выбранной теме и уровню</string>
+    <string name="ai_action_text">Слова из текста</string>
+    <string name="ai_action_text_hint">Найдём полезные слова в вашем английском тексте</string>
+    <string name="ai_action_word">Исследовать слово</string>
+    <string name="ai_action_word_hint">Перевод, примеры, синонимы и уровень одного слова</string>
+    <string name="ai_action_history">История генераций</string>
+    <string name="ai_home_card">ИИ-словарь</string>
+    <string name="ai_home_card_hint">Создавайте слова по теме или из текста</string>
+
+    <string name="ai_title_topic">Генерация по теме</string>
+    <string name="ai_title_text">Слова из текста</string>
+    <string name="ai_title_word">Исследовать слово</string>
+    <string name="ai_topic_section">Тема</string>
+    <string name="ai_topic_custom_label">Своя тема</string>
+    <string name="ai_topic_custom_hint">Например: разработка ПО</string>
+    <string name="ai_topic_technology">Технологии</string>
+    <string name="ai_topic_programming">Программирование</string>
+    <string name="ai_topic_business">Бизнес</string>
+    <string name="ai_topic_travel">Путешествия</string>
+    <string name="ai_topic_science">Наука</string>
+    <string name="ai_topic_everyday">Повседневный английский</string>
+    <string name="ai_topic_movies">Кино</string>
+    <string name="ai_topic_communication">Общение</string>
+    <string name="ai_topic_education">Образование</string>
+    <string name="ai_topic_custom">Другая тема</string>
+    <string name="ai_text_label">Английский текст</string>
+    <string name="ai_text_hint">Вставьте текст, из которого нужно выбрать слова</string>
+    <string name="ai_text_counter">%1$d / %2$d</string>
+    <string name="ai_text_too_short">Добавьте больше текста: нужно хотя бы %1$d символов.</string>
+    <string name="ai_word_label">Английское слово</string>
+    <string name="ai_word_invalid">Введите одно английское слово или короткое выражение.</string>
+    <string name="ai_settings_section">Настройки</string>
+    <string name="ai_level">Уровень английского</string>
+    <string name="ai_word_count">Количество слов</string>
+    <string name="ai_include_examples">Примеры предложений</string>
+    <string name="ai_include_synonyms">Синонимы</string>
+    <string name="ai_include_pronunciation">Произношение</string>
+    <string name="ai_generate">Сгенерировать</string>
+    <string name="ai_extract">Выбрать слова</string>
+    <string name="ai_explore">Исследовать</string>
+    <string name="ai_cancel">Отменить</string>
+    <string name="ai_loading">Создаём слова…</string>
+    <string name="ai_empty_response">Ничего не найдено. Измените запрос и попробуйте ещё раз.</string>
+    <string name="ai_suggestion">Возможно, вы имели в виду «%1$s»?</string>
+    <string name="ai_suggestion_apply">Исправить</string>
+    <string name="ai_usage_remaining">Осталось запросов: %1$d</string>
+    <string name="ai_usage_daily">Сегодня: %1$d из %2$d</string>
+    <string name="ai_usage_monthly">В этом месяце: %1$d из %2$d</string>
+    <string name="ai_provider_notice">Слова создаёт внешний сервис ИИ через сервер Rewordly. Проверяйте перевод и примеры перед сохранением.</string>
+    <string name="ai_provider_notice_own">Слова создаёт %1$s напрямую с вашим API-ключом. Проверяйте перевод и примеры перед сохранением.</string>
+    <string name="ai_privacy_notice">Вставленный текст отправляется на сервер Rewordly для обработки внешним сервисом ИИ. Не вставляйте личную или конфиденциальную информацию. Сам текст не сохраняется на устройстве.</string>
+    <string name="ai_privacy_title">Отправка текста</string>
+    <string name="ai_privacy_confirm">Отправить</string>
+
+    <string name="ai_preview_title">Предпросмотр</string>
+    <string name="ai_preview_hint">Отметьте слова, которые хотите добавить в словарь.</string>
+    <string name="ai_preview_select_all">Выбрать все</string>
+    <string name="ai_preview_select_none">Снять выбор</string>
+    <string name="ai_preview_save">Сохранить выбранные (%1$d)</string>
+    <string name="ai_preview_regenerate_all">Сгенерировать заново</string>
+    <string name="ai_preview_regenerate_word">Заменить слово</string>
+    <string name="ai_preview_details">Подробнее</string>
+    <string name="ai_preview_duplicate">Уже в словаре</string>
+    <string name="ai_preview_open_existing">Открыть</string>
+    <string name="ai_preview_regeneration_unavailable">Повторная генерация недоступна: исходный текст не хранится на устройстве.</string>
+    <string name="ai_preview_not_found">Эта генерация больше не хранится.</string>
+    <string name="ai_preview_regenerating">Обновляем…</string>
+    <string name="ai_preview_select_item">Выбрать слово %1$s</string>
+    <plurals name="ai_saved_message">
+        <item quantity="one">Добавлено в словарь: %d слово</item>
+        <item quantity="few">Добавлено в словарь: %d слова</item>
+        <item quantity="many">Добавлено в словарь: %d слов</item>
+        <item quantity="other">Добавлено в словарь: %d слова</item>
+    </plurals>
+    <string name="ai_saved_nothing">Новых слов для сохранения нет.</string>
+
+    <string name="ai_history_title">История генераций</string>
+    <string name="ai_history_empty_title">История пуста</string>
+    <string name="ai_history_empty_message">Здесь появятся ваши последние генерации.</string>
+    <string name="ai_history_text_summary">Текст · %1$d симв.</string>
+    <string name="ai_history_entry_meta">%1$s · %2$s · слов: %3$d</string>
+    <string name="ai_history_delete">Удалить запись</string>
+    <string name="ai_history_clear">Очистить историю</string>
+    <string name="ai_history_clear_title">Очистить историю?</string>
+    <string name="ai_history_clear_text">Все сохранённые результаты генераций будут удалены. Слова, уже добавленные в словарь, останутся.</string>
+    <string name="ai_history_open_unavailable">Результат этой генерации не сохранён.</string>
+    <string name="ai_mode_topic">Тема</string>
+    <string name="ai_mode_text">Текст</string>
+    <string name="ai_mode_word">Слово</string>
+    <string name="ai_topic_invalid">Введите тему (не длиннее 60 символов).</string>
+    <string name="ai_text_too_long">Текст слишком длинный: максимум %1$d символов.</string>
+
+    <!-- STEP 5: personalized learning -->
+    <string name="home_plan_title">План на сегодня</string>
+    <string name="home_plan_summary">К повторению: %1$d · Новых слов: %2$d</string>
+    <string name="home_plan_all_done">На сегодня всё</string>
+    <string name="home_plan_all_done_message">Повторять нечего и новых слов пока нет. Загляните позже или добавьте слова через ИИ-словарь.</string>
+    <string name="home_plan_eased_off">Новых слов сегодня меньше: несколько слов всё ещё даются трудно.</string>
+    <string name="home_weak_words_title">Сложные слова</string>
+    <string name="home_weak_words_hint">В этих словах вы чаще всего ошибаетесь.</string>
+    <string name="home_recommended_title">Рекомендуем вам</string>
+    <string name="home_recommended_hint">Подобрано по вашему уровню и интересам.</string>
+    <string name="home_check_level_title">Узнайте свой уровень</string>
+    <string name="home_check_level_message">Короткая проверка слов поможет точнее подбирать рекомендации.</string>
+    <string name="home_check_level_action">Пройти проверку</string>
+    <string name="home_learning_progress">Прогресс обучения</string>
+
+    <string name="reason_due_for_review">Пора повторить</string>
+    <string name="reason_often_mistaken">Частая ошибка</string>
+    <string name="reason_difficult">Трудное слово</string>
+    <string name="reason_matches_level">Подходит по уровню</string>
+    <string name="reason_matches_interests">Ваша тема</string>
+    <string name="reason_new_for_you">Новое слово</string>
+
+    <string name="placement_title">Проверка уровня</string>
+    <string name="placement_intro_title">Примерная оценка уровня</string>
+    <string name="placement_intro_message">Несколько вопросов по словам — от простых к сложным. Это не официальный экзамен: результат лишь приблизительный, и уровень всегда можно изменить вручную.</string>
+    <string name="placement_progress">Вопрос %1$d из %2$d</string>
+    <string name="placement_question">Выберите перевод слова</string>
+    <string name="placement_result_title">Ваш примерный уровень</string>
+    <string name="placement_result_score">Верных ответов: %1$d из %2$d</string>
+    <string name="placement_result_uncertain">Ответов мало, поэтому оценка может быть неточной.</string>
+    <string name="placement_result_disclaimer">Это только приблизительная оценка, а не результат официального экзамена. Уровень можно изменить в любой момент.</string>
+    <string name="placement_result_apply">Использовать этот уровень</string>
+    <string name="placement_retry">Пройти заново</string>
+    <string name="placement_empty_title">Недостаточно слов</string>
+    <string name="placement_empty_message">Для проверки нужно больше слов в словаре.</string>
+
+    <string name="settings_group_profile">Профиль обучения</string>
+    <string name="settings_level">Уровень английского</string>
+    <string name="settings_level_none">Не определён</string>
+    <string name="settings_goal">Цель обучения</string>
+    <string name="settings_interests">Интересы</string>
+    <string name="settings_interests_none">Не выбраны</string>
+    <string name="settings_session_length">Слов в занятии</string>
+    <string name="settings_placement">Проверка уровня</string>
+    <string name="settings_placement_hint">Короткий тест для оценки уровня</string>
+    <string name="settings_interests_title">Темы, которые вам интересны</string>
+
+    <string name="goal_casual">Для себя</string>
+    <string name="goal_travel">Путешествия</string>
+    <string name="goal_work">Работа</string>
+    <string name="goal_academic">Учёба и наука</string>
+
+    <string name="insights_title">Итоги обучения</string>
+    <string name="insights_introduced">Начато слов</string>
+    <string name="insights_mastered">Освоено</string>
+    <string name="insights_in_review">Ещё в повторении</string>
+    <string name="insights_accuracy">Точность последних ответов</string>
+    <string name="insights_accuracy_value">%1$d%% · ответов: %2$d</string>
+    <string name="insights_weak_title">Частые ошибки</string>
+    <string name="insights_empty_title">Пока нет данных</string>
+    <string name="insights_empty_message">Начните учить слова, и здесь появится понятная статистика.</string>
+    <string name="insights_explanation">«Начато» — слова, которые вы уже открывали. «Освоено» — те, что вы уверенно вспоминаете. Остальные ещё в повторении.</string>
+
+    <!-- Свой ИИ: провайдер, модель и API-ключ -->
+    <string name="settings_group_ai">ИИ</string>
+    <string name="settings_ai_provider">Провайдер</string>
+    <string name="settings_ai_provider_none">Не выбран</string>
+    <string name="settings_ai_model">Модель</string>
+    <string name="settings_ai_model_default">По умолчанию: %1$s</string>
+    <string name="settings_ai_model_suggestions">Доступные модели</string>
+    <string name="settings_ai_api_key">API-ключ</string>
+    <string name="settings_ai_api_key_none">Не задан</string>
+    <string name="settings_ai_api_key_where">Ключ хранится только на этом устройстве и уходит напрямую в %1$s.</string>
+    <string name="settings_ai_api_key_clear">Удалить ключ</string>
+    <string name="settings_ai_get_key">Где взять ключ</string>
+    <string name="settings_ai_hint_empty">Выберите провайдера и вставьте свой API-ключ, чтобы генерировать слова через него.</string>
+    <string name="settings_ai_hint_no_key">Вставьте API-ключ, чтобы генерация пошла через %1$s.</string>
+    <string name="settings_ai_hint_ready">Генерация слов идёт через %1$s.</string>
+    <string name="a11y_show_key">Показать ключ</string>
+    <string name="a11y_hide_key">Скрыть ключ</string>
+
+    <!-- Данные: импорт, экспорт, резервная копия -->
+    <string name="settings_group_data">Данные</string>
+    <string name="settings_data_management">Импорт и экспорт</string>
+    <string name="settings_data_management_hint">Файлы CSV и JSON, резервная копия</string>
+
+    <string name="data_title">Данные</string>
+    <string name="data_back">Назад</string>
+    <string name="data_stats_title">На устройстве</string>
+    <string name="data_stat_words">Слов</string>
+    <string name="data_stat_examples">Примеров</string>
+    <string name="data_stat_tracked">С прогрессом</string>
+    <string name="data_stat_history">Записей истории</string>
+    <string name="data_stat_days">Активных дней</string>
+
+    <string name="data_import_title">Импорт словаря</string>
+    <string name="data_import_description">Выберите файл CSV или JSON со словами. Ничего не сохраняется, пока вы не подтвердите импорт.</string>
+    <string name="data_import_action">Выбрать файл</string>
+    <string name="data_import_format_hint">Столбцы CSV: word, translation, part_of_speech, definition, definition_translation, example, example_translation, topic, difficulty. Обязательны только первые два.</string>
+
+    <string name="data_preview_title">Проверка файла</string>
+    <string name="data_preview_entries">Найдено записей: %1$d</string>
+    <string name="data_preview_new">Новых: %1$d</string>
+    <string name="data_preview_duplicates">Совпадений: %1$d</string>
+    <string name="data_preview_issues">Пропущено строк: %1$d</string>
+    <string name="data_preview_truncated">В файле больше записей, чем можно загрузить за один раз. Остальные не будут импортированы.</string>
+    <string name="data_preview_empty_title">Записи не найдены</string>
+    <string name="data_preview_empty_message">В файле нет ни одной подходящей строки. Проверьте, что заполнены слово и перевод.</string>
+    <string name="data_preview_issues_title">Пропущенные строки</string>
+    <string name="data_preview_duplicates_title">Совпадения</string>
+    <string name="data_preview_list_title">Записи из файла</string>
+    <string name="data_preview_more">…и ещё %1$d</string>
+    <string name="data_issue_row">Строка %1$d</string>
+    <string name="data_issue_line">Строка %1$d — %2$s</string>
+    <string name="data_issue_missing_word">не указано слово</string>
+    <string name="data_issue_missing_translation">не указан перевод</string>
+    <string name="data_issue_malformed_row">не удалось разобрать строку</string>
+    <string name="data_issue_invalid_format">неподдерживаемый формат файла</string>
+    <string name="data_issue_unsupported_version">версия файла новее, чем поддерживает приложение</string>
+    <string name="data_issue_too_long">слишком длинный текст</string>
+    <string name="data_issue_limit_exceeded">превышен лимит записей</string>
+    <string name="data_duplicate_within_file">повтор внутри файла</string>
+    <string name="data_duplicate_existing">уже есть в словаре</string>
+
+    <string name="data_duplicates_title">Что делать с совпадениями</string>
+    <string name="data_duplicates_message">Слова сравниваются без учёта регистра и лишних пробелов. Записи с разным смыслом не объединяются автоматически.</string>
+    <string name="data_policy_skip">Пропустить</string>
+    <string name="data_policy_skip_hint">Оставить то, что уже есть в словаре</string>
+    <string name="data_policy_replace">Заменить</string>
+    <string name="data_policy_replace_hint">Обновить перевод, определение и примеры; прогресс сохранится</string>
+    <string name="data_policy_keep_both">Добавить как новые</string>
+    <string name="data_policy_keep_both_hint">Оставить оба варианта отдельными словами</string>
+    <string name="data_import_confirm">Импортировать</string>
+    <string name="data_cancel">Отмена</string>
+    <string name="data_import_done">Импорт завершён</string>
+    <string name="data_import_summary">Добавлено: %1$d · Заменено: %2$d · Пропущено: %3$d</string>
+
+    <string name="data_export_title">Экспорт</string>
+    <string name="data_export_description">Файл сохраняется туда, куда вы укажете. Приложение никуда его не отправляет.</string>
+    <string name="data_export_csv">Словарь в CSV</string>
+    <string name="data_export_json">Словарь в JSON</string>
+    <string name="data_export_backup">Резервная копия</string>
+    <string name="data_export_backup_hint">Слова, примеры, прогресс, расписание повторений и настройки</string>
+    <string name="data_export_done">Файл сохранён</string>
+    <string name="data_export_done_kind">Сохранено: %1$s</string>
+    <string name="data_export_working">Сохранение…</string>
+    <string name="data_export_empty_title">Словарь пуст</string>
+    <string name="data_export_empty_message">Будет сохранён файл без слов: только заголовок в CSV или пустой список в JSON.</string>
+
+    <string name="data_restore_title">Восстановление</string>
+    <string name="data_restore_description">Выберите файл резервной копии. Сначала он проверяется целиком, и только потом меняются данные.</string>
+    <string name="data_restore_action">Выбрать копию</string>
+    <string name="data_restore_strategy_title">Как восстановить</string>
+    <string name="data_restore_merge">Добавить недостающее</string>
+    <string name="data_restore_merge_hint">Ничего не удаляется, прогресс на устройстве остаётся</string>
+    <string name="data_restore_replace">Заменить всё</string>
+    <string name="data_restore_replace_hint">Текущие слова, прогресс и история будут удалены</string>
+    <string name="data_restore_confirm_title">Заменить все данные?</string>
+    <string name="data_restore_confirm_message">Текущий словарь, прогресс и история будут удалены и заменены содержимым копии. Отменить это действие нельзя.</string>
+    <string name="data_restore_confirm">Восстановить</string>
+    <string name="data_restore_done">Данные восстановлены</string>
+    <string name="data_restore_summary">Добавлено слов: %1$d · Обновлено: %2$d · Прогресс: %3$d · История: %4$d</string>
+    <string name="data_restore_from">Копия от %1$s</string>
+    <string name="data_restore_backup_title">Содержимое копии</string>
+    <string name="data_restore_backup_version">Версия приложения: %1$s</string>
+    <string name="data_restore_backup_words">Слов в копии: %1$d</string>
+    <string name="data_restore_backup_examples">Примеров: %1$d</string>
+    <string name="data_restore_backup_progress">Записей прогресса: %1$d</string>
+    <string name="data_restore_backup_history">Записей истории: %1$d</string>
+    <string name="data_backup_unreadable">Файл повреждён или не читается</string>
+    <string name="data_backup_not_a_backup">Это не резервная копия Rewordly</string>
+    <string name="data_backup_unsupported_version">Копия создана более новой версией приложения</string>
+    <string name="data_backup_empty">В копии нет ни одного слова</string>
+    <string name="data_backup_too_large">Копия слишком большая, чтобы её восстановить</string>
+    <string name="data_working">Обработка…</string>
+
+    <string name="error_offline">Нет подключения к интернету</string>
+    <string name="error_file_unreadable">Не удалось прочитать файл</string>
+    <string name="error_file_too_large">Файл слишком большой</string>
+    <string name="error_file_write_failed">Не удалось сохранить файл</string>
+
+    <string name="ai_offline_title">Нет подключения</string>
+    <string name="ai_offline_message">Для генерации слов нужен интернет. Сохранённые слова, поиск и повторение работают без него.</string>
+    <string name="ai_offline_retry">Повторить</string>
 </resources>

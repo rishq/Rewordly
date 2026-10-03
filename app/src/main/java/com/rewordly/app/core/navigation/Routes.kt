@@ -25,7 +25,34 @@ data class SearchRoute(val query: String = "")
 data object ProfileRoute
 
 @Serializable
+data object SavedRoute
+
+@Serializable
 data object SettingsRoute
+
+/** Import, export and backup of the local learning data. */
+@Serializable
+data object DataManagementRoute
+
+/** Optional vocabulary check that estimates the CEFR level. */
+@Serializable
+data object PlacementRoute
+
+@Serializable
+data object HistoryRoute
+
+@Serializable
+data object AiHomeRoute
+
+/** [mode] is a GenerationMode name. */
+@Serializable
+data class AiGenerateRoute(val mode: String)
+
+@Serializable
+data class AiPreviewRoute(val historyId: String)
+
+@Serializable
+data object AiHistoryRoute
 
 @Serializable
 data class WordDetailsRoute(val wordId: String)

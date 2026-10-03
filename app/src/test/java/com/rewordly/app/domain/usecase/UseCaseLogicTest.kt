@@ -4,8 +4,8 @@ import com.rewordly.app.data.local.MockVocabulary
 import com.rewordly.app.domain.model.WordProgress
 import com.rewordly.app.domain.model.WordStatus
 import com.rewordly.app.domain.model.WordWithProgress
+import kotlin.random.Random
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class UseCaseLogicTest {
@@ -30,21 +30,11 @@ class UseCaseLogicTest {
     }
 
     @Test
-    fun learningSession_putsLearnedWordsLast() {
-        val learned = item(0, WordStatus.LEARNED)
+    fun studyQueue_leavesOutWordsThatGraduated() {
+        val graduated = item(0, WordStatus.LEARNED)
         val fresh = item(1)
-        val learning = item(2, WordStatus.LEARNING)
-        val ordered = StartLearningSessionUseCase.order(listOf(learned, fresh, learning))
-        assertEquals(listOf(fresh, learning, learned), ordered)
-    }
-
-    @Test
-    fun reviewQueue_prioritisesSavedAndLearningWords_andRespectsSize() {
-        val plain = item(0)
-        val saved = item(1, saved = true)
-        val learning = item(2, WordStatus.LEARNING)
-        val queue = BuildReviewQueueUseCase.select(listOf(plain, saved, learning), size = 2)
-        assertEquals(listOf(saved, learning), queue)
-        assertTrue(BuildReviewQueueUseCase.select(emptyList(), size = 5).isEmpty())
+        val inProgress = item(2, WordStatus.LEARNING)
+        val picked = StudyQueueBuilder.build(listOf(graduated, fresh, inProgress), size = 10, random = Random(1))
+        assertEquals(setOf(fresh.word.id, inProgress.word.id), picked.map { it.word.id }.toSet())
     }
 }

@@ -1,7 +1,9 @@
 package com.rewordly.app.feature.word
 
+import android.text.format.DateUtils
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -31,12 +34,12 @@ import com.rewordly.app.R
 import com.rewordly.app.core.ui.components.EmptyState
 import com.rewordly.app.core.ui.components.ExampleSentence
 import com.rewordly.app.core.ui.components.LoadingState
+import com.rewordly.app.core.ui.components.Pill
 import com.rewordly.app.core.ui.components.SectionCard
 import com.rewordly.app.core.ui.components.VocabularyCard
 import com.rewordly.app.core.ui.components.WordChips
 import com.rewordly.app.core.ui.labelRes
 import com.rewordly.app.core.ui.theme.Dimens
-import com.rewordly.app.core.ui.theme.RewordlyTextStyles
 import com.rewordly.app.domain.model.WordStatus
 import com.rewordly.app.domain.model.WordWithProgress
 
@@ -95,7 +98,7 @@ fun WordDetailsScreen(
 }
 
 @Composable
-private fun WordDetailsContent(item: WordWithProgress, onSearchWord: (String) -> Unit, modifier: Modifier = Modifier) {
+fun WordDetailsContent(item: WordWithProgress, onSearchWord: (String) -> Unit, modifier: Modifier = Modifier) {
     val word = item.word
     Column(
         modifier = modifier
@@ -115,22 +118,26 @@ private fun WordDetailsContent(item: WordWithProgress, onSearchWord: (String) ->
                 isSaved = item.progress.isSaved,
                 isLearned = item.progress.status == WordStatus.LEARNED,
             )
-            SectionCard(title = stringResource(R.string.word_section_translation)) {
-                Text(word.translation.text, style = RewordlyTextStyles.cardTranslation)
-            }
-            SectionCard(title = stringResource(R.string.word_section_pronunciation)) {
-                Text(word.pronunciation, style = RewordlyTextStyles.pronunciation)
-            }
-            SectionCard(title = stringResource(R.string.word_section_part_of_speech)) {
-                Text(stringResource(word.partOfSpeech.labelRes), style = MaterialTheme.typography.bodyLarge)
-            }
-            SectionCard(title = stringResource(R.string.word_section_difficulty)) {
-                Text(stringResource(word.difficulty.labelRes), style = MaterialTheme.typography.bodyLarge)
+            if (word.definition.isNotBlank()) {
+                SectionCard(title = stringResource(R.string.learn_definition)) {
+                    Text(word.definition, style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        text = word.definitionTranslation,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
             if (word.examples.isNotEmpty()) {
                 SectionCard(title = stringResource(R.string.word_section_examples)) {
                     Column(verticalArrangement = Arrangement.spacedBy(Dimens.spaceMd)) {
-                        word.examples.forEach { ExampleSentence(example = it) }
+                        word.examples.forEach { example ->
+                            ExampleSentence(
+                                example = example,
+                                targetWord = word.text,
+                                playable = true,
+                            )
+                        }
                     }
                 }
             }
@@ -139,16 +146,71 @@ private fun WordDetailsContent(item: WordWithProgress, onSearchWord: (String) ->
                     Text(word.forms.joinToString(", "), style = MaterialTheme.typography.bodyLarge)
                 }
             }
-            if (word.relatedWords.isNotEmpty()) {
-                SectionCard(title = stringResource(R.string.word_section_related)) {
-                    WordChips(words = word.relatedWords, onClick = onSearchWord)
-                }
-            }
             if (word.synonyms.isNotEmpty()) {
                 SectionCard(title = stringResource(R.string.word_section_synonyms)) {
                     WordChips(words = word.synonyms, onClick = onSearchWord)
                 }
             }
+            if (word.relatedWords.isNotEmpty()) {
+                SectionCard(title = stringResource(R.string.word_section_related)) {
+                    WordChips(words = word.relatedWords, onClick = onSearchWord)
+                }
+            }
+            SectionCard(title = stringResource(R.string.word_section_difficulty)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(Dimens.spaceSm),
+                ) {
+                    Pill(text = stringResource(word.difficulty.labelRes))
+                    Text(
+                        text = stringResource(word.partOfSpeech.labelRes),
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                }
+            }
+            LearningProgressSection(item)
         }
     }
 }
+
+@Composable
+private fun LearningProgressSection(item: WordWithProgress) {
+    val progress = item.progress
+    val status = stringResource(
+        when (progress.status) {
+            WordStatus.NEW -> R.string.status_new
+            WordStatus.LEARNING -> R.string.status_learning
+            WordStatus.LEARNED -> R.string.status_learned
+        },
+    )
+    SectionCard(title = stringResource(R.string.word_section_progress)) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(Dimens.spaceSm),
+        ) {
+            Pill(text = status)
+            Text(
+                text = pluralStringResource(R.plurals.views_count, progress.views, progress.views),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+        Text(
+            text = stringResource(R.string.word_reviews_value, progress.correctAnswers, progress.incorrectAnswers),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        progress.lastViewedAt?.let { viewedAt ->
+            Text(
+                text = stringResource(R.string.word_last_viewed, relativeTime(viewedAt)),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+internal fun relativeTime(millis: Long): String = DateUtils.getRelativeTimeSpanString(
+    millis,
+    System.currentTimeMillis(),
+    DateUtils.MINUTE_IN_MILLIS,
+).toString()

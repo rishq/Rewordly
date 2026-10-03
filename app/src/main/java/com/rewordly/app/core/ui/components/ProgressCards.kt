@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.Replay
+import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -41,6 +41,7 @@ fun ProgressCard(
     dailyGoal: Int,
     fraction: Float,
     onContinue: () -> Unit,
+    continueEnabled: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
     val animated by animateFloatAsState(
@@ -95,6 +96,7 @@ fun ProgressCard(
             }
             FilledTonalButton(
                 onClick = onContinue,
+                enabled = continueEnabled,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = Dimens.spaceXs),
@@ -112,50 +114,16 @@ fun ProgressCard(
     }
 }
 
-/** Summary of today's review workload. */
-@Composable
-fun DailyGoalCard(wordsToReview: Int, onStartReview: () -> Unit, modifier: Modifier = Modifier) {
-    Card(
-        onClick = onStartReview,
-        modifier = modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.extraLarge,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-        ),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Dimens.cardPadding)
-                .semantics(mergeDescendants = true) {},
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Dimens.spaceLg),
-        ) {
-            Icon(imageVector = Icons.Filled.Replay, contentDescription = null, modifier = Modifier.size(Dimens.iconLg))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(text = stringResource(R.string.home_review_title), style = MaterialTheme.typography.titleMedium)
-                Text(
-                    text = pluralStringResource(R.plurals.words_count, wordsToReview, wordsToReview),
-                    style = RewordlyTextStyles.statValue,
-                )
-            }
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = stringResource(R.string.action_start_review),
-            )
-        }
-    }
-}
-
 /** Compact metric tile (streak, totals). */
 @Composable
-fun StatTile(icon: ImageVector, value: String, label: String, modifier: Modifier = Modifier) {
-    Card(
-        modifier = modifier,
-        shape = MaterialTheme.shapes.large,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh),
-    ) {
+fun StatTile(
+    icon: ImageVector,
+    value: String,
+    label: String,
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
+) {
+    val content: @Composable () -> Unit = {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -170,6 +138,57 @@ fun StatTile(icon: ImageVector, value: String, label: String, modifier: Modifier
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+        }
+    }
+    val colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)
+    if (onClick != null) {
+        Card(onClick = onClick, modifier = modifier, shape = MaterialTheme.shapes.large, colors = colors) {
+            content()
+        }
+    } else {
+        Card(modifier = modifier, shape = MaterialTheme.shapes.large, colors = colors) {
+            content()
+        }
+    }
+}
+
+/** Shown on Home when the daily goal is already met. */
+@Composable
+fun GoalReachedCard(learnedToday: Int, dailyGoal: Int, onReview: () -> Unit, modifier: Modifier = Modifier) {
+    Card(
+        onClick = onReview,
+        modifier = modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.extraLarge,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+        ),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(Dimens.cardPadding)
+                .semantics(mergeDescendants = true) {},
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(Dimens.spaceLg),
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.EmojiEvents,
+                contentDescription = null,
+                modifier = Modifier.size(Dimens.iconLg),
+            )
+            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(Dimens.spaceXs)) {
+                Text(text = stringResource(R.string.goal_reached_title), style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = stringResource(R.string.goal_reached_message, learnedToday, dailyGoal),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+                Text(
+                    text = stringResource(R.string.goal_reached_action),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
         }
     }
 }

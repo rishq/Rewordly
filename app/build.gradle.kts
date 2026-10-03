@@ -23,6 +23,13 @@ fun configValue(name: String): String? =
 val apiBaseUrl: String = configValue("REWORDLY_API_BASE_URL") ?: "https://api.rewordly.invalid/"
 val releaseKeystorePath: String? = configValue("REWORDLY_KEYSTORE_PATH")
 
+/**
+ * The release workflow derives these from the git tag, so a published APK never claims the placeholder
+ * version. Left unset, a local build keeps the values below.
+ */
+val versionNameOverride: String? = configValue("REWORDLY_VERSION_NAME")
+val versionCodeOverride: Int? = configValue("REWORDLY_VERSION_CODE")?.toIntOrNull()
+
 android {
     namespace = "com.rewordly.app"
     compileSdk = 35
@@ -31,8 +38,8 @@ android {
         applicationId = "com.rewordly.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = versionCodeOverride ?: 1
+        versionName = versionNameOverride ?: "0.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -94,6 +101,11 @@ android {
         xmlReport = false
     }
 
+    sourceSets {
+        // Exported Room schemas let MigrationTestHelper replay every migration on a device.
+        getByName("androidTest").assets.srcDir("$projectDir/schemas")
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -137,6 +149,9 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.androidx.glance.appwidget)
+    implementation(libs.androidx.glance.material3)
 
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.kotlinx.serialization)
@@ -149,7 +164,8 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
 
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.room.testing)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)

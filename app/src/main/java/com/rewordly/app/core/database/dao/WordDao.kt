@@ -15,6 +15,9 @@ interface WordDao {
     @Query("SELECT COUNT(*) FROM words")
     suspend fun count(): Int
 
+    @Query("SELECT COUNT(*) FROM words WHERE language = :language")
+    fun observeCount(language: String): Flow<Int>
+
     @Transaction
     @Query("SELECT * FROM words WHERE language = :language ORDER BY created_at ASC, text ASC")
     fun observeAll(language: String): Flow<List<PopulatedWord>>
@@ -32,19 +35,23 @@ interface WordDao {
     fun observeRecent(language: String, limit: Int): Flow<List<PopulatedWord>>
 
     @Transaction
-    @Query("SELECT * FROM words WHERE id = :id")
-    fun observeById(id: String): Flow<PopulatedWord?>
-
-    @Transaction
     @Query(
         """
         SELECT * FROM words
-        WHERE language = :language AND (text LIKE :pattern ESCAPE '\' OR translation LIKE :pattern ESCAPE '\')
-        ORDER BY CASE WHEN text LIKE :prefix ESCAPE '\' THEN 0 ELSE 1 END, text ASC
-        LIMIT 50
+        WHERE language = :language
+          AND id IN (SELECT word_id FROM word_progress WHERE is_saved = 1)
+        ORDER BY text ASC
         """,
     )
-    fun search(language: String, pattern: String, prefix: String): Flow<List<PopulatedWord>>
+    fun observeSaved(language: String): Flow<List<PopulatedWord>>
+
+    @Transaction
+    @Query("SELECT * FROM words WHERE id = :id")
+    fun observeById(id: String): Flow<PopulatedWord?>
+
+    /** Existing words whose lower-cased, trimmed text is one of [keys]; used to detect duplicates. */
+    @Query("SELECT id, text FROM words WHERE language = :language AND LOWER(TRIM(text)) IN (:keys)")
+    suspend fun findByNormalizedText(language: String, keys: List<String>): List<WordKeyRow>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertWords(words: List<WordEntity>)
@@ -58,3 +65,5 @@ interface WordDao {
         insertExamples(examples)
     }
 }
+
+data class WordKeyRow(val id: String, val text: String)

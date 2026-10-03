@@ -10,9 +10,11 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -20,13 +22,30 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.rewordly.app.core.navigation.HomeRoute
+import com.rewordly.app.core.navigation.NotificationDestination
+import com.rewordly.app.core.navigation.OnboardingRoute
+import com.rewordly.app.core.navigation.SplashRoute
 import com.rewordly.app.core.navigation.TopLevelDestination
+import com.rewordly.app.core.notifications.NotificationNavigationBus
 
 @Composable
-fun RewordlyApp(navController: NavHostController = rememberNavController()) {
+fun RewordlyApp(
+    notificationNavigation: NotificationNavigationBus,
+    navController: NavHostController = rememberNavController(),
+) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
     val currentTopLevel = TopLevelDestination.entries.firstOrNull { currentDestination.isOn(it) }
+    val pending by notificationNavigation.pending.collectAsStateWithLifecycle()
+
+    // Applied once the host is past the splash/onboarding, so a notification tap cannot land on a
+    // screen that is about to be replaced and cannot be applied twice.
+    LaunchedEffect(pending, currentDestination) {
+        val target = pending ?: return@LaunchedEffect
+        if (currentDestination.isTransientStart()) return@LaunchedEffect
+        notificationNavigation.consume()
+        navController.navigateToNotification(target)
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -71,6 +90,21 @@ private fun RewordlyBottomBar(current: TopLevelDestination, onSelect: (TopLevelD
 
 private fun NavDestination?.isOn(destination: TopLevelDestination): Boolean =
     this?.hierarchy?.any { it.hasRoute(destination.routeClass) } == true
+
+/** Splash and onboarding decide the start destination themselves, so a pending tap waits for them. */
+private fun NavDestination?.isTransientStart(): Boolean {
+    if (this == null) return true
+    return hierarchy.any { it.hasRoute(SplashRoute::class) || it.hasRoute(OnboardingRoute::class) }
+}
+
+private fun NavHostController.navigateToNotification(destination: NotificationDestination) {
+    val topLevel = when (destination) {
+        NotificationDestination.HOME -> TopLevelDestination.HOME
+        NotificationDestination.LEARN -> TopLevelDestination.LEARN
+        NotificationDestination.REVIEW -> TopLevelDestination.REVIEW
+    }
+    navigateToTopLevel(topLevel)
+}
 
 fun NavHostController.navigateToTopLevel(destination: TopLevelDestination) {
     navigate(destination.route) {

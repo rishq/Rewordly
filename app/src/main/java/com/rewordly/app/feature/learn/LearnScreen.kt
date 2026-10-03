@@ -1,12 +1,5 @@
 package com.rewordly.app.feature.learn
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,12 +10,12 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.BookmarkBorder
+import androidx.compose.material.icons.outlined.EmojiEvents
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
@@ -38,18 +31,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rewordly.app.R
 import com.rewordly.app.core.ui.components.EmptyState
-import com.rewordly.app.core.ui.components.ExampleSentence
 import com.rewordly.app.core.ui.components.LoadingState
 import com.rewordly.app.core.ui.components.PrimaryButton
-import com.rewordly.app.core.ui.components.SecondaryButton
-import com.rewordly.app.core.ui.components.SectionHeader
+import com.rewordly.app.core.ui.components.PronunciationButton
+import com.rewordly.app.core.ui.components.StudyAnswerBar
+import com.rewordly.app.core.ui.components.SwipeableCard
 import com.rewordly.app.core.ui.components.VocabularyCard
 import com.rewordly.app.core.ui.theme.Dimens
-import com.rewordly.app.domain.model.WordStatus
+import com.rewordly.app.domain.model.isGraduated
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,6 +58,18 @@ fun LearnScreen(onOpenWord: (String) -> Unit, viewModel: LearnViewModel = hiltVi
                 message = stringResource(R.string.learn_empty_message),
                 modifier = Modifier.padding(padding),
             )
+            is LearnUiState.Finished -> EmptyState(
+                icon = Icons.Outlined.EmojiEvents,
+                title = stringResource(R.string.learn_finished_title),
+                message = stringResource(R.string.learn_finished_message, state.completedCount, state.total),
+                modifier = Modifier.padding(padding),
+                action = {
+                    PrimaryButton(
+                        text = stringResource(R.string.action_review_again),
+                        onClick = { viewModel.onEvent(LearnUiEvent.Restart) },
+                    )
+                },
+            )
             is LearnUiState.Content -> LearnContent(
                 state = state,
                 onEvent = viewModel::onEvent,
@@ -75,13 +81,19 @@ fun LearnScreen(onOpenWord: (String) -> Unit, viewModel: LearnViewModel = hiltVi
 }
 
 @Composable
-private fun LearnContent(
+fun LearnContent(
     state: LearnUiState.Content,
     onEvent: (LearnUiEvent) -> Unit,
     onOpenWord: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val positionText = stringResource(R.string.learn_position, state.index + 1, state.total)
+    // A brand new word is triaged ("do you know it?"), a word in progress is reviewed ("did you recall it?").
+    val remembered = stringResource(
+        if (state.isFirstEncounter) R.string.study_answer_known else R.string.study_answer_remembered,
+    )
+    val forgotten = stringResource(
+        if (state.isFirstEncounter) R.string.study_answer_study else R.string.study_answer_forgot,
+    )
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -90,96 +102,130 @@ private fun LearnContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(Dimens.spaceLg),
     ) {
-        Column(
+        LearnHeader(state)
+        SwipeableCard(
+            leftLabel = remembered,
+            rightLabel = forgotten,
+            onSwipeLeft = { onEvent(LearnUiEvent.Answer(remembered = true)) },
+            onSwipeRight = { onEvent(LearnUiEvent.Answer(remembered = false)) },
+            enabled = !state.isSubmitting,
+            resetKey = state.current.word.id,
             modifier = Modifier
                 .widthIn(max = Dimens.maxContentWidth)
-                .fillMaxWidth()
-                .semantics(mergeDescendants = true) {},
-            verticalArrangement = Arrangement.spacedBy(Dimens.spaceXs),
+                .fillMaxWidth(),
         ) {
+            VocabularyCard(
+                word = state.current.word,
+                isSaved = state.current.progress.isSaved,
+                isLearned = state.current.progress.isGraduated,
+                showTranslation = state.revealed,
+                expanded = state.revealed,
+            )
+        }
+        LearnSecondaryActions(state = state, onEvent = onEvent, onOpenWord = onOpenWord)
+        if (!state.revealed) {
             Text(
-                text = positionText,
-                style = MaterialTheme.typography.labelLarge,
+                text = stringResource(R.string.review_think),
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .widthIn(max = Dimens.maxContentWidth)
+                    .fillMaxWidth(),
             )
-            LinearProgressIndicator(
-                progress = { (state.index + 1).toFloat() / state.total },
-                modifier = Modifier.fillMaxWidth(),
+            PrimaryButton(
+                text = stringResource(R.string.action_reveal),
+                icon = Icons.Outlined.Visibility,
+                onClick = { onEvent(LearnUiEvent.Reveal) },
+                modifier = Modifier
+                    .widthIn(max = Dimens.maxContentWidth)
+                    .fillMaxWidth(),
             )
         }
-
-        AnimatedContent(
-            targetState = state.current,
-            contentKey = { it.word.id },
-            transitionSpec = {
-                (slideInHorizontally(tween(DURATION)) { it / 4 } + fadeIn(tween(DURATION))) togetherWith
-                    (slideOutHorizontally(tween(DURATION)) { -it / 4 } + fadeOut(tween(DURATION)))
-            },
-            label = "vocabularyCard",
+        StudyAnswerBar(
+            rememberedLabel = remembered,
+            forgottenLabel = forgotten,
+            onAnswer = { onEvent(LearnUiEvent.Answer(remembered = it)) },
+            enabled = !state.isSubmitting,
             modifier = Modifier.widthIn(max = Dimens.maxContentWidth),
-        ) { item ->
-            Column(verticalArrangement = Arrangement.spacedBy(Dimens.spaceLg)) {
-                VocabularyCard(
-                    word = item.word,
-                    isSaved = item.progress.isSaved,
-                    isLearned = item.progress.status == WordStatus.LEARNED,
-                    onClick = { onOpenWord(item.word.id) },
-                )
-                item.word.examples.firstOrNull()?.let { example ->
-                    SectionHeader(title = stringResource(R.string.learn_example))
-                    ExampleSentence(example = example)
-                }
-            }
+        )
+        if (state.submitFailed) {
+            Text(
+                text = stringResource(R.string.study_submit_failed),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.error,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .widthIn(max = Dimens.maxContentWidth)
+                    .fillMaxWidth(),
+            )
         }
-
-        LearnControls(state = state, onEvent = onEvent)
     }
 }
 
 @Composable
-private fun LearnControls(state: LearnUiState.Content, onEvent: (LearnUiEvent) -> Unit) {
-    val saved = state.current.progress.isSaved
-    val saveDescription = stringResource(if (saved) R.string.action_unsave else R.string.action_save)
-    val previousDescription = stringResource(R.string.action_previous)
-    val nextDescription = stringResource(R.string.action_next)
+private fun LearnHeader(state: LearnUiState.Content) {
     Column(
         modifier = Modifier
             .widthIn(max = Dimens.maxContentWidth)
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(Dimens.spaceMd),
+        verticalArrangement = Arrangement.spacedBy(Dimens.spaceXs),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            FilledTonalIconButton(
-                onClick = { onEvent(LearnUiEvent.Previous) },
-                enabled = state.canGoBack,
-                modifier = Modifier.semantics { contentDescription = previousDescription },
-            ) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
-            }
-            SecondaryButton(
-                text = saveDescription,
-                icon = if (saved) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
-                onClick = { onEvent(LearnUiEvent.ToggleSaved) },
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(
+                text = stringResource(R.string.learn_completed, state.completedCount, state.total),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            FilledTonalIconButton(
-                onClick = { onEvent(LearnUiEvent.Next) },
-                enabled = state.canGoForward,
-                modifier = Modifier.semantics { contentDescription = nextDescription },
-            ) {
-                Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null)
-            }
+            Text(
+                text = stringResource(R.string.learn_position, state.index + 1, state.total),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
-        PrimaryButton(
-            text = stringResource(if (state.isLearned) R.string.action_mark_not_learned else R.string.action_learned),
-            icon = Icons.Filled.Check,
-            onClick = { onEvent(LearnUiEvent.ToggleLearned) },
+        LinearProgressIndicator(progress = { state.session.fraction }, modifier = Modifier.fillMaxWidth())
+        Text(
+            text = stringResource(R.string.study_swipe_hint),
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
         )
     }
 }
 
-private const val DURATION = 250
+/** Listen, save and open the full entry: secondary to answering, so they are compact icon buttons. */
+@Composable
+private fun LearnSecondaryActions(
+    state: LearnUiState.Content,
+    onEvent: (LearnUiEvent) -> Unit,
+    onOpenWord: (String) -> Unit,
+) {
+    val saved = state.current.progress.isSaved
+    val saveLabel = stringResource(if (saved) R.string.action_unsave else R.string.action_save)
+    val detailsDescription = stringResource(R.string.a11y_open_details, state.current.word.text)
+    Row(
+        modifier = Modifier
+            .widthIn(max = Dimens.maxContentWidth)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(Dimens.spaceSm, Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        PronunciationButton(text = state.current.word.text)
+        FilledTonalIconButton(
+            onClick = { onEvent(LearnUiEvent.ToggleSaved) },
+            modifier = Modifier.semantics { contentDescription = saveLabel },
+        ) {
+            Icon(
+                imageVector = if (saved) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
+                contentDescription = null,
+            )
+        }
+        FilledTonalIconButton(
+            onClick = { onOpenWord(state.current.word.id) },
+            modifier = Modifier.semantics { contentDescription = detailsDescription },
+        ) {
+            Icon(imageVector = Icons.Outlined.Info, contentDescription = null)
+        }
+    }
+}
