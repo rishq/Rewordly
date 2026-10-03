@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Adaptive icon layers for concept A. The background is the brand indigo; the
+  foreground draws a white rounded tile with the W knocked out of it, so the
+  indigo shows through the letter. Monochrome uses a separate drawable because
+  themed icons replace the colour with a system tint — the filled tile would
+  become a solid square blob, so that layer is the tile OUTLINE plus the W.
+-->
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
   <background android:drawable="@color/brand_primary" />
   <foreground android:drawable="@drawable/ic_launcher_foreground" />
-  <monochrome android:drawable="@drawable/ic_launcher_foreground" />
+  <monochrome android:drawable="@drawable/ic_launcher_monochrome" />
 </adaptive-icon>

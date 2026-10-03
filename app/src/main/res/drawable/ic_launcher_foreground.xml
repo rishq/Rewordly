@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Rewordly launcher icon — concept A, "W in a tile".
+
+  Generated geometry, do not hand-edit. The tile and the W both come from
+  .workbuddy-ai/logo-work/gen_final.py, which is also what draws the README
+  banner, so the launcher icon and the README art cannot drift apart.
+  Regenerate there and paste the path data back.
+
+  The W is a six-vertex polyline with a flat-topped centre apex, offset to a
+  28-unit stroke band. Every edge sits on an exact 15/75/105 degree angle, so
+  the mark stays crisp at 16 dp.
+
+  One even-odd path: the rounded tile is the outer contour and the W is the
+  inner one, so the W is a HOLE. The adaptive-icon background is
+  @color/brand_primary, which therefore shows through the W — white tile,
+  indigo letter, exactly like the concept art.
+
+  108 x 108 is the adaptive-icon viewport and the 66 x 66 safe zone is centred
+  on 54, so the 256-unit artwork is scaled by 66/256 and translated by 21.
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
   android:width="108dp"
   android:height="108dp"
   android:viewportWidth="108"
   android:viewportHeight="108">
+
   <group
-    android:scaleX="1.25"
-    android:scaleY="1.25"
-    android:translateX="24"
-    android:translateY="24">
+    android:scaleX="0.257812"
+    android:scaleY="0.257812"
+    android:translateX="21"
+    android:translateY="21">
     <path
       android:fillColor="#FFFFFF"
-      android:pathData="M12,6h24a8,8 0,0 1,8 8v14a8,8 0,0 1,-8 8H22l-8,7v-7h-2a8,8 0,0 1,-8 -8V14a8,8 0,0 1,8 -8z" />
-    <path
-      android:fillColor="@color/brand_primary"
-      android:pathData="M12,15h16a2,2 0,0 1,0 4H12a2,2 0,0 1,0 -4zM12,23h11a2,2 0,0 1,0 4H12a2,2 0,0 1,0 -4z" />
-    <path
-      android:fillColor="@color/brand_primary"
-      android:pathData="M35,19l1.6,3.4L40,24l-3.4,1.6L35,29l-1.6,-3.4L30,24l3.4,-1.6z" />
+      android:fillType="evenOdd"
+      android:pathData="M76,30 H180 A46,46 0 0 1 226,76 V180 A46,46 0 0 1 180,226 H76 A46,46 0 0 1 30,180 V76 A46,46 0 0 1 76,30 Z M62.48,83.62 L97.97,216.09 L125.74,112.45 L130.26,112.45 L158.03,216.09 L193.52,83.62 L166.48,76.38 L158.03,107.91 L151.74,84.45 L104.26,84.45 L97.97,107.91 L89.52,76.38 Z" />
   </group>
 </vector>

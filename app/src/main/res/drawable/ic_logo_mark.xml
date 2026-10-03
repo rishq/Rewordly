@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  The in-app mark: concept A, "W in a tile", as a filled indigo tile with the W
+  knocked out of it. Used on the splash screen and anywhere else the app shows
+  its own logo, where the surface behind it is the app background rather than
+  the launcher wallpaper — so the fill is the brand colour, not white.
+
+  Same generated geometry as the launcher icon; see ic_launcher_foreground.xml
+  for provenance and regeneration instructions.
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
   android:width="48dp"
   android:height="48dp"
-  android:viewportWidth="48"
-  android:viewportHeight="48">
+  android:viewportWidth="256"
+  android:viewportHeight="256">
+
   <path
     android:fillColor="@color/brand_primary"
-    android:pathData="M12,6h24a8,8 0,0 1,8 8v14a8,8 0,0 1,-8 8H22l-8,7v-7h-2a8,8 0,0 1,-8 -8V14a8,8 0,0 1,8 -8z" />
-  <path
-    android:fillColor="@color/brand_on_primary"
-    android:pathData="M12,15h16a2,2 0,0 1,0 4H12a2,2 0,0 1,0 -4zM12,23h11a2,2 0,0 1,0 4H12a2,2 0,0 1,0 -4z" />
-  <path
-    android:fillColor="@color/brand_on_primary"
-    android:pathData="M35,19l1.6,3.4L40,24l-3.4,1.6L35,29l-1.6,-3.4L30,24l3.4,-1.6z" />
+    android:fillType="evenOdd"
+    android:pathData="M76,30 H180 A46,46 0 0 1 226,76 V180 A46,46 0 0 1 180,226 H76 A46,46 0 0 1 30,180 V76 A46,46 0 0 1 76,30 Z M62.48,83.62 L97.97,216.09 L125.74,112.45 L130.26,112.45 L158.03,216.09 L193.52,83.62 L166.48,76.38 L158.03,107.91 L151.74,84.45 L104.26,84.45 L97.97,107.91 L89.52,76.38 Z" />
 </vector>
