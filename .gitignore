@@ -36,6 +36,8 @@ captures/
 .externalNativeBuild/
 .cxx/
 *.apk
+# The published release APK is tracked on purpose - see dist/README.md
+!dist/*.apk
 *.aab
 *.keystore
 *.jks
