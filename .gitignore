@@ -35,10 +35,11 @@ local.properties
 captures/
 .externalNativeBuild/
 .cxx/
+# Release builds are published as GitHub Release assets, never committed.
+# `dist/` is only the local staging directory release.yml copies the APK into.
 *.apk
-# The published release APK is tracked on purpose - see dist/README.md
-!dist/*.apk
 *.aab
+dist/
 *.keystore
 *.jks
 

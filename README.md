@@ -133,6 +133,9 @@ Runs the checks, builds a **signed** release APK, verifies the signature with `a
 to a GitHub Release (creating it if needed). The version comes from the tag: `v0.2.1` becomes `versionName`
 `0.2.1`, and `versionCode` is the workflow run number.
 
+Release APKs are published **only** as release assets — they are never committed to the repository. `dist/` is
+just the local staging directory the workflow copies the APK into, and it is gitignored.
+
 It needs four repository secrets (**Settings → Secrets and variables → Actions**):
 
 | Secret | Contents |

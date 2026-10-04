@@ -38,8 +38,8 @@ android {
         applicationId = "com.rewordly.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = versionCodeOverride ?: 1
-        versionName = versionNameOverride ?: "0.1.0"
+        versionCode = versionCodeOverride ?: 2
+        versionName = versionNameOverride ?: "0.1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
