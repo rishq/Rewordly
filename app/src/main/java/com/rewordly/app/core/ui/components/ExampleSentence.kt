@@ -86,7 +86,9 @@ fun ExampleSentence(
                     style = RewordlyTextStyles.example,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
-                if (showTranslation) {
+                // Words added from the free dictionaries carry an English example with no translation,
+                // so the line is only shown when there is something to show.
+                if (showTranslation && example.translation.isNotBlank()) {
                     Text(
                         text = example.translation,
                         style = MaterialTheme.typography.bodyMedium,

@@ -463,6 +463,19 @@
     <string name="ai_topic_invalid">Enter a topic (up to 60 characters).</string>
     <string name="ai_text_too_long">The text is too long: at most %1$d characters.</string>
 
+    <!-- Adding a word through the free public dictionaries -->
+    <string name="add_word_title">Add a word</string>
+    <string name="add_word_subtitle">The translation and transcription come from free public dictionaries. No key and no setup needed.</string>
+    <string name="add_word_action">Add a word</string>
+    <string name="add_word_empty_action">Add “%1$s”</string>
+    <string name="add_word_submit">Add to my words</string>
+    <string name="add_word_looking">Looking up the translation and transcription…</string>
+    <string name="add_word_exists">“%1$s” is already in your words.</string>
+    <string name="add_word_not_found">No translation was found for “%1$s”. Check the spelling.</string>
+    <string name="add_word_no_transcription">No transcription was found, so the word was saved without one.</string>
+    <string name="add_word_open">Open the card</string>
+    <string name="add_word_again">Add another word</string>
+
     <!-- STEP 5: personalized learning -->
     <string name="home_plan_title">Today\'s plan</string>
     <string name="home_plan_summary">To review: %1$d · New words: %2$d</string>

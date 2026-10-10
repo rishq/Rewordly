@@ -9,6 +9,7 @@ import com.rewordly.app.domain.repository.ReviewRepository
 import com.rewordly.app.domain.repository.SettingsRepository
 import com.rewordly.app.domain.repository.VocabularyGenerationRepository
 import com.rewordly.app.domain.repository.VocabularyRepository
+import com.rewordly.app.domain.repository.WordLookupRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -55,4 +56,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindDataManagementRepository(impl: OfflineDataManagementRepository): DataManagementRepository
+
+    @Binds
+    abstract fun bindWordLookupRepository(impl: FreeWordLookupRepository): WordLookupRepository
 }

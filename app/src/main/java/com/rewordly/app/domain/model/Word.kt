@@ -41,5 +41,8 @@ enum class PartOfSpeech { NOUN, VERB, ADJECTIVE, ADVERB, PRONOUN, PREPOSITION, C
 /** CEFR-style difficulty level. */
 enum class Difficulty { A1, A2, B1, B2, C1, C2 }
 
-/** Where a word came from: shipped with the app, saved from an AI generation, or read from a file. */
-enum class WordSource { BUNDLED, GENERATED, IMPORTED }
+/**
+ * Where a word came from: shipped with the app, saved from an AI generation, read from a file, or looked
+ * up in the free public dictionaries when the user typed it in.
+ */
+enum class WordSource { BUNDLED, GENERATED, IMPORTED, LOOKUP }

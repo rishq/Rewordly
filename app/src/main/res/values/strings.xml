@@ -519,6 +519,19 @@
     <string name="ai_topic_invalid">Введите тему (не длиннее 60 символов).</string>
     <string name="ai_text_too_long">Текст слишком длинный: максимум %1$d символов.</string>
 
+    <!-- Добавление слова по бесплатным открытым словарям -->
+    <string name="add_word_title">Добавить слово</string>
+    <string name="add_word_subtitle">Перевод и транскрипция берутся из бесплатных открытых словарей. Ключ и настройка не нужны.</string>
+    <string name="add_word_action">Добавить слово</string>
+    <string name="add_word_empty_action">Добавить «%1$s»</string>
+    <string name="add_word_submit">Добавить в словарь</string>
+    <string name="add_word_looking">Ищем перевод и транскрипцию…</string>
+    <string name="add_word_exists">«%1$s» уже есть в вашем словаре.</string>
+    <string name="add_word_not_found">Не удалось найти перевод для «%1$s». Проверьте написание.</string>
+    <string name="add_word_no_transcription">Транскрипцию найти не удалось, слово сохранено без неё.</string>
+    <string name="add_word_open">Открыть карточку</string>
+    <string name="add_word_again">Добавить ещё слово</string>
+
     <!-- STEP 5: personalized learning -->
     <string name="home_plan_title">План на сегодня</string>
     <string name="home_plan_summary">К повторению: %1$d · Новых слов: %2$d</string>

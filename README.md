@@ -86,6 +86,29 @@ and invalid items are dropped individually. A pasted text is fenced as untrusted
 `docs/ai-backend-contract.md` describes the JSON contract, the per-field validation rules and the same
 educational prompt requirements, since a self-hosted backend has to satisfy them too.
 
+## Adding a word without AI
+
+The `+` action on `Поиск` and on `Сохранённые` — and the offer shown when a search finds nothing — adds a
+word the user typed. Nothing has to be configured: no key, no account, no backend. The translation and the
+transcription are read from two free public sources at request time.
+
+| What | Source | Notes |
+| --- | --- | --- |
+| Transcription, part of speech, definition, Russian translation | [en.wiktionary.org](https://en.wiktionary.org) `action=parse` | Wikitext, not HTML: the pronunciation templates only exist in the source. Pages that defer their translations to a `word/translations` subpage cost one extra request. |
+| Russian translation (fallback) | [MyMemory](https://mymemory.translated.net) | Used only when Wiktionary has no translation for the word. |
+
+Both are keyless, so the app stays polite instead: it sends Wikimedia a descriptive `User-Agent` and makes
+at most two Wiktionary requests per word.
+
+The rules the parser follows live in `data/remote/WiktionaryParser.kt` and are pinned by
+`WiktionaryParserTest`, because wikitext is a template language that changes. A word is only reported as
+found when a translation came back from somewhere — a card with a pronunciation but no meaning would be
+worse than an honest "nothing found". When no source has a transcription the word is still saved, and the
+sheet says so.
+
+Words added this way are stored with `WordSource.LOOKUP`. No source reports a CEFR level, so they are not
+given an invented one; they use the app's default level.
+
 ## Structure
 
 ```

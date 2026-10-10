@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Search
@@ -33,6 +34,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -45,18 +49,23 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rewordly.app.R
 import com.rewordly.app.core.ui.components.EmptyState
 import com.rewordly.app.core.ui.components.LoadingState
+import com.rewordly.app.core.ui.components.PrimaryButton
 import com.rewordly.app.core.ui.components.WordListItem
 import com.rewordly.app.core.ui.filterRes
 import com.rewordly.app.core.ui.theme.Dimens
 import com.rewordly.app.domain.model.DifficultyFilter
 import com.rewordly.app.domain.model.StatusFilter
 import com.rewordly.app.domain.model.VocabularyFilters
+import com.rewordly.app.feature.add.AddWordSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(onOpenWord: (String) -> Unit, viewModel: SearchViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val filters by viewModel.activeFilters.collectAsStateWithLifecycle()
+
+    /** The word the add sheet was opened with, or null while it is closed. */
+    var addWordFor by remember { mutableStateOf<String?>(null) }
     SearchContent(
         query = viewModel.query,
         onQueryChange = viewModel::onQueryChange,
@@ -67,7 +76,18 @@ fun SearchScreen(onOpenWord: (String) -> Unit, viewModel: SearchViewModel = hilt
         onRecentSelected = viewModel::onRecentSelected,
         onClearRecent = viewModel::clearRecent,
         onOpenWord = onOpenWord,
+        onAddWord = { word -> addWordFor = word },
     )
+    addWordFor?.let { word ->
+        AddWordSheet(
+            initialWord = word,
+            onDismiss = { addWordFor = null },
+            onOpenWord = { wordId ->
+                addWordFor = null
+                onOpenWord(wordId)
+            },
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,11 +103,22 @@ fun SearchContent(
     onClearRecent: () -> Unit,
     onOpenWord: (String) -> Unit,
     modifier: Modifier = Modifier,
+    /** Opens the add-word sheet for the given word; blank means the user starts from an empty field. */
+    onAddWord: (String) -> Unit = {},
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
     Scaffold(
         modifier = modifier,
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.search_title)) }) },
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.search_title)) },
+                actions = {
+                    IconButton(onClick = { onAddWord("") }) {
+                        Icon(Icons.Outlined.Add, contentDescription = stringResource(R.string.add_word_action))
+                    }
+                },
+            )
+        },
     ) { padding ->
         Column(
             modifier = Modifier
@@ -134,6 +165,17 @@ fun SearchContent(
                         stringResource(R.string.search_empty_filters_message)
                     } else {
                         stringResource(R.string.search_empty_message, state.query)
+                    },
+                    action = {
+                        // An empty query with active filters is not a word to look up, so the offer only
+                        // appears when the user actually typed something that is missing.
+                        if (state.query.isNotBlank()) {
+                            PrimaryButton(
+                                text = stringResource(R.string.add_word_empty_action, state.query.trim()),
+                                onClick = { onAddWord(state.query.trim()) },
+                                icon = Icons.Outlined.Add,
+                            )
+                        }
                     },
                 )
                 is SearchUiState.Results -> LazyColumn(

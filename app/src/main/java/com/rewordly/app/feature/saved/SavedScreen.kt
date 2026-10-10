@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.SearchOff
@@ -24,6 +25,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -35,11 +39,13 @@ import com.rewordly.app.core.ui.components.LoadingState
 import com.rewordly.app.core.ui.components.SecondaryButton
 import com.rewordly.app.core.ui.components.WordListItem
 import com.rewordly.app.core.ui.theme.Dimens
+import com.rewordly.app.feature.add.AddWordSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SavedScreen(onBack: () -> Unit, onOpenWord: (String) -> Unit, viewModel: SavedViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var showAddWord by remember { mutableStateOf(false) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -50,6 +56,11 @@ fun SavedScreen(onBack: () -> Unit, onOpenWord: (String) -> Unit, viewModel: Sav
                             Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.action_back),
                         )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { showAddWord = true }) {
+                        Icon(Icons.Outlined.Add, contentDescription = stringResource(R.string.add_word_action))
                     }
                 },
             )
@@ -77,6 +88,16 @@ fun SavedScreen(onBack: () -> Unit, onOpenWord: (String) -> Unit, viewModel: Sav
                 modifier = modifier,
             )
         }
+    }
+    if (showAddWord) {
+        AddWordSheet(
+            initialWord = "",
+            onDismiss = { showAddWord = false },
+            onOpenWord = { wordId ->
+                showAddWord = false
+                onOpenWord(wordId)
+            },
+        )
     }
 }
 
