@@ -1,5 +1,7 @@
 package com.rewordly.app.widget
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import androidx.glance.appwidget.updateAll
 import com.rewordly.app.domain.repository.ProgressRepository
@@ -23,10 +25,19 @@ class ProgressWidgetUpdater @Inject constructor(
 ) {
     /** Never returns; run it in an app scope. */
     suspend fun observe() {
+        // With no widget placed there is nothing to push to, and Glance's updateAll is not cheap. A widget
+        // added later still renders correctly, because the launcher rebuilds it from the current data.
+        if (!hasPlacedWidgets()) return
         progressRepository.observeOverview()
             .map(WidgetStateMapper::from)
             .distinctUntilChanged()
             .collect { refresh() }
+    }
+
+    private fun hasPlacedWidgets(): Boolean {
+        val manager = AppWidgetManager.getInstance(context)
+        val ids = manager.getAppWidgetIds(ComponentName(context, ProgressWidgetReceiver::class.java))
+        return ids.isNotEmpty()
     }
 
     /** Redraws every placed widget from the current local data. */

@@ -92,11 +92,16 @@ class LearnViewModel @Inject constructor(
     private val flags = MutableStateFlow(CardFlags())
     private var shownAt: Long = 0L
 
-    /** Live progress (saved/learned/views) is merged in from Room; the session order is fixed. */
-    private val words = settingsRepository.settings
-        .map { it.learningLanguage }
+    /**
+     * Only the words the session actually uses. Observing the whole vocabulary meant every recorded view
+     * (once per card shown) re-hydrated and re-mapped every imported word, for a queue that never holds
+     * more than a day's worth of cards. The ids only change when a new session starts, so answering a card
+     * does not re-run the query at all.
+     */
+    private val words = session
+        .map { it?.wordIds.orEmpty() }
         .distinctUntilChanged()
-        .flatMapLatest { vocabularyRepository.observeWords(it) }
+        .flatMapLatest { vocabularyRepository.observeWordsByIds(it) }
 
     val uiState: StateFlow<LearnUiState> = combine(session, words, flags) { current, list, cardFlags ->
         toState(current, list, cardFlags)

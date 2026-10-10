@@ -12,6 +12,7 @@ import com.rewordly.app.testing.FakeWordProgressDao
 import com.rewordly.app.testing.TestTimeProvider
 import com.rewordly.app.testing.progressOf
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -23,7 +24,12 @@ class DefaultProgressRepositoryTest {
     private val logDao = FakeReviewLogDao(wordDao.progress)
     private val settings = FakeSettingsRepository()
     private val time = TestTimeProvider()
-    private val repository = DefaultProgressRepository(
+
+    /**
+     * The repository shares its overview in an app-wide scope; the test hands it the scope it can cancel,
+     * because the sharing coroutine outlives a single collection by design.
+     */
+    private fun TestScope.repository() = DefaultProgressRepository(
         progressDao,
         activityDao,
         logDao,
@@ -31,6 +37,7 @@ class DefaultProgressRepositoryTest {
         settings,
         time,
         ComputeStreakUseCase(),
+        backgroundScope,
     )
 
     @Test
@@ -41,7 +48,7 @@ class DefaultProgressRepositoryTest {
         activityDao.rows.value =
             listOf(DailyActivityEntity(time.today().toString(), wordsLearned = 4, wordsReviewed = 2))
 
-        val overview = repository.observeOverview().first()
+        val overview = repository().observeOverview().first()
         assertEquals(15, overview.today.goal)
         assertEquals(4, overview.today.wordsLearned)
         assertEquals(2, overview.today.wordsReviewed)
@@ -56,7 +63,7 @@ class DefaultProgressRepositoryTest {
 
     @Test
     fun activityChart_alwaysHasSevenDaysEndingToday() = runTest {
-        val overview = repository.observeOverview().first()
+        val overview = repository().observeOverview().first()
         assertEquals(7, overview.activity.size)
         assertEquals(time.today(), overview.activity.last().date)
         assertEquals(0, overview.activity.sumOf { it.wordsLearned })

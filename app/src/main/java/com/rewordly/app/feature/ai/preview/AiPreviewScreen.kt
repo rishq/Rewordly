@@ -186,7 +186,17 @@ private fun PreviewList(
             }
         }
         itemsIndexed(state.items, key = { _, item -> item.word.key }) { index, item ->
-            PreviewCard(index, item, state, onEvent, onOpenWord)
+            // Only what this card renders is passed down: with the whole state, toggling one checkbox
+            // (which copies the item list) recomposed every visible card.
+            PreviewCard(
+                index = index,
+                item = item,
+                regenerating = state.busy == PreviewBusy.RegeneratingWord(index),
+                busy = state.isBusy,
+                canRegenerate = state.canRegenerate,
+                onEvent = onEvent,
+                onOpenWord = onOpenWord,
+            )
         }
     }
 }
@@ -207,12 +217,13 @@ private fun BusyRow() {
 private fun PreviewCard(
     index: Int,
     item: PreviewItem,
-    state: AiPreviewUiState.Content,
+    regenerating: Boolean,
+    busy: Boolean,
+    canRegenerate: Boolean,
     onEvent: (AiPreviewEvent) -> Unit,
     onOpenWord: (String) -> Unit,
 ) {
     val word = item.word
-    val regenerating = state.busy == PreviewBusy.RegeneratingWord(index)
     val selectLabel = stringResource(R.string.ai_preview_select_item, word.word)
     Card(
         modifier = Modifier
@@ -225,7 +236,7 @@ private fun PreviewCard(
             Checkbox(
                 checked = item.selected && !item.isDuplicate,
                 onCheckedChange = { onEvent(AiPreviewEvent.Toggle(index)) },
-                enabled = !item.isDuplicate && !state.isBusy,
+                enabled = !item.isDuplicate && !busy,
                 modifier = Modifier
                     .testTag("ai_check_$index")
                     .semantics { contentDescription = selectLabel },
@@ -262,10 +273,10 @@ private fun PreviewCard(
                             onClick = { item.existingWordId?.let(onOpenWord) },
                             modifier = Modifier.testTag("ai_open_existing_$index"),
                         ) { Text(stringResource(R.string.ai_preview_open_existing)) }
-                    } else if (state.canRegenerate) {
+                    } else if (canRegenerate) {
                         TextButton(
                             onClick = { onEvent(AiPreviewEvent.RegenerateWord(index)) },
-                            enabled = !state.isBusy,
+                            enabled = !busy,
                             modifier = Modifier.testTag("ai_regen_$index"),
                         ) { Text(stringResource(R.string.ai_preview_regenerate_word)) }
                     }

@@ -35,7 +35,7 @@ class OfflineGenerationHistoryRepository @Inject constructor(
     private val json: Json,
 ) : GenerationHistoryRepository {
     override fun observeHistory(): Flow<List<GenerationHistoryEntry>> =
-        dao.observeAll().map { rows -> rows.map { it.toDomain() } }
+        dao.observeSummaries().map { rows -> rows.map { it.toDomain() } }
 
     override suspend fun record(entry: GenerationHistoryEntry, items: List<GeneratedWord>): AppResult<Unit> =
         safeDbCall {

@@ -46,6 +46,11 @@ class FakeVocabularyRepository(words: List<WordWithProgress>) : VocabularyReposi
     override fun observeWords(language: LearningLanguage): Flow<List<WordWithProgress>> =
         items.map { list -> failure?.let { throw it } ?: list }
 
+    override fun observeWordsByIds(ids: List<String>): Flow<List<WordWithProgress>> {
+        val wanted = ids.toSet()
+        return items.map { list -> failure?.let { throw it } ?: list.filter { it.word.id in wanted } }
+    }
+
     override fun observeRecentWords(language: LearningLanguage, limit: Int): Flow<List<WordWithProgress>> =
         items.map { list -> list.take(limit) }
 

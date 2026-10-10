@@ -1,5 +1,6 @@
 package com.rewordly.app.data.local
 
+import com.rewordly.app.core.database.dao.GenerationHistorySummary
 import com.rewordly.app.core.database.entity.GenerationHistoryEntity
 import com.rewordly.app.domain.model.Difficulty
 import com.rewordly.app.domain.model.GeneratedExample
@@ -79,4 +80,16 @@ fun GenerationHistoryEntity.toDomain() = GenerationHistoryEntry(
     resultCount = resultCount,
     createdAt = createdAt,
     hasResult = resultJson != null,
+)
+
+/** The list projection carries the same fields minus the payload, so it maps the same way. */
+fun GenerationHistorySummary.toDomain() = GenerationHistoryEntry(
+    id = id,
+    mode = GenerationMode.entries.firstOrNull { it.name == mode } ?: GenerationMode.TOPIC,
+    description = description,
+    level = Difficulty.entries.firstOrNull { it.name == level } ?: Difficulty.B1,
+    requestedCount = requestedCount,
+    resultCount = resultCount,
+    createdAt = createdAt,
+    hasResult = hasResult,
 )

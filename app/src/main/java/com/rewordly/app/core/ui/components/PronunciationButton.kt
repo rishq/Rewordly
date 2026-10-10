@@ -88,23 +88,34 @@ fun PronunciationButton(
 
 @Composable
 private fun SpeakingIcon(isSpeaking: Boolean) {
-    val transition = rememberInfiniteTransition(label = "speaking")
-    val pulse by transition.animateFloat(
-        initialValue = PULSE_MIN,
-        targetValue = PULSE_MAX,
-        animationSpec = infiniteRepeatable(tween(PULSE_MILLIS), RepeatMode.Reverse),
-        label = "pulse",
-    )
-    Icon(
-        imageVector = if (isSpeaking) Icons.Filled.StopCircle else Icons.AutoMirrored.Outlined.VolumeUp,
-        contentDescription = null,
-        modifier = Modifier
-            .size(Dimens.iconSm)
-            .graphicsLayer {
-                scaleX = if (isSpeaking) pulse else 1f
-                scaleY = if (isSpeaking) pulse else 1f
-            },
-    )
+    val icon = if (isSpeaking) Icons.Filled.StopCircle else Icons.AutoMirrored.Outlined.VolumeUp
+    if (isSpeaking) {
+        // The pulse only exists while speaking: an infinite transition left running while idle invalidates
+        // the icon's layer every frame for no visible change, on every button on screen.
+        val transition = rememberInfiniteTransition(label = "speaking")
+        val pulse by transition.animateFloat(
+            initialValue = PULSE_MIN,
+            targetValue = PULSE_MAX,
+            animationSpec = infiniteRepeatable(tween(PULSE_MILLIS), RepeatMode.Reverse),
+            label = "pulse",
+        )
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier
+                .size(Dimens.iconSm)
+                .graphicsLayer {
+                    scaleX = pulse
+                    scaleY = pulse
+                },
+        )
+    } else {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(Dimens.iconSm),
+        )
+    }
 }
 
 private const val PULSE_MIN = 0.9f

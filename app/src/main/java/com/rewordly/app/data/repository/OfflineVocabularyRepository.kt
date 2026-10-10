@@ -4,6 +4,7 @@ import com.rewordly.app.core.common.AppResult
 import com.rewordly.app.core.common.TimeProvider
 import com.rewordly.app.core.database.dao.WordDao
 import com.rewordly.app.core.database.dao.WordProgressDao
+import com.rewordly.app.core.database.entity.WordProgressEntity
 import com.rewordly.app.core.database.safeDbCall
 import com.rewordly.app.data.local.MockVocabulary
 import com.rewordly.app.data.local.exampleEntities
@@ -19,6 +20,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 @Singleton
@@ -43,6 +45,12 @@ class OfflineVocabularyRepository @Inject constructor(
     override fun observeWords(language: LearningLanguage): Flow<List<WordWithProgress>> =
         wordDao.observeAll(language.tag).map { list -> list.map { it.toDomain() } }
 
+    override fun observeWordsByIds(ids: List<String>): Flow<List<WordWithProgress>> = if (ids.isEmpty()) {
+        flowOf(emptyList())
+    } else {
+        wordDao.observeByIds(ids).map { list -> list.map { it.toDomain() } }
+    }
+
     override fun observeRecentWords(language: LearningLanguage, limit: Int): Flow<List<WordWithProgress>> =
         wordDao.observeRecent(language.tag, limit).map { list -> list.map { it.toDomain() } }
 
@@ -52,11 +60,17 @@ class OfflineVocabularyRepository @Inject constructor(
     override fun observeWord(wordId: String): Flow<WordWithProgress?> =
         wordDao.observeById(wordId).map { it?.toDomain() }.distinctUntilChanged()
 
-    override suspend fun setSaved(wordId: String, saved: Boolean): AppResult<Unit> =
-        updateProgress(wordId) { it.copy(isSaved = saved) }
+    override suspend fun setSaved(wordId: String, saved: Boolean): AppResult<Unit> = safeDbCall {
+        val now = timeProvider.nowMillis()
+        progressDao.update(wordId, blankProgress(wordId, now)) { it.copy(isSaved = saved, updatedAt = now) }
+    }
 
-    override suspend fun recordView(wordId: String): AppResult<Unit> =
-        updateProgress(wordId) { it.copy(views = it.views + 1, lastViewedAt = timeProvider.nowMillis()) }
+    override suspend fun recordView(wordId: String): AppResult<Unit> = safeDbCall {
+        val now = timeProvider.nowMillis()
+        progressDao.update(wordId, blankProgress(wordId, now)) {
+            it.copy(views = it.views + 1, lastViewedAt = now, updatedAt = now)
+        }
+    }
 
     override suspend fun findExistingIds(
         language: LearningLanguage,
@@ -85,11 +99,7 @@ class OfflineVocabularyRepository @Inject constructor(
         fresh.map { it.id }
     }
 
-    private suspend fun progress(wordId: String): WordProgress =
-        progressDao.get(wordId)?.toDomain() ?: WordProgress(wordId = wordId)
-
-    private suspend fun updateProgress(wordId: String, transform: (WordProgress) -> WordProgress): AppResult<Unit> =
-        safeDbCall {
-            progressDao.upsert(transform(progress(wordId)).toEntity(updatedAt = timeProvider.nowMillis()))
-        }
+    /** The row to start from when the word has no progress yet; the DAO fills it in inside its transaction. */
+    private fun blankProgress(wordId: String, updatedAt: Long): WordProgressEntity =
+        WordProgress(wordId = wordId).toEntity(updatedAt = updatedAt)
 }

@@ -24,13 +24,14 @@ import androidx.navigation.compose.rememberNavController
 import com.rewordly.app.core.navigation.HomeRoute
 import com.rewordly.app.core.navigation.NotificationDestination
 import com.rewordly.app.core.navigation.OnboardingRoute
-import com.rewordly.app.core.navigation.SplashRoute
 import com.rewordly.app.core.navigation.TopLevelDestination
 import com.rewordly.app.core.notifications.NotificationNavigationBus
+import com.rewordly.app.domain.usecase.StartDestination
 
 @Composable
 fun RewordlyApp(
     notificationNavigation: NotificationNavigationBus,
+    startDestination: StartDestination,
     navController: NavHostController = rememberNavController(),
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -61,6 +62,7 @@ fun RewordlyApp(
     ) { padding ->
         RewordlyNavHost(
             navController = navController,
+            startDestination = startDestination,
             modifier = Modifier
                 .padding(padding)
                 .consumeWindowInsets(padding),
@@ -91,10 +93,10 @@ private fun RewordlyBottomBar(current: TopLevelDestination, onSelect: (TopLevelD
 private fun NavDestination?.isOn(destination: TopLevelDestination): Boolean =
     this?.hierarchy?.any { it.hasRoute(destination.routeClass) } == true
 
-/** Splash and onboarding decide the start destination themselves, so a pending tap waits for them. */
+/** Onboarding decides the start destination itself, so a pending tap waits for it. */
 private fun NavDestination?.isTransientStart(): Boolean {
     if (this == null) return true
-    return hierarchy.any { it.hasRoute(SplashRoute::class) || it.hasRoute(OnboardingRoute::class) }
+    return hierarchy.any { it.hasRoute(OnboardingRoute::class) }
 }
 
 private fun NavHostController.navigateToNotification(destination: NotificationDestination) {

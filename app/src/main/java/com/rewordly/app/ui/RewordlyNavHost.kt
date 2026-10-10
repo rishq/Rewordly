@@ -22,7 +22,6 @@ import com.rewordly.app.core.navigation.ReviewRoute
 import com.rewordly.app.core.navigation.SavedRoute
 import com.rewordly.app.core.navigation.SearchRoute
 import com.rewordly.app.core.navigation.SettingsRoute
-import com.rewordly.app.core.navigation.SplashRoute
 import com.rewordly.app.core.navigation.TopLevelDestination
 import com.rewordly.app.core.navigation.WordDetailsRoute
 import com.rewordly.app.domain.usecase.StartDestination
@@ -41,28 +40,23 @@ import com.rewordly.app.feature.review.ReviewScreen
 import com.rewordly.app.feature.saved.SavedScreen
 import com.rewordly.app.feature.search.SearchScreen
 import com.rewordly.app.feature.settings.SettingsScreen
-import com.rewordly.app.feature.splash.SplashScreen
 import com.rewordly.app.feature.word.WordDetailsScreen
 
 @Composable
-fun RewordlyNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
+fun RewordlyNavHost(
+    navController: NavHostController,
+    startDestination: StartDestination,
+    modifier: Modifier = Modifier,
+) {
     val openWord: (String) -> Unit = { id -> navController.navigate(WordDetailsRoute(id)) }
 
     NavHost(
         navController = navController,
-        startDestination = SplashRoute,
+        startDestination = if (startDestination == StartDestination.HOME) HomeRoute else OnboardingRoute,
         modifier = modifier,
         enterTransition = { fadeIn() },
         exitTransition = { fadeOut() },
     ) {
-        composable<SplashRoute> {
-            SplashScreen(
-                onFinished = { start ->
-                    val target: Any = if (start == StartDestination.HOME) HomeRoute else OnboardingRoute
-                    navController.navigate(target) { popUpTo<SplashRoute> { inclusive = true } }
-                },
-            )
-        }
         composable<OnboardingRoute> {
             OnboardingScreen(
                 onFinished = {

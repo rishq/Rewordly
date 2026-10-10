@@ -2,6 +2,7 @@ package com.rewordly.app.testing
 
 import com.rewordly.app.core.database.dao.DailyActivityDao
 import com.rewordly.app.core.database.dao.GenerationHistoryDao
+import com.rewordly.app.core.database.dao.GenerationHistorySummary
 import com.rewordly.app.core.database.dao.ProgressCounts
 import com.rewordly.app.core.database.dao.ReviewLogDao
 import com.rewordly.app.core.database.dao.ReviewLogTotals
@@ -67,6 +68,11 @@ class FakeWordDao(words: List<Word> = emptyList()) : WordDao {
     override fun observeById(id: String): Flow<PopulatedWord?> =
         observeAll(entities.value.firstOrNull { it.id == id }?.language.orEmpty())
             .map { list -> list.firstOrNull { it.word.id == id } }
+
+    override fun observeByIds(ids: List<String>): Flow<List<PopulatedWord>> {
+        val wanted = ids.toSet()
+        return entities.map { list -> list.filter { it.id in wanted }.map(::populate) }
+    }
 
     override suspend fun findByNormalizedText(language: String, keys: List<String>): List<WordKeyRow> = entities.value
         .filter { it.language == language && it.text.trim().lowercase() in keys }
@@ -176,8 +182,20 @@ class FakeReviewLogDao(
 class FakeGenerationHistoryDao : GenerationHistoryDao {
     val rows = MutableStateFlow<List<GenerationHistoryEntity>>(emptyList())
 
-    override fun observeAll(): Flow<List<GenerationHistoryEntity>> =
-        rows.map { list -> list.sortedByDescending { it.createdAt } }
+    override fun observeSummaries(): Flow<List<GenerationHistorySummary>> = rows.map { list ->
+        list.sortedByDescending { it.createdAt }.map {
+            GenerationHistorySummary(
+                id = it.id,
+                mode = it.mode,
+                description = it.description,
+                level = it.level,
+                requestedCount = it.requestedCount,
+                resultCount = it.resultCount,
+                createdAt = it.createdAt,
+                hasResult = it.resultJson != null,
+            )
+        }
+    }
 
     override suspend fun get(id: String): GenerationHistoryEntity? = rows.value.firstOrNull { it.id == id }
 

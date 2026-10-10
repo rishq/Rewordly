@@ -64,13 +64,18 @@ object GenerationResponseMapper {
         val seen = mutableSetOf<String>()
         var discarded = 0
         val accepted = mutableListOf<GeneratedWord>()
-        for (element in rawItems) {
+        for ((index, element) in rawItems.withIndex()) {
+            // Anything past the limit is dropped regardless, so it is counted without being decoded and
+            // validated field by field first.
+            if (accepted.size >= limit) {
+                discarded += rawItems.size - index
+                break
+            }
             val word = decode(json, element)?.let { validate(it, request) }
             when {
                 word == null -> discarded++
                 word.key in excluded || !seen.add(word.key) -> discarded++
-                accepted.size < limit -> accepted += word
-                else -> discarded++
+                else -> accepted += word
             }
         }
 

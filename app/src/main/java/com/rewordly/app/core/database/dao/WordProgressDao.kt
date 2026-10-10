@@ -2,6 +2,7 @@ package com.rewordly.app.core.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Upsert
 import com.rewordly.app.core.database.entity.WordProgressEntity
 import kotlinx.coroutines.flow.Flow
@@ -13,6 +14,21 @@ interface WordProgressDao {
 
     @Upsert
     suspend fun upsert(progress: WordProgressEntity)
+
+    /**
+     * Read-modify-write inside a single transaction. A separate get-then-upsert pair lets two writers - a
+     * view recorded while the save flag is toggled - overwrite each other's change; in one transaction they
+     * are serialised instead. [fallback] is the row to start from when the word has no progress yet, which
+     * keeps the column defaults in the data layer where the domain mapping already lives.
+     */
+    @Transaction
+    suspend fun update(
+        wordId: String,
+        fallback: WordProgressEntity,
+        transform: (WordProgressEntity) -> WordProgressEntity,
+    ) {
+        upsert(transform(get(wordId) ?: fallback))
+    }
 
     /** Words due before [endOfTodayMillis]. Missing or implausible schedules count as due. */
     @Query(

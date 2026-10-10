@@ -60,5 +60,23 @@
         android:name="autoStoreLocales"
         android:value="true" />
     </service>
+
+    <!--
+      Both of these initializers run on the main thread before the first frame, and neither is needed then:
+      the UI is Compose-only (no EmojiCompat), and WorkManager is only used once a reminder is scheduled -
+      it is initialised on demand through Configuration.Provider instead.
+    -->
+    <provider
+      android:name="androidx.startup.InitializationProvider"
+      android:authorities="${applicationId}.androidx-startup"
+      android:exported="false"
+      tools:node="merge">
+      <meta-data
+        android:name="androidx.emoji2.text.EmojiCompatInitializer"
+        tools:node="remove" />
+      <meta-data
+        android:name="androidx.work.WorkManagerInitializer"
+        tools:node="remove" />
+    </provider>
   </application>
 </manifest>

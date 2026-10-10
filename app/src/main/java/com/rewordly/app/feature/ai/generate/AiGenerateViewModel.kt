@@ -112,10 +112,16 @@ class AiGenerateViewModel @Inject constructor(
 
     private var job: Job? = null
 
+    /** What the repository already holds, so submitting a request never rewrites identical preferences. */
+    private var storedSettings: GenerationSettings? = null
+    private var storedTopic: String? = null
+
     init {
         viewModelScope.launch {
             val saved = settingsRepository.settings.first()
             val lastTopic = settingsRepository.lastTopic.first()
+            storedSettings = saved
+            storedTopic = lastTopic
             val preset = TopicPreset.entries.firstOrNull { it.apiName == lastTopic }
             _uiState.update {
                 it.copy(
@@ -195,10 +201,21 @@ class AiGenerateViewModel @Inject constructor(
         }
         update { copy(status = GenerationStatus.Loading, suggestion = null) }
         job = viewModelScope.launch {
-            settingsRepository.save(state.settings)
-            if (state.mode == GenerationMode.TOPIC) settingsRepository.saveLastTopic(state.topic)
+            persistInput(state)
             val result = generate(GenerationRequest(state.input, state.settings))
             update { copy(status = statusFor(result)).withSuggestion(result) }
+        }
+    }
+
+    /** Only writes what actually changed: the settings were already read once, so an unchanged form is free. */
+    private suspend fun persistInput(state: AiGenerateUiState) {
+        if (state.settings != storedSettings) {
+            settingsRepository.save(state.settings)
+            storedSettings = state.settings
+        }
+        if (state.mode == GenerationMode.TOPIC && state.topic != storedTopic) {
+            settingsRepository.saveLastTopic(state.topic)
+            storedTopic = state.topic
         }
     }
 

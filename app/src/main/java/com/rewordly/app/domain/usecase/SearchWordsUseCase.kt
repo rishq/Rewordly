@@ -4,8 +4,10 @@ import com.rewordly.app.domain.model.LearningLanguage
 import com.rewordly.app.domain.model.WordWithProgress
 import com.rewordly.app.domain.repository.VocabularyRepository
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 /**
@@ -20,9 +22,10 @@ class SearchWordsUseCase @Inject constructor(
         return if (query.isEmpty()) {
             flowOf(emptyList())
         } else {
-            vocabularyRepository.observeWords(language).map {
-                match(it, query)
-            }
+            // The whole vocabulary is scanned, ranked and sorted per emission, so it runs off the UI thread.
+            vocabularyRepository.observeWords(language)
+                .map { match(it, query) }
+                .flowOn(Dispatchers.Default)
         }
     }
 

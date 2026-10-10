@@ -12,6 +12,12 @@ interface VocabularyRepository {
 
     fun observeWords(language: LearningLanguage): Flow<List<WordWithProgress>>
 
+    /**
+     * Only the words in [ids]. A learning session knows its own word ids, so it reads those rows instead of
+     * re-hydrating the whole vocabulary every time a card is answered.
+     */
+    fun observeWordsByIds(ids: List<String>): Flow<List<WordWithProgress>>
+
     fun observeRecentWords(language: LearningLanguage, limit: Int): Flow<List<WordWithProgress>>
 
     fun observeSavedWords(language: LearningLanguage): Flow<List<WordWithProgress>>

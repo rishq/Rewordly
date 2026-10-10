@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -41,7 +42,6 @@ import com.rewordly.app.core.ui.theme.Dimens
 import com.rewordly.app.domain.model.ReviewDay
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,7 +84,9 @@ fun HistoryScreen(onBack: () -> Unit, viewModel: HistoryViewModel = hiltViewMode
 @Composable
 fun HistoryContent(state: HistoryUiState.Content, modifier: Modifier = Modifier) {
     val locale = LocalConfiguration.current.locales[0]
-    val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale)
+    // Loading locale data is the expensive part, so the formatter is built once per locale instead of
+    // once per recomposition.
+    val dateFormat = remember(locale) { DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale) }
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -106,13 +108,13 @@ fun HistoryContent(state: HistoryUiState.Content, modifier: Modifier = Modifier)
             )
         }
         items(state.days, key = { it.date.toEpochDay() }) { day ->
-            DayCard(day = day, title = dateFormat.format(day.date), locale = locale)
+            DayCard(day = day, title = dateFormat.format(day.date))
         }
     }
 }
 
 @Composable
-private fun DayCard(day: ReviewDay, title: String, locale: Locale) {
+private fun DayCard(day: ReviewDay, title: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

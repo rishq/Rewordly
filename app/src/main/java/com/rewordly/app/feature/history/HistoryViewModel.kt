@@ -13,12 +13,14 @@ import java.time.DayOfWeek
 import java.time.temporal.WeekFields
 import java.util.Locale
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
@@ -62,7 +64,10 @@ class HistoryViewModel @Inject constructor(
                     firstDayOfWeek = firstDay,
                 )
             } as HistoryUiState
-        }.catch { emit(HistoryUiState.Error(AppError.Database(it))) }
+        }
+            // Grouping 365 days and rebuilding a 15x7 calendar is not main-thread work.
+            .flowOn(Dispatchers.Default)
+            .catch { emit(HistoryUiState.Error(AppError.Database(it))) }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS), HistoryUiState.Loading)
 
     fun retry() {

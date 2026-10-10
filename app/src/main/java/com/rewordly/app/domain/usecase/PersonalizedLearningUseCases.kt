@@ -12,8 +12,10 @@ import com.rewordly.app.domain.service.LearningInsightCalculator
 import com.rewordly.app.domain.service.RecommendationEngine
 import com.rewordly.app.domain.service.RecommendationInput
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 
 /**
  * Builds today's personalized plan from local data only. It is a flow, so the plan is recomputed
@@ -42,6 +44,8 @@ class BuildDailyLearningPlanUseCase @Inject constructor(
             ),
         )
     }
+        // Ranking scans and sorts the whole vocabulary; it must not run on the collector's (main) thread.
+        .flowOn(Dispatchers.Default)
 }
 
 /** Observable learning insights, reused by the Home summary and the insights section. */
@@ -54,4 +58,6 @@ class ObserveLearningInsightUseCase @Inject constructor(
         progressRepository.observeOverview(),
         progressRepository.observeHistory(),
     ) { words, overview, history -> LearningInsightCalculator.calculate(words, overview, history) }
+        // The insight walks the whole vocabulary and the full history on every emission.
+        .flowOn(Dispatchers.Default)
 }

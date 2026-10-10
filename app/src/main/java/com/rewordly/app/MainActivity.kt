@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -60,7 +61,8 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContent {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-            val themeMode = (uiState as? MainUiState.Ready)?.settings?.themeMode ?: ThemeMode.SYSTEM
+            val ready = uiState as? MainUiState.Ready
+            val themeMode = ready?.settings?.themeMode ?: ThemeMode.SYSTEM
             val darkTheme = themeMode.isDark()
 
             DisposableEffect(darkTheme) {
@@ -72,11 +74,22 @@ class MainActivity : AppCompatActivity() {
             }
 
             RewordlyTheme(darkTheme = darkTheme) {
-                val pronunciationEngine = EntryPointAccessors
-                    .fromApplication(applicationContext, PronunciationEngineEntryPoint::class.java)
-                    .pronunciationEngine()
+                // Resolved once: the entry point cannot change for the lifetime of the activity, and looking
+                // it up in the composition body re-ran the lookup on every root recomposition.
+                val pronunciationEngine = remember {
+                    EntryPointAccessors
+                        .fromApplication(applicationContext, PronunciationEngineEntryPoint::class.java)
+                        .pronunciationEngine()
+                }
                 CompositionLocalProvider(LocalPronunciationEngine provides pronunciationEngine) {
-                    RewordlyApp(notificationNavigation = notificationNavigation)
+                    // Nothing is drawn until the destination is known - the system splash covers the wait,
+                    // so there is exactly one splash and one logo.
+                    ready?.let {
+                        RewordlyApp(
+                            notificationNavigation = notificationNavigation,
+                            startDestination = it.startDestination,
+                        )
+                    }
                 }
             }
         }

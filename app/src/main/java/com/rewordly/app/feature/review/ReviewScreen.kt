@@ -25,6 +25,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -155,9 +157,17 @@ private fun ReviewInProgress(
     // Both answers are the same two the swipe offers, so the wording lives in one place.
     val remembered = stringResource(R.string.study_answer_remembered)
     val forgotten = stringResource(R.string.study_answer_forgot)
-    val answer: (Boolean) -> Unit = { wasRemembered ->
-        onEvent(ReviewUiEvent.Answer(if (wasRemembered) ReviewRating.GOOD else ReviewRating.AGAIN))
+    val currentOnEvent by rememberUpdatedState(onEvent)
+    // Remembered so the card and the answer bar keep skipping on unrelated state changes (the feedback
+    // banner, the progress tick): a fresh lambda each recomposition made every child recompose. The
+    // handler itself is read through rememberUpdatedState, so the remembered lambda never goes stale.
+    val answer: (Boolean) -> Unit = remember {
+        { wasRemembered ->
+            currentOnEvent(ReviewUiEvent.Answer(if (wasRemembered) ReviewRating.GOOD else ReviewRating.AGAIN))
+        }
     }
+    val onSwipeLeft: () -> Unit = remember(answer) { { answer(true) } }
+    val onSwipeRight: () -> Unit = remember(answer) { { answer(false) } }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -176,8 +186,8 @@ private fun ReviewInProgress(
             SwipeableCard(
                 leftLabel = remembered,
                 rightLabel = forgotten,
-                onSwipeLeft = { answer(true) },
-                onSwipeRight = { answer(false) },
+                onSwipeLeft = onSwipeLeft,
+                onSwipeRight = onSwipeRight,
                 enabled = !state.isSubmitting,
                 // A failed save changes the key too, which springs the card back into view.
                 resetKey = state.current.word.id to state.submitFailed,
@@ -249,15 +259,20 @@ private fun DetailsButton(wordId: String, word: String, onOpenWord: (String) -> 
 /** Front shows the word alone, back adds the answer, so revealing turns the card over. */
 @Composable
 private fun ReviewFlashCard(item: WordWithProgress, revealed: Boolean) {
-    val face: @Composable (Boolean) -> Unit = { showTranslation ->
-        VocabularyCard(
-            word = item.word,
-            isSaved = item.progress.isSaved,
-            isLearned = item.progress.isGraduated,
-            showTranslation = showTranslation,
-        )
-    }
-    FlipCard(flipped = revealed, front = { face(false) }, back = { face(true) })
+    // The two faces are remembered per word: rebuilding them on every recomposition forced the whole card
+    // subtree to recompose even when nothing it shows had changed.
+    val front = remember(item) { card(item, showTranslation = false) }
+    val back = remember(item) { card(item, showTranslation = true) }
+    FlipCard(flipped = revealed, front = front, back = back)
+}
+
+private fun card(item: WordWithProgress, showTranslation: Boolean): @Composable () -> Unit = {
+    VocabularyCard(
+        word = item.word,
+        isSaved = item.progress.isSaved,
+        isLearned = item.progress.isGraduated,
+        showTranslation = showTranslation,
+    )
 }
 
 @Composable

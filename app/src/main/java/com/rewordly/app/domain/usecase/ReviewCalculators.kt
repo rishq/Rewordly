@@ -38,8 +38,15 @@ object ReviewHistoryCalculator {
      * Daily activity for streak and goal. Legacy rows (written before the review log existed) fill days the
      * log knows nothing about; where both exist the larger counter wins so nothing is counted twice.
      */
-    fun activity(entries: List<ReviewLogEntry>, legacy: List<DailyActivity>, zone: ZoneId): List<DailyActivity> {
-        val fromLog = byDay(entries, zone).associate {
+    fun activity(entries: List<ReviewLogEntry>, legacy: List<DailyActivity>, zone: ZoneId): List<DailyActivity> =
+        activity(byDay(entries, zone), legacy)
+
+    /**
+     * Same merge as [activity], for callers that already grouped the log and must not pay to group it twice.
+     * The day grouping is the expensive half (filter + groupBy + per-group scan + sort), so it is passed in.
+     */
+    fun activity(days: List<ReviewDay>, legacy: List<DailyActivity>): List<DailyActivity> {
+        val fromLog = days.associate {
             it.date to DailyActivity(it.date, wordsLearned = it.wordsLearned, wordsReviewed = it.reviews)
         }
         val merged = (legacy.associateBy { it.date }).toMutableMap()

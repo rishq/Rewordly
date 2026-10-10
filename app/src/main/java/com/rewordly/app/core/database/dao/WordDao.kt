@@ -49,6 +49,11 @@ interface WordDao {
     @Query("SELECT * FROM words WHERE id = :id")
     fun observeById(id: String): Flow<PopulatedWord?>
 
+    /** Only the requested rows, for callers that know exactly which words they need (e.g. a session). */
+    @Transaction
+    @Query("SELECT * FROM words WHERE id IN (:ids)")
+    fun observeByIds(ids: List<String>): Flow<List<PopulatedWord>>
+
     /** Existing words whose lower-cased, trimmed text is one of [keys]; used to detect duplicates. */
     @Query("SELECT id, text FROM words WHERE language = :language AND LOWER(TRIM(text)) IN (:keys)")
     suspend fun findByNormalizedText(language: String, keys: List<String>): List<WordKeyRow>

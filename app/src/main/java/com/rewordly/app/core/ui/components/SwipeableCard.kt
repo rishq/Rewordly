@@ -61,21 +61,22 @@ fun SwipeableCard(
     val scope = rememberCoroutineScope()
     val scheme = MaterialTheme.colorScheme
     val flingDuration = motionMillis(FLING_MILLIS)
+    val actions = remember(leftLabel, rightLabel, onSwipeLeft, onSwipeRight) {
+        listOf(
+            CustomAccessibilityAction(leftLabel) {
+                onSwipeLeft()
+                true
+            },
+            CustomAccessibilityAction(rightLabel) {
+                onSwipeRight()
+                true
+            },
+        )
+    }
 
     Box(
         modifier = modifier
-            .semantics {
-                customActions = listOf(
-                    CustomAccessibilityAction(leftLabel) {
-                        onSwipeLeft()
-                        true
-                    },
-                    CustomAccessibilityAction(rightLabel) {
-                        onSwipeRight()
-                        true
-                    },
-                )
-            }
+            .semantics { customActions = actions }
             .pointerInput(enabled, resetKey) {
                 if (!enabled) return@pointerInput
                 detectHorizontalDragGestures(
@@ -102,15 +103,16 @@ fun SwipeableCard(
                 )
             },
     ) {
-        val progress = (offset.value / threshold).coerceIn(-1f, 1f)
-        // The badge sits on the edge the card is moving away from, so it is revealed by the gesture.
+        // The badges read the drag offset inside their own layer lambdas, so a drag moves them without
+        // recomposing anything. Reading it here in the composition body would recompose the whole card
+        // (and both badges) once per touch event.
         SwipeBadge(
             text = rightLabel,
             container = scheme.errorContainer,
             content = scheme.onErrorContainer,
             alignment = Alignment.TopStart,
             rotation = -BADGE_ROTATION,
-            alpha = progress.coerceAtLeast(0f),
+            alpha = { (offset.value / threshold).coerceIn(-1f, 1f).coerceAtLeast(0f) },
         )
         SwipeBadge(
             text = leftLabel,
@@ -118,7 +120,7 @@ fun SwipeableCard(
             content = scheme.onPrimary,
             alignment = Alignment.TopEnd,
             rotation = BADGE_ROTATION,
-            alpha = (-progress).coerceAtLeast(0f),
+            alpha = { (-offset.value / threshold).coerceIn(-1f, 1f).coerceAtLeast(0f) },
         )
         Box(
             modifier = Modifier.graphicsLayer {
@@ -138,14 +140,14 @@ private fun BoxScope.SwipeBadge(
     content: Color,
     alignment: Alignment,
     rotation: Float,
-    alpha: Float,
+    alpha: () -> Float,
 ) {
     Surface(
         modifier = Modifier
             .align(alignment)
             .padding(Dimens.spaceMd)
             .graphicsLayer {
-                this.alpha = alpha
+                this.alpha = alpha()
                 rotationZ = rotation
             }
             .clearAndSetSemantics { },
