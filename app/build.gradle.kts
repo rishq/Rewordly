@@ -38,13 +38,18 @@ android {
         applicationId = "com.rewordly.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = versionCodeOverride ?: 5
-        versionName = versionNameOverride ?: "0.1.3"
+        versionCode = versionCodeOverride ?: 6
+        versionName = versionNameOverride ?: "0.1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
         buildConfigField("String", "API_BASE_URL", "\"$apiBaseUrl\"")
+
+        // Rewordly ships Russian (the default `values/`) and English (`values-en/`) only. Without this,
+        // every AndroidX/Material library drags in its own translations for ~100 locales, which was the
+        // single largest thing in the resource table. Keep the two locales the app actually speaks.
+        resourceConfigurations += listOf("en", "ru")
     }
 
     signingConfigs {
