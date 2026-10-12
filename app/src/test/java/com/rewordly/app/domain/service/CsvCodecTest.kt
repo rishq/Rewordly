@@ -122,6 +122,43 @@ class CsvCodecTest {
         assertEquals(listOf(listOf("'tis the season")), CsvCodec.parse(written))
     }
 
+    /**
+     * A literal apostrophe followed by a formula character is the one value the guard could not tell apart
+     * from itself: it used to be written unchanged and read back with the apostrophe eaten, so a round trip
+     * through export and import silently changed the user's text.
+     */
+    @Test
+    fun aLiteralApostropheBeforeAFormulaCharacter_survivesTheRoundTrip() {
+        AMBIGUOUS_APOSTROPHE_VALUES.forEach { value ->
+            val written = CsvCodec.write(listOf(listOf(value)))
+
+            assertEquals(
+                "'$value' did not survive the round trip (file held ${written.trim()})",
+                listOf(listOf(value)),
+                CsvCodec.parse(written),
+            )
+        }
+    }
+
+    /**
+     * The literal case has to be written in a shape [parse] reads back as data rather than as a guard: the
+     * apostrophe is doubled, and because the guard was added the value is quoted too, so a reader that strips
+     * quotes before looking for the apostrophe still finds it.
+     */
+    @Test
+    fun escape_protectsALiteralApostropheInFrontOfAFormulaCharacter() {
+        assertEquals("\"''=foo\"", CsvCodec.escape("'=foo"))
+        assertEquals("\"'''\"", CsvCodec.escape("''"))
+        assertEquals("'tis the season", CsvCodec.escape("'tis the season"))
+    }
+
+    /** A single apostrophe is never a guard, so it must be left exactly as it is. */
+    @Test
+    fun escape_leavesABareApostropheAlone() {
+        assertEquals("'", CsvCodec.escape("'"))
+        assertEquals(listOf(listOf("'")), CsvCodec.parse(CsvCodec.write(listOf(listOf("'")))))
+    }
+
     private companion object {
         val FORMULA_PAYLOADS = listOf(
             "=1+1",
@@ -130,6 +167,16 @@ class CsvCodecTest {
             "@SUM(A1)",
             "=HYPERLINK(\"http://example.invalid\",\"click\")",
             "=cmd|'/C calc'!A0",
+        )
+
+        /** Literal data that starts with an apostrophe in the shape of a guard. */
+        val AMBIGUOUS_APOSTROPHE_VALUES = listOf(
+            "'=foo",
+            "'+1",
+            "'-1",
+            "'@name",
+            "''",
+            "'=HYPERLINK(\"http://example.invalid\")",
         )
 
         /** The characters a spreadsheet treats as the start of a formula, plus the two that also work. */

@@ -95,19 +95,35 @@ object CsvCodec {
      * apostrophe still sees it.
      */
     fun escape(value: String): String {
-        val guarded = if (value.isNotEmpty() && value[0] in FORMULA_STARTERS) GUARD + value else value
+        val guarded = if (needsGuard(value)) GUARD + value else value
         val needsQuotes = guarded.length != value.length ||
             guarded.any { it == DELIMITER || it == QUOTE || it == '\n' || it == '\r' }
         return if (needsQuotes) QUOTE + guarded.replace(QUOTE.toString(), ESCAPED_QUOTE) + QUOTE else guarded
     }
 
     /**
+     * True when [value] has to be written with a leading [GUARD].
+     *
+     * Two cases. The first is the obvious one: a value a spreadsheet would run as a formula. The second is
+     * what makes the encoding reversible - a value that already begins with an apostrophe followed by
+     * something [unescapeGuard] reads as a guard. Without it a literal `'=foo` was written unchanged and came
+     * back as `=foo`, so an export and import round trip silently changed the user's own text.
+     */
+    private fun needsGuard(value: String): Boolean = value.isNotEmpty() &&
+        (value[0] in FORMULA_STARTERS || (value[0] == GUARD && value.length > 1 && opensGuard(value[1])))
+
+    /**
      * Undoes the guard [escape] added.
      *
-     * Only a single apostrophe directly in front of a formula character is removed, so ordinary text such as
-     * `'tis` is left alone. A value that genuinely begins with `'=` therefore loses its apostrophe on the way
-     * back in: that is the one case this encoding cannot tell apart from a guard.
+     * Only a single apostrophe directly in front of a guard-opened value is removed, so ordinary text such as
+     * `'tis` is left alone.
      */
     private fun unescapeGuard(value: String): String =
-        if (value.length > 1 && value[0] == GUARD && value[1] in FORMULA_STARTERS) value.substring(1) else value
+        if (value.length > 1 && value[0] == GUARD && opensGuard(value[1])) value.substring(1) else value
+
+    /**
+     * The characters that follow a guard when it is real rather than literal data: another apostrophe, which
+     * [escape] wrote to protect a literal one, or a formula character.
+     */
+    private fun opensGuard(char: Char): Boolean = char == GUARD || char in FORMULA_STARTERS
 }
