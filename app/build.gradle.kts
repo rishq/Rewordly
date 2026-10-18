@@ -38,8 +38,8 @@ android {
         applicationId = "com.rewordly.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = versionCodeOverride ?: 6
-        versionName = versionNameOverride ?: "0.1.4"
+        versionCode = versionCodeOverride ?: 7
+        versionName = versionNameOverride ?: "0.1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -59,6 +59,8 @@ android {
                 storePassword = configValue("REWORDLY_KEYSTORE_PASSWORD")
                 keyAlias = configValue("REWORDLY_KEY_ALIAS")
                 keyPassword = configValue("REWORDLY_KEY_PASSWORD")
+                // Explicit so key-rotation attestations survive updates even if AGP defaults change.
+                enableV3Signing = true
             }
         }
     }
@@ -114,6 +116,8 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            // kotlinx-coroutines-core ships a debug-agent probe class that no device needs.
+            excludes += "/DebugProbesKt.bin"
         }
     }
 }

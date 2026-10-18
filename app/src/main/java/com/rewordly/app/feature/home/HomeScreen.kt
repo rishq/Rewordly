@@ -30,13 +30,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rewordly.app.R
 import com.rewordly.app.core.ui.components.EmptyState
 import com.rewordly.app.core.ui.components.ErrorState
-import com.rewordly.app.core.ui.components.GoalReachedCard
 import com.rewordly.app.core.ui.components.LoadingState
 import com.rewordly.app.core.ui.components.PrimaryButton
 import com.rewordly.app.core.ui.components.ProgressCard
 import com.rewordly.app.core.ui.components.RecommendedWordItem
-import com.rewordly.app.core.ui.components.ReviewDoneCard
-import com.rewordly.app.core.ui.components.ReviewDueCard
 import com.rewordly.app.core.ui.components.SectionCard
 import com.rewordly.app.core.ui.components.SectionHeader
 import com.rewordly.app.core.ui.components.StatTile
@@ -51,7 +48,6 @@ import com.rewordly.app.feature.ai.AiEntryCard
 @Composable
 fun HomeScreen(
     onContinueLearning: () -> Unit,
-    onStartReview: () -> Unit,
     onOpenWord: (String) -> Unit,
     onOpenSaved: () -> Unit,
     onOpenAi: () -> Unit,
@@ -71,7 +67,6 @@ fun HomeScreen(
                 state = state,
                 contentPadding = padding,
                 onContinueLearning = onContinueLearning,
-                onStartReview = onStartReview,
                 onOpenWord = onOpenWord,
                 onOpenSaved = onOpenSaved,
                 onOpenAi = onOpenAi,
@@ -86,7 +81,6 @@ private fun HomeContent(
     state: HomeUiState.Success,
     contentPadding: PaddingValues,
     onContinueLearning: () -> Unit,
-    onStartReview: () -> Unit,
     onOpenWord: (String) -> Unit,
     onOpenSaved: () -> Unit,
     onOpenAi: () -> Unit,
@@ -126,32 +120,15 @@ private fun HomeContent(
         }
         item(key = "plan") {
             TodayPlanCard(
-                reviewCount = state.plan.reviewCount,
                 newWordCount = state.plan.newWordCount,
                 easedOff = state.plan.easedOff,
-                onStartReview = onStartReview,
                 onStartLearning = onContinueLearning,
             )
         }
-        item(key = "review") {
-            if (overview.wordsDueToday > 0) {
-                ReviewDueCard(
-                    dueToday = overview.wordsDueToday,
-                    reviewedToday = overview.reviewedToday,
-                    onStartReview = onStartReview,
-                )
-            } else {
-                ReviewDoneCard(reviewedToday = overview.reviewedToday)
-            }
-        }
-        item(key = "progress") {
-            if (insight.isGoalReached) {
-                GoalReachedCard(
-                    learnedToday = insight.learnedToday,
-                    dailyGoal = insight.dailyGoal,
-                    onReview = onStartReview,
-                )
-            } else {
+        // Once the daily goal is met the card would just repeat 100% forever, so it goes away until
+        // tomorrow; the plan card above carries the continue-learning action either way.
+        if (!insight.isGoalReached) {
+            item(key = "progress") {
                 ProgressCard(
                     learnedToday = insight.learnedToday,
                     dailyGoal = insight.dailyGoal,

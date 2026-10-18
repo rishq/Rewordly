@@ -11,10 +11,12 @@ import com.rewordly.app.domain.model.WordSource
 import com.rewordly.app.domain.model.WordStatus
 import com.rewordly.app.domain.model.WordWithProgress
 import com.rewordly.app.domain.model.toWord
+import com.rewordly.app.domain.service.VocabularyImportParser
 import com.rewordly.app.domain.usecase.StudyQueueBuilder
 import com.rewordly.app.testing.FakeGenerationHistoryDao
 import com.rewordly.app.testing.FakeWordDao
 import com.rewordly.app.testing.FakeWordProgressDao
+import com.rewordly.app.testing.SequentialIdProvider
 import com.rewordly.app.testing.TestTimeProvider
 import com.rewordly.app.testing.generatedWord
 import com.rewordly.app.testing.progressOf
@@ -102,7 +104,14 @@ class GenerationStorageTest {
 
     private val wordDao = FakeWordDao(MockVocabulary.words)
     private val progressDao = FakeWordProgressDao(wordDao.progress)
-    private val vocabulary = OfflineVocabularyRepository(wordDao, progressDao, TestTimeProvider())
+    private val vocabulary = OfflineVocabularyRepository(
+        wordDao = wordDao,
+        progressDao = progressDao,
+        importParser = VocabularyImportParser(Json),
+        idProvider = SequentialIdProvider(prefix = "ai"),
+        timeProvider = TestTimeProvider(),
+        seedSource = VocabularySeedSource { "" },
+    )
 
     @Test
     fun addWords_insertsGeneratedWordsWithTheirExamples() = runTest {

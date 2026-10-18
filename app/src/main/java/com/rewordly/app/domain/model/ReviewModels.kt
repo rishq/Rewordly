@@ -75,7 +75,6 @@ sealed interface ReviewSubmitResult {
 }
 
 /** Words waiting for review. [items] is capped per session, [totalDue] is the real workload. */
-data class ReviewQueue(val items: List<WordWithProgress>, val totalDue: Int)
 
 data class ReviewStatistics(
     val totalReviews: Int = 0,

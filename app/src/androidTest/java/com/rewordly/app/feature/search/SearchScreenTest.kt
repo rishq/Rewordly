@@ -38,9 +38,6 @@ class SearchScreenTest {
                 uiState = state,
                 filters = filters,
                 onFiltersChange = { filters = it },
-                onSubmit = {},
-                onRecentSelected = {},
-                onClearRecent = {},
                 onOpenWord = { openedWordId = it },
             )
         }
@@ -73,12 +70,6 @@ class SearchScreenTest {
         show(SearchUiState.NoResults("zzz"))
         compose.onNodeWithText(uiString(R.string.search_empty_title)).assertIsDisplayed()
         compose.onNodeWithText(uiString(R.string.search_empty_message, "zzz"), substring = true).assertIsDisplayed()
-    }
-
-    @Test
-    fun idleState_showsRecentSearches() {
-        show(SearchUiState.Idle(listOf("opportunity")))
-        compose.onNodeWithText("opportunity").assertIsDisplayed()
     }
 
     @Test

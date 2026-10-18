@@ -92,6 +92,9 @@ jobs:
         run: |
           mkdir -p dist
           cp app/build/outputs/apk/release/app-release.apk "dist/rewordly-${REWORDLY_VERSION_NAME}.apk"
+          cp -r app/build/outputs/mapping/release "dist/mapping-${REWORDLY_VERSION_NAME}"
+          zip -qr "dist/rewordly-${REWORDLY_VERSION_NAME}-mapping.zip" "dist/mapping-${REWORDLY_VERSION_NAME}"
+          rm -rf "dist/mapping-${REWORDLY_VERSION_NAME}"
           ls -l dist
 
       - name: Upload the APK as a workflow artifact
@@ -101,13 +104,20 @@ jobs:
           path: dist/*.apk
           retention-days: 30
 
+      - name: Upload the R8 mapping as a workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-mapping
+          path: dist/*-mapping.zip
+          retention-days: 90
+
       - name: Publish the GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           tag="${{ github.ref_name }}"
           if gh release view "$tag" >/dev/null 2>&1; then
-            gh release upload "$tag" dist/*.apk --clobber
+            gh release upload "$tag" dist/*.apk dist/*-mapping.zip --clobber
           else
-            gh release create "$tag" dist/*.apk --title "$tag" --generate-notes
+            gh release create "$tag" dist/*.apk dist/*-mapping.zip --title "$tag" --generate-notes
           fi

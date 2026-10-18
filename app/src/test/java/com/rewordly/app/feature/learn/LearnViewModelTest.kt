@@ -80,13 +80,13 @@ class LearnViewModelTest {
     }
 
     @Test
-    fun restart_startsAFreshSession() = runTest {
+    fun aFinishedBatch_chainsStraightIntoTheNextOne() = runTest {
         val vm = viewModel()
-        vm.onEvent(LearnUiEvent.Answer(remembered = true))
-        vm.onEvent(LearnUiEvent.Restart)
-        val state = vm.content()
-        assertEquals(0, state.completedCount)
-        assertEquals(0, state.index)
+        repeat(3) { vm.onEvent(LearnUiEvent.Answer(remembered = true)) }
+        // Three fresh words graduated, so only the fourth is left for the next chunk of the loop.
+        assertTrue(vm.uiState.value is LearnUiState.Content)
+        assertEquals(1, vm.content().total)
+        assertEquals(0, vm.content().index)
     }
 
     @Test
@@ -231,6 +231,104 @@ class LearnViewModelTest {
         assertTrue(repository.progressOf(first).isSaved)
     }
 
+    // ---- typed answers, letter hints and variants ----
+
+    /** The card is Russian-first now, so everything the user produces or picks is the English word. */
+    private fun LearnViewModel.correctAnswer(): String = content().current.word.text
+
+    @Test
+    fun typingTheCorrectWord_answersTheCard() = runTest {
+        val vm = viewModel()
+        val first = vm.content().current.word.id
+        vm.onEvent(LearnUiEvent.TypeText(vm.correctAnswer().uppercase()))
+        vm.onEvent(LearnUiEvent.TypeCheck)
+
+        assertEquals(1, vm.content().index)
+        assertEquals(WordStatus.LEARNED, repository.progressOf(first).status)
+    }
+
+    @Test
+    fun aWrongTypedAnswer_showsAMismatch_keepsTheCard() = runTest {
+        val vm = viewModel()
+        vm.onEvent(LearnUiEvent.TypeText("tralala"))
+        vm.onEvent(LearnUiEvent.TypeCheck)
+
+        assertTrue(vm.content().typeMismatch)
+        assertEquals(0, vm.content().index)
+        assertTrue(reviews.submissions.isEmpty())
+        // Editing clears the mismatch again.
+        vm.onEvent(LearnUiEvent.TypeText("tralal"))
+        assertFalse(vm.content().typeMismatch)
+    }
+
+    @Test
+    fun aLetterHint_startsFromTheFirstLetter_thenBuildsTheWord() = runTest {
+        val vm = viewModel()
+        val target = vm.correctAnswer()
+        vm.onEvent(LearnUiEvent.TypeHint)
+        assertEquals(target.take(1), vm.content().typed)
+        vm.onEvent(LearnUiEvent.TypeHint)
+        vm.onEvent(LearnUiEvent.TypeHint)
+        assertEquals(target.take(3), vm.content().typed)
+        assertFalse(vm.content().typeMismatch)
+    }
+
+    @Test
+    fun typingIsLenientAboutCaseButNotAboutTheWord() = runTest {
+        val vm = viewModel()
+        vm.onEvent(LearnUiEvent.TypeText(vm.correctAnswer().lowercase().replaceFirstChar { it.uppercase() }))
+        vm.onEvent(LearnUiEvent.TypeCheck)
+        assertEquals(1, vm.content().index)
+    }
+
+    @Test
+    fun theCorrectVariant_isAmongTheOfferedOnes() = runTest {
+        val vm = viewModel()
+        val variants = vm.content().variants
+        assertEquals(3, variants.size)
+        assertTrue(variants.contains(vm.correctAnswer()))
+    }
+
+    @Test
+    fun pickingTheCorrectVariant_answersTheCard() = runTest {
+        val vm = viewModel()
+        vm.onEvent(LearnUiEvent.PickVariant(vm.correctAnswer()))
+        assertEquals(1, vm.content().index)
+    }
+
+    @Test
+    fun pickingAWrongVariant_showsAMismatch_keepsTheCard() = runTest {
+        val vm = viewModel()
+        val wrong = vm.content().variants.first { it != vm.correctAnswer() }
+        vm.onEvent(LearnUiEvent.PickVariant(wrong))
+
+        assertTrue(vm.content().typeMismatch)
+        assertEquals(0, vm.content().index)
+        assertTrue(reviews.submissions.isEmpty())
+    }
+
+    @Test
+    fun selectingATypeMode_foldsAndUnfoldsEachTime() = runTest {
+        val vm = viewModel()
+        vm.onEvent(LearnUiEvent.SelectMode(StudyMode.TYPE))
+        assertEquals(StudyMode.TYPE, vm.content().answerMode)
+        vm.onEvent(LearnUiEvent.SelectMode(StudyMode.TYPE))
+        assertEquals(null, vm.content().answerMode)
+    }
+
+    @Test
+    fun choosingToSeeTheTranslation_revealsIt_andAnswersStayAvailable() = runTest {
+        val vm = viewModel()
+        vm.onEvent(LearnUiEvent.SelectMode(StudyMode.SEE))
+        assertEquals(StudyMode.SEE, vm.content().answerMode)
+        assertTrue(vm.content().revealed)
+        assertTrue(reviews.submissions.isEmpty())
+
+        // The reveal never counts as an answer on its own; the answer bar still decides.
+        vm.onEvent(LearnUiEvent.Answer(remembered = true))
+        assertEquals(1, vm.content().index)
+    }
+
     @Test
     fun openingACard_isRecordedAsAView() = runTest {
         viewModel()
@@ -240,11 +338,16 @@ class LearnViewModelTest {
     // ---- completion and failure ----
 
     @Test
-    fun answeringEveryCard_finishesTheSession() = runTest {
-        val vm = viewModel()
-        repeat(3) { vm.onEvent(LearnUiEvent.Answer(remembered = true)) }
-        assertTrue(vm.uiState.value is LearnUiState.Finished)
-        assertEquals(3, (vm.uiState.value as LearnUiState.Finished).completedCount)
+    fun whenTheVocabularyRunsOut_theLoopEndsWithTheEmptyState() = runTest {
+        repository.items.value = repository.items.value.map {
+            it.copy(
+                progress = it.progress.copy(
+                    status = WordStatus.LEARNED,
+                    repetitionCount = LearningRules.GRADUATION_REPETITIONS,
+                ),
+            )
+        }
+        assertTrue(viewModel().uiState.value is LearnUiState.Empty)
     }
 
     @Test

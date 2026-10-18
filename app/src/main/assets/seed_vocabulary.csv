@@ -1,0 +1,1259 @@
+word,translation,part_of_speech,definition,definition_translation,example,example_translation,topic,difficulty
+acquaintance,знакомый,noun,,,,,people,B1
+adult,взрослый,noun,,,,,people,B1
+ancestor,предок,noun,,,,,people,B1
+companion,спутник,noun,,,,,people,B1
+couple,пара,noun,,,,,people,B1
+crowd,толпа,noun,,,,,people,B1
+cousin,двоюродный брат/сестра,noun,,,,,people,B1
+customer,клиент,noun,,,,,people,B1
+enemy,враг,noun,,,,,people,B1
+expert,эксперт,noun,,,,,people,B1
+generation,поколение,noun,,,,,people,B1
+guest,гость,noun,,,,,people,B1
+host,хозяин,noun,,,,,people,B1
+infant,младенец,noun,,,,,people,B1
+journalist,журналист,noun,,,,,people,B1
+male,мужской,adjective,,,,,people,B1
+member,член,noun,,,,,people,B1
+mate,приятель,noun,,,,,people,B1
+neighbour,сосед,noun,,,,,people,B1
+nephew,племянник,noun,,,,,people,B1
+niece,племянница,noun,,,,,people,B1
+parent,родитель,noun,,,,,people,B1
+partner,партнёр,noun,,,,,people,B1
+passenger,пассажир,noun,,,,,people,B1
+pupil,ученик,noun,,,,,people,B1
+relative,родственник,noun,,,,,people,B1
+teenager,подросток,noun,,,,,people,B1
+twin,близнец,noun,,,,,people,B1
+volunteer,волонтёр,noun,,,,,people,B1
+widow,вдова,noun,,,,,people,B1
+youth,молодёжь,noun,,,,,people,B1
+champion,чемпион,noun,,,,,people,B1
+employer,работодатель,noun,,,,,people,B1
+artist,художник,noun,,,,,people,B1
+scientist,учёный,noun,,,,,people,B1
+engineer,инженер,noun,,,,,people,B1
+judge,судья,noun,,,,,people,B1
+soldier,солдат,noun,,,,,people,B1
+pilot,пилот,noun,,,,,people,B1
+balcony,балкон,noun,,,,,home,B1
+basement,подвал,noun,,,,,home,B1
+bathroom,ванная,noun,,,,,home,B1
+blanket,одеяло,noun,,,,,home,B1
+ceiling,потолок,noun,,,,,home,B1
+chimney,дымоход,noun,,,,,home,B1
+cushion,подушка,noun,,,,,home,B1
+drawer,ящик,noun,,,,,home,B1
+elevator,лифт,noun,,,,,home,B1
+fence,забор,noun,,,,,home,B1
+furniture,мебель,noun,,,,,home,B1
+garage,гараж,noun,,,,,home,B1
+gate,ворота,noun,,,,,home,B1
+heating,отопление,noun,,,,,home,B1
+landlord,домовладелец,noun,,,,,home,B1
+mirror,зеркало,noun,,,,,home,B1
+pillow,подушка,noun,,,,,home,B1
+rent,аренда,noun,,,,,home,B1
+roof,крыша,noun,,,,,home,B1
+shelf,полка,noun,,,,,home,B1
+sink,раковина,noun,,,,,home,B1
+stairs,лестница,noun,,,,,home,B1
+tenant,арендатор,noun,,,,,home,B1
+tile,плитка,noun,,,,,home,B1
+towel,полотенце,noun,,,,,home,B1
+mortgage,ипотека,noun,,,,,home,B1
+rubbish,мусор,noun,,,,,home,B1
+vacuum,пылесос,noun,,,,,home,B1
+iron,утюг,noun,,,,,home,B1
+washing machine,стиральная машина,noun,,,,,home,B1
+appetite,аппетит,noun,,,,,food,B1
+bakery,пекарня,noun,,,,,food,B1
+beef,говядина,noun,,,,,food,B1
+biscuit,печенье,noun,,,,,food,B1
+bitter,горький,adjective,,,,,food,B1
+bowl,миска,noun,,,,,food,B1
+cereal,злаки,noun,,,,,food,B1
+cherry,вишня,noun,,,,,food,B1
+cooker,плита,noun,,,,,food,B1
+cucumber,огурец,noun,,,,,food,B1
+delicious,вкусный,adjective,,,,,food,B1
+dessert,десерт,noun,,,,,food,B1
+diet,диета,noun,,,,,food,B1
+dough,тесто,noun,,,,,food,B1
+fry,жарить,verb,,,,,food,B1
+garlic,чеснок,noun,,,,,food,B1
+ingredient,ингредиент,noun,,,,,food,B1
+jam,джем,noun,,,,,food,B1
+lettuce,салат-латук,noun,,,,,food,B1
+meal,приём пищи,noun,,,,,food,B1
+menu,меню,noun,,,,,food,B1
+mushroom,гриб,noun,,,,,food,B1
+napkin,салфетка,noun,,,,,food,B1
+nut,орех,noun,,,,,food,B1
+peach,персик,noun,,,,,food,B1
+pepper,перец,noun,,,,,food,B1
+plum,слива,noun,,,,,food,B1
+pork,свинина,noun,,,,,food,B1
+portion,порция,noun,,,,,food,B1
+recipe,рецепт,noun,,,,,food,B1
+roast,жарить в духовке,verb,,,,,food,B1
+salmon,лосось,noun,,,,,food,B1
+sauce,соус,noun,,,,,food,B1
+sausage,колбаса,noun,,,,,food,B1
+snack,закуска,noun,,,,,food,B1
+sour,кислый,adjective,,,,,food,B1
+spicy,острый,adjective,,,,,food,B1
+stir,помешивать,verb,,,,,food,B1
+strawberry,клубника,noun,,,,,food,B1
+tasty,вкусный,adjective,,,,,food,B1
+toast,тост,noun,,,,,food,B1
+tray,поднос,noun,,,,,food,B1
+vegetable,овощ,noun,,,,,food,B1
+vinegar,уксус,noun,,,,,food,B1
+waiter,официант,noun,,,,,food,B1
+yoghurt,йогурт,noun,,,,,food,B1
+bake,печь,verb,,,,,food,B1
+flavour,вкус,noun,,,,,food,B1
+fresh,свежий,adjective,,,,,food,B1
+ripe,спелый,adjective,,,,,food,B1
+tip,чаевые,noun,,,,,food,B1
+bill,счёт,noun,,,,,food,B1
+accommodation,жильё,noun,,,,,travel,B1
+abroad,за границей,adverb,,,,,travel,B1
+airline,авиакомпания,noun,,,,,travel,B1
+arrival,прибытие,noun,,,,,travel,B1
+baggage,багаж,noun,,,,,travel,B1
+border,граница,noun,,,,,travel,B1
+cabin,каюта,noun,,,,,travel,B1
+campsite,кемпинг,noun,,,,,travel,B1
+capital,столица,noun,,,,,travel,B1
+coast,побережье,noun,,,,,travel,B1
+customs,таможня,noun,,,,,travel,B1
+delay,задержка,noun,,,,,travel,B1
+departure,отправление,noun,,,,,travel,B1
+destination,пункт назначения,noun,,,,,travel,B1
+direction,направление,noun,,,,,travel,B1
+distance,расстояние,noun,,,,,travel,B1
+embassy,посольство,noun,,,,,travel,B1
+fare,стоимость проезда,noun,,,,,travel,B1
+guidebook,путеводитель,noun,,,,,travel,B1
+harbour,гавань,noun,,,,,travel,B1
+highway,шоссе,noun,,,,,travel,B1
+hostel,хостел,noun,,,,,travel,B1
+journey,путешествие,noun,,,,,travel,B1
+landscape,пейзаж,noun,,,,,travel,B1
+luggage,багаж,noun,,,,,travel,B1
+platform,платформа,noun,,,,,travel,B1
+reservation,бронирование,noun,,,,,travel,B1
+resort,курорт,noun,,,,,travel,B1
+route,маршрут,noun,,,,,travel,B1
+sightseeing,осмотр достопримечательностей,noun,,,,,travel,B1
+souvenir,сувенир,noun,,,,,travel,B1
+tunnel,тоннель,noun,,,,,travel,B1
+vehicle,транспортное средство,noun,,,,,travel,B1
+visa,виза,noun,,,,,travel,B1
+voyage,рейс,noun,,,,,travel,B1
+backpack,рюкзак,noun,,,,,travel,B1
+pavement,тротуар,noun,,,,,travel,B1
+fuel,топливо,noun,,,,,travel,B1
+brake,тормоз,noun,,,,,travel,B1
+accelerate,ускоряться,verb,,,,,travel,B1
+crash,авария,noun,,,,,travel,B1
+reverse,двигаться задним ходом,verb,,,,,travel,B1
+overtake,обгонять,verb,,,,,travel,B1
+cancel,отменять,verb,,,,,travel,B1
+check in,регистрироваться,verb,,,,,travel,B1
+land,приземляться,verb,,,,,travel,B1
+achievement,достижение,noun,,,,,work,B1
+application,заявка,noun,,,,,work,B1
+appointment,встреча,noun,,,,,work,B1
+apply,подавать заявку,verb,,,,,work,B1
+assistant,помощник,noun,,,,,work,B1
+benefit,выгода,noun,,,,,work,B1
+boss,начальник,noun,,,,,work,B1
+budget,бюджет,noun,,,,,work,B1
+business,бизнес,noun,,,,,work,B1
+company,компания,noun,,,,,work,B1
+contract,контракт,noun,,,,,work,B1
+deadline,крайний срок,noun,,,,,work,B1
+demand,спрос,noun,,,,,work,B1
+economy,экономика,noun,,,,,work,B1
+experience,опыт,noun,,,,,work,B1
+factory,фабрика,noun,,,,,work,B1
+fee,плата,noun,,,,,work,B1
+firm,фирма,noun,,,,,work,B1
+fund,фонд,noun,,,,,work,B1
+goods,товары,noun,,,,,work,B1
+income,доход,noun,,,,,work,B1
+industry,промышленность,noun,,,,,work,B1
+invoice,счёт-фактура,noun,,,,,work,B1
+job,работа,noun,,,,,work,B1
+labour,труд,noun,,,,,work,B1
+manufacture,производить,verb,,,,,work,B1
+meeting,встреча,noun,,,,,work,B1
+office,офис,noun,,,,,work,B1
+overtime,сверхурочные,noun,,,,,work,B1
+pension,пенсия,noun,,,,,work,B1
+promote,продвигать,verb,,,,,work,B1
+qualification,квалификация,noun,,,,,work,B1
+resign,уходить в отставку,verb,,,,,work,B1
+retire,уходить на пенсию,verb,,,,,work,B1
+salary,зарплата,noun,,,,,work,B1
+schedule,график,noun,,,,,work,B1
+staff,персонал,noun,,,,,work,B1
+strike,забастовка,noun,,,,,work,B1
+supply,поставка,noun,,,,,work,B1
+target,цель,noun,,,,,work,B1
+training,обучение,noun,,,,,work,B1
+unemployed,безработный,adjective,,,,,work,B1
+wage,заработная плата,noun,,,,,work,B1
+workload,рабочая нагрузка,noun,,,,,work,B1
+workshop,мастерская,noun,,,,,work,B1
+negotiate,вести переговоры,verb,,,,,work,B1
+deal,сделка,noun,,,,,work,B1
+reliable,надёжный,adjective,,,,,work,B1
+efficient,эффективный,adjective,,,,,work,B1
+academic,академический,adjective,,,,,education,B1
+assignment,задание,noun,,,,,education,B1
+campus,кампус,noun,,,,,education,B1
+certificate,сертификат,noun,,,,,education,B1
+cheat,списывать,verb,,,,,education,B1
+course,курс,noun,,,,,education,B1
+degree,степень,noun,,,,,education,B1
+essay,эссе,noun,,,,,education,B1
+exam,экзамен,noun,,,,,education,B1
+fail,проваливаться,verb,,,,,education,B1
+grade,оценка,noun,,,,,education,B1
+homework,домашнее задание,noun,,,,,education,B1
+lecture,лекция,noun,,,,,education,B1
+lesson,урок,noun,,,,,education,B1
+library,библиотека,noun,,,,,education,B1
+major,специальность,noun,,,,,education,B1
+notebook,тетрадь,noun,,,,,education,B1
+pass,сдавать,verb,,,,,education,B1
+primary,начальный,adjective,,,,,education,B1
+principal,директор школы,noun,,,,,education,B1
+research,исследование,noun,,,,,education,B1
+revise,повторять,verb,,,,,education,B1
+scholarship,стипендия,noun,,,,,education,B1
+semester,семестр,noun,,,,,education,B1
+subject,предмет,noun,,,,,education,B1
+syllabus,программа курса,noun,,,,,education,B1
+textbook,учебник,noun,,,,,education,B1
+thesis,диссертация,noun,,,,,education,B1
+tutor,репетитор,noun,,,,,education,B1
+uniform,форма,noun,,,,,education,B1
+university,университет,noun,,,,,education,B1
+curriculum,учебный план,noun,,,,,education,B1
+dictionary,словарь,noun,,,,,education,B1
+grammar,грамматика,noun,,,,,education,B1
+pronunciation,произношение,noun,,,,,education,B1
+translate,переводить,verb,,,,,education,B1
+sentence,предложение,noun,,,,,education,B1
+mistake,ошибка,noun,,,,,education,B1
+improve,улучшать,verb,,,,,education,B1
+achieve,достигать,verb,,,,,education,B1
+discuss,обсуждать,verb,,,,,education,B1
+explain,объяснять,verb,,,,,education,B1
+describe,описывать,verb,,,,,education,B1
+ache,боль,noun,,,,,health,B1
+allergy,аллергия,noun,,,,,health,B1
+ambulance,скорая помощь,noun,,,,,health,B1
+bandage,бинт,noun,,,,,health,B1
+blood,кровь,noun,,,,,health,B1
+bone,кость,noun,,,,,health,B1
+break,ломать,verb,,,,,health,B1
+breathe,дышать,verb,,,,,health,B1
+bruise,синяк,noun,,,,,health,B1
+burn,ожог,noun,,,,,health,B1
+cancer,рак,noun,,,,,health,B1
+chest,грудь,noun,,,,,health,B1
+clinic,клиника,noun,,,,,health,B1
+cure,лечить,verb,,,,,health,B1
+dentist,стоматолог,noun,,,,,health,B1
+disease,болезнь,noun,,,,,health,B1
+dizzy,головокружение,adjective,,,,,health,B1
+exercise,упражнение,noun,,,,,health,B1
+fever,жар,noun,,,,,health,B1
+heal,заживать,verb,,,,,health,B1
+illness,болезнь,noun,,,,,health,B1
+injection,укол,noun,,,,,health,B1
+injure,ранить,verb,,,,,health,B1
+joint,сустав,noun,,,,,health,B1
+kidney,почка,noun,,,,,health,B1
+muscle,мышца,noun,,,,,health,B1
+nurse,медсестра,noun,,,,,health,B1
+pharmacy,аптека,noun,,,,,health,B1
+recover,выздоравливать,verb,,,,,health,B1
+rest,отдых,noun,,,,,health,B1
+scar,шрам,noun,,,,,health,B1
+shoulder,плечо,noun,,,,,health,B1
+sneeze,чихать,verb,,,,,health,B1
+sore,больной,adjective,,,,,health,B1
+stress,стресс,noun,,,,,health,B1
+surgery,операция,noun,,,,,health,B1
+swallow,глотать,verb,,,,,health,B1
+swollen,опухший,adjective,,,,,health,B1
+symptom,симптом,noun,,,,,health,B1
+throat,горло,noun,,,,,health,B1
+treatment,лечение,noun,,,,,health,B1
+vaccine,вакцина,noun,,,,,health,B1
+weight,вес,noun,,,,,health,B1
+wound,рана,noun,,,,,health,B1
+ankle,лодыжка,noun,,,,,health,B1
+elbow,локоть,noun,,,,,health,B1
+knee,колено,noun,,,,,health,B1
+tongue,язык,noun,,,,,health,B1
+spine,позвоночник,noun,,,,,health,B1
+cell,клетка,noun,,,,,health,B1
+exhausted,измотанный,adjective,,,,,health,B1
+afford,позволить себе,verb,,,,,shopping,B1
+bargain,выгодная покупка,noun,,,,,shopping,B1
+cashier,кассир,noun,,,,,shopping,B1
+checkout,касса,noun,,,,,shopping,B1
+coin,монета,noun,,,,,shopping,B1
+costume,костюм,noun,,,,,shopping,B1
+discount,скидка,noun,,,,,shopping,B1
+expensive,дорогой,adjective,,,,,shopping,B1
+fitting room,примерочная,noun,,,,,shopping,B1
+jewellery,украшения,noun,,,,,shopping,B1
+lend,одалживать,verb,,,,,shopping,B1
+offer,предложение,noun,,,,,shopping,B1
+refund,возврат денег,noun,,,,,shopping,B1
+refuse,отказываться,verb,,,,,shopping,B1
+retail,розничная торговля,noun,,,,,shopping,B1
+scarf,шарф,noun,,,,,shopping,B1
+shopping centre,торговый центр,noun,,,,,shopping,B1
+size,размер,noun,,,,,shopping,B1
+suit,костюм,noun,,,,,shopping,B1
+trolley,тележка,noun,,,,,shopping,B1
+wallet,кошелёк,noun,,,,,shopping,B1
+warranty,гарантия,noun,,,,,shopping,B1
+wrap,упаковывать,verb,,,,,shopping,B1
+delivery,доставка,noun,,,,,shopping,B1
+damaged,повреждённый,adjective,,,,,shopping,B1
+rare,редкий,adjective,,,,,shopping,B1
+fashionable,модный,adjective,,,,,shopping,B1
+comfortable,удобный,adjective,,,,,shopping,B1
+tight,тесный,adjective,,,,,shopping,B1
+loose,свободный,adjective,,,,,shopping,B1
+sleeve,рукав,noun,,,,,shopping,B1
+collar,воротник,noun,,,,,shopping,B1
+pocket,карман,noun,,,,,shopping,B1
+glove,перчатка,noun,,,,,shopping,B1
+boot,ботинок,noun,,,,,shopping,B1
+sandal,сандалия,noun,,,,,shopping,B1
+sweater,свитер,noun,,,,,shopping,B1
+access,доступ,noun,,,,,technology,B1
+account,учётная запись,noun,,,,,technology,B1
+app,приложение,noun,,,,,technology,B1
+browser,браузер,noun,,,,,technology,B1
+cable,кабель,noun,,,,,technology,B1
+charge,заряжать,verb,,,,,technology,B1
+click,щёлкать,verb,,,,,technology,B1
+code,код,noun,,,,,technology,B1
+connect,подключать,verb,,,,,technology,B1
+connection,соединение,noun,,,,,technology,B1
+cursor,курсор,noun,,,,,technology,B1
+data,данные,noun,,,,,technology,B1
+database,база данных,noun,,,,,technology,B1
+delete,удалять,verb,,,,,technology,B1
+download,скачивать,verb,,,,,technology,B1
+file,файл,noun,,,,,technology,B1
+folder,папка,noun,,,,,technology,B1
+hardware,оборудование,noun,,,,,technology,B1
+headphones,наушники,noun,,,,,technology,B1
+internet,интернет,noun,,,,,technology,B1
+laptop,ноутбук,noun,,,,,technology,B1
+link,ссылка,noun,,,,,technology,B1
+log in,входить в систему,verb,,,,,technology,B1
+machine,машина,noun,,,,,technology,B1
+online,онлайн,adjective,,,,,technology,B1
+printer,принтер,noun,,,,,technology,B1
+program,программа,noun,,,,,technology,B1
+robot,робот,noun,,,,,technology,B1
+satellite,спутник,noun,,,,,technology,B1
+screen,экран,noun,,,,,technology,B1
+server,сервер,noun,,,,,technology,B1
+speaker,динамик,noun,,,,,technology,B1
+tablet,планшет,noun,,,,,technology,B1
+update,обновлять,verb,,,,,technology,B1
+upload,загружать,verb,,,,,technology,B1
+username,имя пользователя,noun,,,,,technology,B1
+website,веб-сайт,noun,,,,,technology,B1
+wireless,беспроводной,adjective,,,,,technology,B1
+artificial,искусственный,adjective,,,,,technology,B1
+backup,резервная копия,noun,,,,,technology,B1
+hacker,хакер,noun,,,,,technology,B1
+mouse,мышь,noun,,,,,technology,B1
+signal,сигнал,noun,,,,,technology,B1
+remote control,пульт,noun,,,,,technology,B1
+active,активный,adjective,,,,,nature,B1
+animal,животное,noun,,,,,nature,B1
+bush,куст,noun,,,,,nature,B1
+cave,пещера,noun,,,,,nature,B1
+cliff,утёс,noun,,,,,nature,B1
+climate,климат,noun,,,,,nature,B1
+desert,пустыня,noun,,,,,nature,B1
+dust,пыль,noun,,,,,nature,B1
+environment,окружающая среда,noun,,,,,nature,B1
+extinct,вымерший,adjective,,,,,nature,B1
+field,поле,noun,,,,,nature,B1
+flood,наводнение,noun,,,,,nature,B1
+frost,мороз,noun,,,,,nature,B1
+glacier,ледник,noun,,,,,nature,B1
+grass,трава,noun,,,,,nature,B1
+ground,земля,noun,,,,,nature,B1
+hill,холм,noun,,,,,nature,B1
+leaf,лист,noun,,,,,nature,B1
+lightning,молния,noun,,,,,nature,B1
+meadow,луг,noun,,,,,nature,B1
+nature,природа,noun,,,,,nature,B1
+pond,пруд,noun,,,,,nature,B1
+rainbow,радуга,noun,,,,,nature,B1
+rock,скала,noun,,,,,nature,B1
+root,корень,noun,,,,,nature,B1
+sand,песок,noun,,,,,nature,B1
+shade,тень,noun,,,,,nature,B1
+shore,берег,noun,,,,,nature,B1
+slope,склон,noun,,,,,nature,B1
+stream,ручей,noun,,,,,nature,B1
+summit,вершина,noun,,,,,nature,B1
+sunrise,восход,noun,,,,,nature,B1
+sunset,закат,noun,,,,,nature,B1
+swamp,болото,noun,,,,,nature,B1
+tide,прилив,noun,,,,,nature,B1
+valley,долина,noun,,,,,nature,B1
+volcano,вулкан,noun,,,,,nature,B1
+wave,волна,noun,,,,,nature,B1
+weather,погода,noun,,,,,nature,B1
+wild,дикий,adjective,,,,,nature,B1
+pollution,загрязнение,noun,,,,,nature,B1
+recycle,перерабатывать,verb,,,,,nature,B1
+rainforest,тропический лес,noun,,,,,nature,B1
+drought,засуха,noun,,,,,nature,B1
+storm,буря,noun,,,,,nature,B1
+breeze,бриз,noun,,,,,nature,B1
+humid,влажный,adjective,,,,,nature,B1
+freezing,ледяной,adjective,,,,,nature,B1
+damp,сырой,adjective,,,,,nature,B1
+bat,летучая мышь,noun,,,,,nature,B1
+butterfly,бабочка,noun,,,,,nature,B1
+cattle,скот,noun,,,,,nature,B1
+eagle,орёл,noun,,,,,nature,B1
+insect,насекомое,noun,,,,,nature,B1
+mosquito,комар,noun,,,,,nature,B1
+owl,сова,noun,,,,,nature,B1
+shark,акула,noun,,,,,nature,B1
+squirrel,белка,noun,,,,,nature,B1
+feather,перо,noun,,,,,nature,B1
+afraid,испуганный,adjective,,,,,feelings,B1
+amazed,изумлённый,adjective,,,,,feelings,B1
+annoyed,раздражённый,adjective,,,,,feelings,B1
+anxious,тревожный,adjective,,,,,feelings,B1
+bored,скучающий,adjective,,,,,feelings,B1
+brave,храбрый,adjective,,,,,feelings,B1
+calm,спокойный,adjective,,,,,feelings,B1
+cheerful,весёлый,adjective,,,,,feelings,B1
+confident,уверенный,adjective,,,,,feelings,B1
+confused,растерянный,adjective,,,,,feelings,B1
+curious,любопытный,adjective,,,,,feelings,B1
+delighted,в восторге,adjective,,,,,feelings,B1
+depressed,подавленный,adjective,,,,,feelings,B1
+disappointed,разочарованный,adjective,,,,,feelings,B1
+embarrassed,смущённый,adjective,,,,,feelings,B1
+enthusiastic,восторженный,adjective,,,,,feelings,B1
+envy,зависть,noun,,,,,feelings,B1
+excited,взволнованный,adjective,,,,,feelings,B1
+furious,разъярённый,adjective,,,,,feelings,B1
+glad,рад,adjective,,,,,feelings,B1
+grateful,благодарный,adjective,,,,,feelings,B1
+happiness,счастье,noun,,,,,feelings,B1
+hopeful,полный надежды,adjective,,,,,feelings,B1
+hug,обнимать,verb,,,,,feelings,B1
+jealous,ревнивый,adjective,,,,,feelings,B1
+lonely,одинокий,adjective,,,,,feelings,B1
+miserable,несчастный,adjective,,,,,feelings,B1
+nervous,нервный,adjective,,,,,feelings,B1
+panic,паника,noun,,,,,feelings,B1
+pleased,довольный,adjective,,,,,feelings,B1
+proud,гордый,adjective,,,,,feelings,B1
+relief,облегчение,noun,,,,,feelings,B1
+satisfied,удовлетворённый,adjective,,,,,feelings,B1
+scared,напуганный,adjective,,,,,feelings,B1
+shocked,шокированный,adjective,,,,,feelings,B1
+shy,застенчивый,adjective,,,,,feelings,B1
+sorrow,печаль,noun,,,,,feelings,B1
+surprised,удивлённый,adjective,,,,,feelings,B1
+sympathy,сочувствие,noun,,,,,feelings,B1
+terrified,в ужасе,adjective,,,,,feelings,B1
+upset,расстроенный,adjective,,,,,feelings,B1
+weep,плакать,verb,,,,,feelings,B1
+whisper,шептать,verb,,,,,feelings,B1
+ambitious,амбициозный,adjective,,,,,personality,B1
+arrogant,высокомерный,adjective,,,,,personality,B1
+bossy,властный,adjective,,,,,personality,B1
+careful,осторожный,adjective,,,,,personality,B1
+careless,небрежный,adjective,,,,,personality,B1
+cruel,жестокий,adjective,,,,,personality,B1
+determined,решительный,adjective,,,,,personality,B1
+dishonest,нечестный,adjective,,,,,personality,B1
+faithful,верный,adjective,,,,,personality,B1
+foolish,глупый,adjective,,,,,personality,B1
+friendly,дружелюбный,adjective,,,,,personality,B1
+gentle,нежный,adjective,,,,,personality,B1
+greedy,жадный,adjective,,,,,personality,B1
+helpful,полезный,adjective,,,,,personality,B1
+honest,честный,adjective,,,,,personality,B1
+humble,скромный,adjective,,,,,personality,B1
+imaginative,богатый воображением,adjective,,,,,personality,B1
+impatient,нетерпеливый,adjective,,,,,personality,B1
+independent,независимый,adjective,,,,,personality,B1
+mature,зрелый,adjective,,,,,personality,B1
+mean,скупой,adjective,,,,,personality,B1
+modest,скромный,adjective,,,,,personality,B1
+naughty,шаловливый,adjective,,,,,personality,B1
+optimistic,оптимистичный,adjective,,,,,personality,B1
+outgoing,общительный,adjective,,,,,personality,B1
+pessimistic,пессимистичный,adjective,,,,,personality,B1
+selfish,эгоистичный,adjective,,,,,personality,B1
+sensible,благоразумный,adjective,,,,,personality,B1
+sensitive,чувствительный,adjective,,,,,personality,B1
+serious,серьёзный,adjective,,,,,personality,B1
+sociable,общительный,adjective,,,,,personality,B1
+stubborn,упрямый,adjective,,,,,personality,B1
+talented,талантливый,adjective,,,,,personality,B1
+thoughtful,задумчивый,adjective,,,,,personality,B1
+wise,мудрый,adjective,,,,,personality,B1
+witty,остроумный,adjective,,,,,personality,B1
+hardworking,трудолюбивый,adjective,,,,,personality,B1
+reserved,сдержанный,adjective,,,,,personality,B1
+messy,неряшливый,adjective,,,,,personality,B1
+attractive,привлекательный,adjective,,,,,appearance,B1
+bald,лысый,adjective,,,,,appearance,B1
+blonde,блондин,adjective,,,,,appearance,B1
+chubby,пухлый,adjective,,,,,appearance,B1
+elderly,пожилой,adjective,,,,,appearance,B1
+freckle,веснушка,noun,,,,,appearance,B1
+good-looking,красивый,adjective,,,,,appearance,B1
+height,рост,noun,,,,,appearance,B1
+lovely,прелестный,adjective,,,,,appearance,B1
+moustache,усы,noun,,,,,appearance,B1
+pale,бледный,adjective,,,,,appearance,B1
+slim,стройный,adjective,,,,,appearance,B1
+smart,нарядный,adjective,,,,,appearance,B1
+straight,прямой,adjective,,,,,appearance,B1
+tanned,загорелый,adjective,,,,,appearance,B1
+wrinkle,морщина,noun,,,,,appearance,B1
+appearance,внешность,noun,,,,,appearance,B1
+scruffy,неопрятный,adjective,,,,,appearance,B1
+army,армия,noun,,,,,society,B1
+authority,власть,noun,,,,,society,B1
+court,суд,noun,,,,,society,B1
+crime,преступление,noun,,,,,society,B1
+criminal,преступник,noun,,,,,society,B1
+culture,культура,noun,,,,,society,B1
+democracy,демократия,noun,,,,,society,B1
+election,выборы,noun,,,,,society,B1
+equal,равный,adjective,,,,,society,B1
+freedom,свобода,noun,,,,,society,B1
+government,правительство,noun,,,,,society,B1
+innocent,невиновный,adjective,,,,,society,B1
+law,закон,noun,,,,,society,B1
+legal,законный,adjective,,,,,society,B1
+illegal,незаконный,adjective,,,,,society,B1
+nation,нация,noun,,,,,society,B1
+parliament,парламент,noun,,,,,society,B1
+peace,мир,noun,,,,,society,B1
+police,полиция,noun,,,,,society,B1
+politics,политика,noun,,,,,society,B1
+prison,тюрьма,noun,,,,,society,B1
+protest,протест,noun,,,,,society,B1
+punishment,наказание,noun,,,,,society,B1
+race,раса,noun,,,,,society,B1
+regulation,правило,noun,,,,,society,B1
+religion,религия,noun,,,,,society,B1
+revolution,революция,noun,,,,,society,B1
+rule,правило,noun,,,,,society,B1
+society,общество,noun,,,,,society,B1
+tax,налог,noun,,,,,society,B1
+terrorist,террорист,noun,,,,,society,B1
+theft,кража,noun,,,,,society,B1
+thief,вор,noun,,,,,society,B1
+tradition,традиция,noun,,,,,society,B1
+witness,свидетель,noun,,,,,society,B1
+charity,благотворительность,noun,,,,,society,B1
+community,сообщество,noun,,,,,society,B1
+population,население,noun,,,,,society,B1
+violence,насилие,noun,,,,,society,B1
+fine,штраф,noun,,,,,society,B1
+steal,красть,verb,,,,,society,B1
+rob,грабить,verb,,,,,society,B1
+kidnap,похищать,verb,,,,,society,B1
+evidence,доказательство,noun,,,,,society,B1
+suspect,подозреваемый,noun,,,,,society,B1
+article,статья,noun,,,,,media,B1
+channel,канал,noun,,,,,media,B1
+cinema,кинотеатр,noun,,,,,media,B1
+comedy,комедия,noun,,,,,media,B1
+episode,серия,noun,,,,,media,B1
+exhibition,выставка,noun,,,,,media,B1
+fiction,художественная литература,noun,,,,,media,B1
+gallery,галерея,noun,,,,,media,B1
+headline,заголовок,noun,,,,,media,B1
+magazine,журнал,noun,,,,,media,B1
+media,СМИ,noun,,,,,media,B1
+museum,музей,noun,,,,,media,B1
+newspaper,газета,noun,,,,,media,B1
+opera,опера,noun,,,,,media,B1
+painting,картина,noun,,,,,media,B1
+performance,выступление,noun,,,,,media,B1
+plot,сюжет,noun,,,,,media,B1
+poet,поэт,noun,,,,,media,B1
+review,обзор,noun,,,,,media,B1
+sculpture,скульптура,noun,,,,,media,B1
+series,сериал,noun,,,,,media,B1
+stage,сцена,noun,,,,,media,B1
+theatre,театр,noun,,,,,media,B1
+thriller,триллер,noun,,,,,media,B1
+trailer,трейлер,noun,,,,,media,B1
+celebrity,знаменитость,noun,,,,,media,B1
+fan,поклонник,noun,,,,,media,B1
+famous,знаменитый,adjective,,,,,media,B1
+entertain,развлекать,verb,,,,,media,B1
+record,записывать,verb,,,,,media,B1
+badminton,бадминтон,noun,,,,,sport,B1
+competition,соревнование,noun,,,,,sport,B1
+defeat,поражение,noun,,,,,sport,B1
+hike,поход,noun,,,,,sport,B1
+jog,бегать трусцой,verb,,,,,sport,B1
+league,лига,noun,,,,,sport,B1
+medal,медаль,noun,,,,,sport,B1
+referee,судья,noun,,,,,sport,B1
+skate,кататься на коньках,verb,,,,,sport,B1
+ski,кататься на лыжах,verb,,,,,sport,B1
+stadium,стадион,noun,,,,,sport,B1
+trophy,кубок,noun,,,,,sport,B1
+draw,ничья,noun,,,,,sport,B1
+climb,подниматься,verb,,,,,sport,B1
+ancient,древний,adjective,,,,,time,B1
+annual,ежегодный,adjective,,,,,time,B1
+century,век,noun,,,,,time,B1
+decade,десятилетие,noun,,,,,time,B1
+era,эра,noun,,,,,time,B1
+eve,канун,noun,,,,,time,B1
+fortnight,две недели,noun,,,,,time,B1
+frequently,часто,adverb,,,,,time,B1
+future,будущее,noun,,,,,time,B1
+history,история,noun,,,,,time,B1
+instant,мгновение,noun,,,,,time,B1
+lately,в последнее время,adverb,,,,,time,B1
+monthly,ежемесячный,adjective,,,,,time,B1
+moment,момент,noun,,,,,time,B1
+modern,современный,adjective,,,,,time,B1
+past,прошлое,noun,,,,,time,B1
+period,период,noun,,,,,time,B1
+present,настоящее,noun,,,,,time,B1
+season,сезон,noun,,,,,time,B1
+temporary,временный,adjective,,,,,time,B1
+weekly,еженедельный,adjective,,,,,time,B1
+yearly,ежегодный,adjective,,,,,time,B1
+immediately,немедленно,adverb,,,,,time,B1
+eventually,в конце концов,adverb,,,,,time,B1
+meanwhile,тем временем,adverb,,,,,time,B1
+nowadays,в наши дни,adverb,,,,,time,B1
+formerly,прежде,adverb,,,,,time,B1
+punctual,пунктуальный,adjective,,,,,time,B1
+accept,принимать,verb,,,,,verbs,B1
+advise,советовать,verb,,,,,verbs,B1
+agree,соглашаться,verb,,,,,verbs,B1
+allow,позволять,verb,,,,,verbs,B1
+announce,объявлять,verb,,,,,verbs,B1
+annoy,раздражать,verb,,,,,verbs,B1
+apologise,извиняться,verb,,,,,verbs,B1
+appear,появляться,verb,,,,,verbs,B1
+approve,одобрять,verb,,,,,verbs,B1
+argue,спорить,verb,,,,,verbs,B1
+arrange,организовывать,verb,,,,,verbs,B1
+attack,нападать,verb,,,,,verbs,B1
+attempt,пытаться,verb,,,,,verbs,B1
+attract,привлекать,verb,,,,,verbs,B1
+avoid,избегать,verb,,,,,verbs,B1
+behave,вести себя,verb,,,,,verbs,B1
+bend,гнуть,verb,,,,,verbs,B1
+bother,беспокоить,verb,,,,,verbs,B1
+bury,хоронить,verb,,,,,verbs,B1
+celebrate,праздновать,verb,,,,,verbs,B1
+choose,выбирать,verb,,,,,verbs,B1
+collect,собирать,verb,,,,,verbs,B1
+compare,сравнивать,verb,,,,,verbs,B1
+complete,завершать,verb,,,,,verbs,B1
+consider,рассматривать,verb,,,,,verbs,B1
+contain,содержать,verb,,,,,verbs,B1
+convince,убеждать,verb,,,,,verbs,B1
+cooperate,сотрудничать,verb,,,,,verbs,B1
+create,создавать,verb,,,,,verbs,B1
+decide,решать,verb,,,,,verbs,B1
+decorate,украшать,verb,,,,,verbs,B1
+defend,защищать,verb,,,,,verbs,B1
+depend,зависеть,verb,,,,,verbs,B1
+deserve,заслуживать,verb,,,,,verbs,B1
+destroy,уничтожать,verb,,,,,verbs,B1
+develop,развивать,verb,,,,,verbs,B1
+discover,открывать,verb,,,,,verbs,B1
+divide,делить,verb,,,,,verbs,B1
+encourage,поощрять,verb,,,,,verbs,B1
+enjoy,наслаждаться,verb,,,,,verbs,B1
+escape,убегать,verb,,,,,verbs,B1
+examine,осматривать,verb,,,,,verbs,B1
+excuse,извинять,verb,,,,,verbs,B1
+explore,исследовать,verb,,,,,verbs,B1
+fasten,застёгивать,verb,,,,,verbs,B1
+fetch,приносить,verb,,,,,verbs,B1
+forbid,запрещать,verb,,,,,verbs,B1
+forgive,прощать,verb,,,,,verbs,B1
+gain,получать,verb,,,,,verbs,B1
+gather,собирать,verb,,,,,verbs,B1
+greet,приветствовать,verb,,,,,verbs,B1
+handle,обращаться,verb,,,,,verbs,B1
+hesitate,колебаться,verb,,,,,verbs,B1
+hurry,торопиться,verb,,,,,verbs,B1
+imagine,воображать,verb,,,,,verbs,B1
+impress,впечатлять,verb,,,,,verbs,B1
+include,включать,verb,,,,,verbs,B1
+increase,увеличивать,verb,,,,,verbs,B1
+introduce,представлять,verb,,,,,verbs,B1
+invite,приглашать,verb,,,,,verbs,B1
+kneel,стоять на коленях,verb,,,,,verbs,B1
+knock,стучать,verb,,,,,verbs,B1
+manage,справляться,verb,,,,,verbs,B1
+melt,таять,verb,,,,,verbs,B1
+mention,упоминать,verb,,,,,verbs,B1
+notice,замечать,verb,,,,,verbs,B1
+obey,подчиняться,verb,,,,,verbs,B1
+object,возражать,verb,,,,,verbs,B1
+occur,происходить,verb,,,,,verbs,B1
+offend,обижать,verb,,,,,verbs,B1
+operate,управлять,verb,,,,,verbs,B1
+organise,организовывать,verb,,,,,verbs,B1
+persuade,убеждать,verb,,,,,verbs,B1
+pour,наливать,verb,,,,,verbs,B1
+predict,предсказывать,verb,,,,,verbs,B1
+prefer,предпочитать,verb,,,,,verbs,B1
+prepare,готовить,verb,,,,,verbs,B1
+prevent,предотвращать,verb,,,,,verbs,B1
+promise,обещать,verb,,,,,verbs,B1
+provide,предоставлять,verb,,,,,verbs,B1
+punish,наказывать,verb,,,,,verbs,B1
+realise,осознавать,verb,,,,,verbs,B1
+recommend,рекомендовать,verb,,,,,verbs,B1
+refer,ссылаться,verb,,,,,verbs,B1
+rely,полагаться,verb,,,,,verbs,B1
+remain,оставаться,verb,,,,,verbs,B1
+repeat,повторять,verb,,,,,verbs,B1
+replace,заменять,verb,,,,,verbs,B1
+reply,отвечать,verb,,,,,verbs,B1
+represent,представлять,verb,,,,,verbs,B1
+rescue,спасать,verb,,,,,verbs,B1
+respect,уважать,verb,,,,,verbs,B1
+respond,отвечать,verb,,,,,verbs,B1
+roll,катиться,verb,,,,,verbs,B1
+satisfy,удовлетворять,verb,,,,,verbs,B1
+scream,кричать,verb,,,,,verbs,B1
+seem,казаться,verb,,,,,verbs,B1
+select,выбирать,verb,,,,,verbs,B1
+settle,поселяться,verb,,,,,verbs,B1
+shrink,сжиматься,verb,,,,,verbs,B1
+solve,решать,verb,,,,,verbs,B1
+spill,проливать,verb,,,,,verbs,B1
+spread,распространять,verb,,,,,verbs,B1
+squeeze,сжимать,verb,,,,,verbs,B1
+stare,пристально смотреть,verb,,,,,verbs,B1
+stretch,растягивать,verb,,,,,verbs,B1
+succeed,добиваться успеха,verb,,,,,verbs,B1
+suffer,страдать,verb,,,,,verbs,B1
+suggest,предлагать,verb,,,,,verbs,B1
+suppose,предполагать,verb,,,,,verbs,B1
+surprise,удивлять,verb,,,,,verbs,B1
+tear,рвать,verb,,,,,verbs,B1
+tease,дразнить,verb,,,,,verbs,B1
+tend,иметь склонность,verb,,,,,verbs,B1
+threaten,угрожать,verb,,,,,verbs,B1
+tie,завязывать,verb,,,,,verbs,B1
+unite,объединять,verb,,,,,verbs,B1
+wander,бродить,verb,,,,,verbs,B1
+wonder,задаваться вопросом,verb,,,,,verbs,B1
+absent,отсутствующий,adjective,,,,,adjectives,B1
+accurate,точный,adjective,,,,,adjectives,B1
+awful,ужасный,adjective,,,,,adjectives,B1
+bare,голый,adjective,,,,,adjectives,B1
+broad,широкий,adjective,,,,,adjectives,B1
+central,центральный,adjective,,,,,adjectives,B1
+certain,определённый,adjective,,,,,adjectives,B1
+complicated,сложный,adjective,,,,,adjectives,B1
+crazy,сумасшедший,adjective,,,,,adjectives,B1
+enormous,огромный,adjective,,,,,adjectives,B1
+essential,необходимый,adjective,,,,,adjectives,B1
+exact,точный,adjective,,,,,adjectives,B1
+excellent,отличный,adjective,,,,,adjectives,B1
+extra,дополнительный,adjective,,,,,adjectives,B1
+familiar,знакомый,adjective,,,,,adjectives,B1
+foreign,иностранный,adjective,,,,,adjectives,B1
+giant,гигантский,adjective,,,,,adjectives,B1
+gorgeous,великолепный,adjective,,,,,adjectives,B1
+helpless,беспомощный,adjective,,,,,adjectives,B1
+huge,огромный,adjective,,,,,adjectives,B1
+important,важный,adjective,,,,,adjectives,B1
+incredible,невероятный,adjective,,,,,adjectives,B1
+inner,внутренний,adjective,,,,,adjectives,B1
+internal,внутренний,adjective,,,,,adjectives,B1
+lucky,удачливый,adjective,,,,,adjectives,B1
+narrow,узкий,adjective,,,,,adjectives,B1
+natural,естественный,adjective,,,,,adjectives,B1
+necessary,необходимый,adjective,,,,,adjectives,B1
+nearby,близлежащий,adjective,,,,,adjectives,B1
+neat,аккуратный,adjective,,,,,adjectives,B1
+obvious,очевидный,adjective,,,,,adjectives,B1
+ordinary,обычный,adjective,,,,,adjectives,B1
+original,оригинальный,adjective,,,,,adjectives,B1
+outdoor,на открытом воздухе,adjective,,,,,adjectives,B1
+personal,личный,adjective,,,,,adjectives,B1
+physical,физический,adjective,,,,,adjectives,B1
+pleasant,приятный,adjective,,,,,adjectives,B1
+powerful,мощный,adjective,,,,,adjectives,B1
+practical,практичный,adjective,,,,,adjectives,B1
+precious,драгоценный,adjective,,,,,adjectives,B1
+private,частный,adjective,,,,,adjectives,B1
+public,общественный,adjective,,,,,adjectives,B1
+rapid,быстрый,adjective,,,,,adjectives,B1
+regular,регулярный,adjective,,,,,adjectives,B1
+senior,старший,adjective,,,,,adjectives,B1
+sharp,острый,adjective,,,,,adjectives,B1
+shiny,блестящий,adjective,,,,,adjectives,B1
+similar,похожий,adjective,,,,,adjectives,B1
+smooth,гладкий,adjective,,,,,adjectives,B1
+solid,твёрдый,adjective,,,,,adjectives,B1
+steady,устойчивый,adjective,,,,,adjectives,B1
+steep,крутой,adjective,,,,,adjectives,B1
+sticky,липкий,adjective,,,,,adjectives,B1
+strict,строгий,adjective,,,,,adjectives,B1
+sudden,внезапный,adjective,,,,,adjectives,B1
+tough,жёсткий,adjective,,,,,adjectives,B1
+unusual,необычный,adjective,,,,,adjectives,B1
+useless,бесполезный,adjective,,,,,adjectives,B1
+various,различный,adjective,,,,,adjectives,B1
+absolutely,абсолютно,adverb,,,,,adverbs,B1
+almost,почти,adverb,,,,,adverbs,B1
+apparently,по-видимому,adverb,,,,,adverbs,B1
+barely,едва,adverb,,,,,adverbs,B1
+carefully,осторожно,adverb,,,,,adverbs,B1
+certainly,конечно,adverb,,,,,adverbs,B1
+completely,полностью,adverb,,,,,adverbs,B1
+constantly,постоянно,adverb,,,,,adverbs,B1
+definitely,определённо,adverb,,,,,adverbs,B1
+deeply,глубоко,adverb,,,,,adverbs,B1
+especially,особенно,adverb,,,,,adverbs,B1
+extremely,крайне,adverb,,,,,adverbs,B1
+fairly,довольно,adverb,,,,,adverbs,B1
+fortunately,к счастью,adverb,,,,,adverbs,B1
+generally,обычно,adverb,,,,,adverbs,B1
+hardly,едва ли,adverb,,,,,adverbs,B1
+highly,высоко,adverb,,,,,adverbs,B1
+hopefully,надеюсь,adverb,,,,,adverbs,B1
+indeed,действительно,adverb,,,,,adverbs,B1
+likely,вероятно,adverb,,,,,adverbs,B1
+merely,просто,adverb,,,,,adverbs,B1
+mostly,в основном,adverb,,,,,adverbs,B1
+naturally,естественно,adverb,,,,,adverbs,B1
+needless,излишне,adverb,,,,,adverbs,B1
+occasionally,иногда,adverb,,,,,adverbs,B1
+possibly,возможно,adverb,,,,,adverbs,B1
+properly,как следует,adverb,,,,,adverbs,B1
+rarely,редко,adverb,,,,,adverbs,B1
+rather,скорее,adverb,,,,,adverbs,B1
+recently,недавно,adverb,,,,,adverbs,B1
+seldom,редко,adverb,,,,,adverbs,B1
+seriously,серьёзно,adverb,,,,,adverbs,B1
+slightly,слегка,adverb,,,,,adverbs,B1
+somewhat,несколько,adverb,,,,,adverbs,B1
+strongly,сильно,adverb,,,,,adverbs,B1
+surely,несомненно,adverb,,,,,adverbs,B1
+totally,совершенно,adverb,,,,,adverbs,B1
+truly,поистине,adverb,,,,,adverbs,B1
+unfortunately,к сожалению,adverb,,,,,adverbs,B1
+virtually,практически,adverb,,,,,adverbs,B1
+widely,широко,adverb,,,,,adverbs,B1
+whenever,всякий раз когда,adverb,,,,,adverbs,B1
+wherever,где бы ни,adverb,,,,,adverbs,B1
+ability,способность,noun,,,,,abstract,B1
+advice,совет,noun,,,,,abstract,B1
+aim,цель,noun,,,,,abstract,B1
+beginning,начало,noun,,,,,abstract,B1
+cause,причина,noun,,,,,abstract,B1
+character,характер,noun,,,,,abstract,B1
+circumstance,обстоятельство,noun,,,,,abstract,B1
+comparison,сравнение,noun,,,,,abstract,B1
+condition,условие,noun,,,,,abstract,B1
+confidence,уверенность,noun,,,,,abstract,B1
+contrast,контраст,noun,,,,,abstract,B1
+courage,мужество,noun,,,,,abstract,B1
+danger,опасность,noun,,,,,abstract,B1
+decision,решение,noun,,,,,abstract,B1
+difference,различие,noun,,,,,abstract,B1
+difficulty,трудность,noun,,,,,abstract,B1
+disadvantage,недостаток,noun,,,,,abstract,B1
+effort,усилие,noun,,,,,abstract,B1
+energy,энергия,noun,,,,,abstract,B1
+error,ошибка,noun,,,,,abstract,B1
+fault,вина,noun,,,,,abstract,B1
+focus,фокус,noun,,,,,abstract,B1
+friendship,дружба,noun,,,,,abstract,B1
+honour,честь,noun,,,,,abstract,B1
+impact,влияние,noun,,,,,abstract,B1
+importance,важность,noun,,,,,abstract,B1
+influence,влияние,noun,,,,,abstract,B1
+intention,намерение,noun,,,,,abstract,B1
+interest,интерес,noun,,,,,abstract,B1
+manner,манера,noun,,,,,abstract,B1
+meaning,значение,noun,,,,,abstract,B1
+mystery,тайна,noun,,,,,abstract,B1
+opinion,мнение,noun,,,,,abstract,B1
+opportunity,возможность,noun,,,,,abstract,B1
+origin,происхождение,noun,,,,,abstract,B1
+pattern,узор,noun,,,,,abstract,B1
+phase,фаза,noun,,,,,abstract,B1
+pleasure,удовольствие,noun,,,,,abstract,B1
+possibility,возможность,noun,,,,,abstract,B1
+pressure,давление,noun,,,,,abstract,B1
+process,процесс,noun,,,,,abstract,B1
+progress,прогресс,noun,,,,,abstract,B1
+quantity,количество,noun,,,,,abstract,B1
+section,раздел,noun,,,,,abstract,B1
+solution,решение,noun,,,,,abstract,B1
+standard,стандарт,noun,,,,,abstract,B1
+talent,талант,noun,,,,,abstract,B1
+trouble,неприятность,noun,,,,,abstract,B1
+variety,разнообразие,noun,,,,,abstract,B1
+wisdom,мудрость,noun,,,,,abstract,B1
+worth,стоимость,noun,,,,,abstract,B1
+break down,ломаться,verb,,,,,phrasal,B1
+call off,отменять,verb,,,,,phrasal,B1
+carry on,продолжать,verb,,,,,phrasal,B1
+catch up,догонять,verb,,,,,phrasal,B1
+come across,натыкаться,verb,,,,,phrasal,B1
+cut down,сокращать,verb,,,,,phrasal,B1
+fall out,ссориться,verb,,,,,phrasal,B1
+find out,выяснять,verb,,,,,phrasal,B1
+get along,ладить,verb,,,,,phrasal,B1
+get over,оправиться,verb,,,,,phrasal,B1
+get up,вставать,verb,,,,,phrasal,B1
+give up,сдаваться,verb,,,,,phrasal,B1
+hold on,подождать,verb,,,,,phrasal,B1
+look after,присматривать,verb,,,,,phrasal,B1
+look forward to,ждать с нетерпением,verb,,,,,phrasal,B1
+look up,искать,verb,,,,,phrasal,B1
+make up,выдумывать,verb,,,,,phrasal,B1
+pick up,подбирать,verb,,,,,phrasal,B1
+point out,указывать,verb,,,,,phrasal,B1
+put on,надевать,verb,,,,,phrasal,B1
+run out,заканчиваться,verb,,,,,phrasal,B1
+set off,отправляться,verb,,,,,phrasal,B1
+set up,основывать,verb,,,,,phrasal,B1
+show off,хвастаться,verb,,,,,phrasal,B1
+take off,снимать,verb,,,,,phrasal,B1
+take over,перенимать,verb,,,,,phrasal,B1
+turn up,появляться,verb,,,,,phrasal,B1
+amount,количество,noun,,,,,misc,B1
+area,область,noun,,,,,misc,B1
+bottom,низ,noun,,,,,misc,B1
+brush,щётка,noun,,,,,misc,B1
+bucket,ведро,noun,,,,,misc,B1
+candle,свеча,noun,,,,,misc,B1
+chain,цепь,noun,,,,,misc,B1
+coffin,гроб,noun,,,,,misc,B1
+crack,трещина,noun,,,,,misc,B1
+dot,точка,noun,,,,,misc,B1
+edge,край,noun,,,,,misc,B1
+envelope,конверт,noun,,,,,misc,B1
+fabric,ткань,noun,,,,,misc,B1
+frame,рама,noun,,,,,misc,B1
+glue,клей,noun,,,,,misc,B1
+item,предмет,noun,,,,,misc,B1
+lock,замок,noun,,,,,misc,B1
+material,материал,noun,,,,,misc,B1
+metal,металл,noun,,,,,misc,B1
+nail,гвоздь,noun,,,,,misc,B1
+needle,игла,noun,,,,,misc,B1
+net,сеть,noun,,,,,misc,B1
+pile,куча,noun,,,,,misc,B1
+pot,горшок,noun,,,,,misc,B1
+scissors,ножницы,noun,,,,,misc,B1
+shadow,тень,noun,,,,,misc,B1
+shape,форма,noun,,,,,misc,B1
+sheet,простыня,noun,,,,,misc,B1
+smoke,дым,noun,,,,,misc,B1
+string,шнур,noun,,,,,misc,B1
+surface,поверхность,noun,,,,,misc,B1
+tin,жестянка,noun,,,,,misc,B1
+wire,провод,noun,,,,,misc,B1
+wool,шерсть,noun,,,,,misc,B1
+failover,переключение при отказе,noun,,,,,it,B1
+scalability,масштабируемость,noun,,,,,it,B1
+peering connection,пиринговое соединение,noun,,,,,it,B1
+peer,равный; одноранговый узел,noun,,,,,it,B1
+subnet,подсеть,noun,,,,,it,B1
+transfer,"перенос, передача",noun,,,,,it,B1
+distribution,распределение,noun,,,,,it,B1
+payload,полезная нагрузка,noun,,,,,it,B1
+deduper,программа удаления дубликатов,noun,,,,,it,B1
+corrupted,повреждённый,adjective,,,,,it,B1
+pinpoint,точно определить,verb,,,,,it,B1
+interceptor,перехватчик,noun,,,,,it,B1
+issuer,эмитент,noun,,,,,it,B1
+concurrency,"параллелизм, одновременное выполнение",noun,,,,,it,B1
+comparator,компаратор,noun,,,,,it,B1
+precedence,приоритет,noun,,,,,it,B1
+recipient,получатель,noun,,,,,it,B1
+indentation,отступ,noun,,,,,it,B1
+shuffle,перемешивать,verb,,,,,it,B1
+rewind,перемотка,noun,,,,,it,B1
+hot spare,горячий резерв,noun,,,,,it,B1
+bind,связывать,verb,,,,,it,B1
+overhead,накладные расходы,noun,,,,,it,B1
+footgun,"ошибка, из-за которой стреляешь себе в ногу",noun,,,,,it,B1
+circuit,"цепь, схема",noun,,,,,it,B1
+circuit breaker,автоматический выключатель,noun,,,,,it,B1
+bulkhead,переборка (изоляция отказов),noun,,,,,it,B1
+resilience,устойчивость к сбоям,noun,,,,,it,B1
+invocation,вызов,noun,,,,,it,B1
+extends,расширяет,verb,,,,,it,B1
+entrypoint,точка входа,noun,,,,,it,B1
+architecture,архитектура,noun,,,,,it,B1
+configure,настраивать,verb,,,,,it,B1
+propagate,"распространять, передавать дальше",verb,,,,,it,B1
+discard,отбрасывать,verb,,,,,it,B1
+revoke,"отзывать, аннулировать",verb,,,,,it,B1
+bearer,предъявитель (токена),noun,,,,,it,B1
+granted authority,предоставленное полномочие,noun,,,,,it,B1
+authorities,полномочия; власти,noun,,,,,it,B1
+authentic,подлинный,adjective,,,,,it,B1
+preflight,предварительный (запрос CORS),adjective,,,,,it,B1
+default,по умолчанию,noun,,,,,it,B1
+query,запрос,noun,,,,,it,B1
+representation,представление,noun,,,,,it,B1
+via,через,preposition,,,,,it,B1
+explicit,явный,adjective,,,,,it,B1
+redundant,избыточный,adjective,,,,,it,B1
+superfluous,лишний,adjective,,,,,it,B1
+robustness,"надёжность, устойчивость",noun,,,,,it,B1
+evict,вытеснять; выселять,verb,,,,,it,B1
+orphan removal,удаление «сирот»,noun,,,,,it,B1
+nullable,допускающий null,adjective,,,,,it,B1
+queue,очередь,noun,,,,,it,B1
+scope,область видимости; охват,noun,,,,,it,B1
+buffer,буфер,noun,,,,,it,B1
+heartbeat,сигнал «я жив»,noun,,,,,it,B1
+event loop,цикл обработки событий,noun,,,,,it,B1
+placeholder,заполнитель,noun,,,,,it,B1
+ACK,подтверждение получения,noun,,,,,it,B1
+tuple,кортеж,noun,,,,,it,B1
+mismatch,несоответствие,noun,,,,,it,B1
+persistent,"постоянный, сохраняемый",adjective,,,,,it,B1
+ubiquitous,вездесущий,adjective,,,,,it,B1
+substitution,замена,noun,,,,,it,B1
+proper,"надлежащий, правильный",adjective,,,,,it,B1
+permissions,разрешения,noun,,,,,it,B1
+root cause,первопричина,noun,,,,,it,B1
+fanout,разветвление рассылки,noun,,,,,it,B1
+retention,"хранение, удержание",noun,,,,,it,B1
+consumer,потребитель,noun,,,,,it,B1
+producer,производитель,noun,,,,,it,B1
+durable,"долговечный, устойчивый",adjective,,,,,it,B1
+retrieve,извлекать,verb,,,,,it,B1
+assert,утверждать,verb,,,,,it,B1
+within,"внутри, в пределах",preposition,,,,,it,B1
+precision,точность,noun,,,,,it,B1
+clarity,ясность,noun,,,,,it,B1
+straightforward,"простой, понятный",adjective,,,,,it,B1
+popup,всплывающее окно,noun,,,,,it,B1
+organizational unit,организационное подразделение,noun,,,,,it,B1
+determine,определять,verb,,,,,it,B1
+served,обслуженный,participle,,,,,it,B1
+proficiency,"мастерство, умение",noun,,,,,it,B1
+compliance,соответствие требованиям,noun,,,,,it,B1
+sealed,запечатанный,adjective,,,,,it,B1
+residual risk,остаточный риск,noun,,,,,it,B1
+suspended,приостановленный,adjective,,,,,it,B1
+consequences,последствия,noun,,,,,business,B1
+arrangement,договорённость; расположение,noun,,,,,business,B1
+penalties,штрафы,noun,,,,,business,B1
+overdue,просроченный,adjective,,,,,business,B1
+records,"записи, учётные данные",noun,,,,,business,B1
+obligation,обязательство,noun,,,,,business,B1
+source,источник,noun,,,,,business,B1
+on behalf of,от имени,phrase,,,,,business,B1
+file a lawsuit,подать в суд,phrase,,,,,business,B1
+court case,судебное дело,noun,,,,,business,B1
+legal action,судебный иск,noun,,,,,business,B1
+homicide,убийство,noun,,,,,business,B1
+confirmed,подтверждённый,adjective,,,,,business,B1
+rejected,отклонённый,adjective,,,,,business,B1
+discontinued,снятый с производства,adjective,,,,,business,B1
+enforce,принуждать; обеспечивать соблюдение,verb,,,,,business,B1
+enforced,принудительный,adjective,,,,,business,B1
+issued,выпущенный,adjective,,,,,business,B1
+guidelines,методические рекомендации,noun,,,,,business,B1
+in charge of,ответственный за,phrase,,,,,business,B1
+get the go-ahead,получить разрешение,phrase,,,,,business,B1
+delayed,отложенный; задержанный,adjective,,,,,business,B1
+borrowed,заимствованный,adjective,,,,,business,B1
+prerequisites,необходимые условия,noun,,,,,business,B1
+purpose,цель,noun,,,,,business,B1
+due,надлежащий; причитающийся,adjective,,,,,business,B1
+mayor,мэр,noun,,,,,business,B1
+a slew of,"куча, множество",phrase,,,,,business,B1
+renewable energies,возобновляемые источники энергии,noun,,,,,business,B1
+thrift store,комиссионный магазин,noun,,,,,business,B1
+third-party,сторонний,adjective,,,,,business,B1
+state-of-the-art,"современный, передовой",adjective,,,,,business,B1
+advantage,преимущество,noun,,,,,business,B1
+downside,недостаток,noun,,,,,business,B1
+treadmill,беговая дорожка,noun,,,,,business,B1
+cubicle,рабочая кабинка,noun,,,,,business,B1
+turn heads,привлекать внимание,idiom,,,,,idioms,B1
+turn the tables,поменяться ролями,idiom,,,,,idioms,B1
+a turn up for the books,неожиданный поворот событий,idiom,,,,,idioms,B1
+at every turn,на каждом шагу,idiom,,,,,idioms,B1
+take the scenic route,поехать живописным маршрутом,idiom,,,,,idioms,B1
+living out of a suitcase,жить на чемоданах,idiom,,,,,idioms,B1
+think outside the box,мыслить нестандартно,idiom,,,,,idioms,B1
+go off the beaten path,сойти с проторенной дорожки,idiom,,,,,idioms,B1
+in the middle of nowhere,в глуши,idiom,,,,,idioms,B1
+make a splash,произвести фурор,idiom,,,,,idioms,B1
+old wives' tale,"бабушкины сказки, суеверие",idiom,,,,,idioms,B1
+who will bell the cat,кто рискнёт взяться за опасное дело,idiom,,,,,idioms,B1
+go nuclear,взорваться от гнева,idiom,,,,,idioms,B1
+be above the salt,занимать почётное место,idiom,,,,,idioms,B1
+dude up,приодеться,phrasal verb,,,,,idioms,B1
+mickey mouse around,валять дурака,idiom,,,,,idioms,B1
+used to,раньше (делал); привык,phrase,,,,,idioms,B1
+be used to,быть привычным к,phrase,,,,,idioms,B1
+come up with,придумать,phrasal verb,,,,,idioms,B1
+bad habits,вредные привычки,noun,,,,,idioms,B1
+past habits,прошлые привычки,noun,,,,,idioms,B1
+no sense,никакого смысла,phrase,,,,,idioms,B1
+screwed,в безвыходном положении,adjective,,,,,idioms,B1
+stoked,в восторге,adjective,,,,,idioms,B1
+jiffy,"миг, мгновение",noun,,,,,idioms,B1
+from scratch,с нуля,phrase,,,,,idioms,B1
+chore,рутинная обязанность,noun,,,,,idioms,B1
+viral,вирусный,adjective,,,,,general,B1
+significantly,существенно,adverb,,,,,general,B1
+occasion,"случай, повод",noun,,,,,general,B1
+forbidden,запрещённый,adjective,,,,,general,B1
+overlapping,перекрывающийся,adjective,,,,,general,B1
+ledge,уступ,noun,,,,,general,B1
+genuine,подлинный,adjective,,,,,general,B1
+mulling,обдумывание,noun,,,,,general,B1
+emitting,излучающий,adjective,,,,,general,B1
+according,согласно,adverb,,,,,general,B1
+reinvent,заново изобретать,verb,,,,,general,B1
+blemish,"изъян, огрех",noun,,,,,general,B1
+complex,сложный,adjective,,,,,general,B1
+ensure,гарантировать,verb,,,,,general,B1
+guidance,"руководство, наставление",noun,,,,,general,B1
+managed,управляемый,adjective,,,,,general,B1
+convincing,убедительный,adjective,,,,,general,B1
+able,способный,adjective,,,,,general,B1
+fracture,перелом,noun,,,,,general,B1
+statement,заявление,noun,,,,,general,B1
+serve,служить; подавать,verb,,,,,general,B1
+long-lasting,долговечный,adjective,,,,,general,B1
+repair,починка,noun,,,,,general,B1
+particular,определённый,adjective,,,,,general,B1
+underground,метро,noun,,,,,general,B1
+driver's license,водительские права,noun,,,,,general,B1
+sifting,просеивание,noun,,,,,general,B1
+outline,"набросок, план",noun,,,,,general,B1
+audience,аудитория,noun,,,,,general,B1
+overprotected,чрезмерно опекаемый,adjective,,,,,general,B1
+recoil,отпрянуть,verb,,,,,general,B1
+explode,взрываться,verb,,,,,general,B1
+transparent,прозрачный,adjective,,,,,general,B1
+scavenger,падальщик,noun,,,,,general,B1
+wit,остроумие,noun,,,,,general,B1
+length,длина,noun,,,,,general,B1
+assume,предполагать,verb,,,,,general,B1
+sleek,"гладкий, элегантный",adjective,,,,,general,B1
+flat,квартира,noun,,,,,general,B1
+strange,странный,adjective,,,,,general,B1
+bizarre,"причудливый, странный",adjective,,,,,general,B1
+dark matter,тёмная материя,noun,,,,,general,B1
+immature,незрелый,adjective,,,,,general,B1
+heat,жара,noun,,,,,general,B1
+fungal,грибковый,adjective,,,,,general,B1
+distracted,отвлечённый,adjective,,,,,general,B1
+detract,умалять; отвлекать,verb,,,,,general,B1
+hop,прыгать,verb,,,,,general,B1
+meltdown,крах; расплавление,noun,,,,,general,B1
+feign,притворяться,verb,,,,,general,B1
+rush,спешка,noun,,,,,general,B1
+exhaust,истощать,verb,,,,,general,B1
+auxiliary,вспомогательный,adjective,,,,,general,B1
+difficult,трудный,adjective,,,,,general,B1
+regard,уважение,noun,,,,,general,B1
+draft,черновик,noun,,,,,general,B1
+embarrass,смущать,verb,,,,,general,B1
+embarrassing,неловкий,adjective,,,,,general,B1
+typically,как правило,adverb,,,,,general,B1
+conventionally,традиционно,adverb,,,,,general,B1
+similarly,аналогично,adverb,,,,,general,B1
+surround,окружать,verb,,,,,general,B1
+differ,отличаться,verb,,,,,general,B1
+milling,фрезерование,noun,,,,,general,B1
+sketching,рисование эскизов,noun,,,,,general,B1
+dimension,"измерение, размер",noun,,,,,general,B1
+fluid,жидкость,noun,,,,,general,B1
+weld,сварной шов,noun,,,,,general,B1
+reside,проживать,verb,,,,,general,B1
+destiny,судьба,noun,,,,,general,B1
+belong,принадлежать,verb,,,,,general,B1
+excess,избыток,noun,,,,,general,B1
+roar,рычать,verb,,,,,general,B1
+discerning,проницательный,adjective,,,,,general,B1
+shallow,поверхностный,adjective,,,,,general,B1
+chapter,"глава, раздел",noun,,,,,general,B1
+curd,творог,noun,,,,,general,B1
+confuse,путать,verb,,,,,general,B1
+heel,каблук,noun,,,,,general,B1
+torn,рваный,adjective,,,,,general,B1
+boots,ботинки,noun,,,,,general,B1
+former,бывший,adjective,,,,,general,B1
+pomegranate,гранат,noun,,,,,general,B1
+common,"общий, распространённый",adjective,,,,,general,B1
+success,успех,noun,,,,,general,B1
+hell,ад,noun,,,,,general,B1
+garbage,мусор,noun,,,,,general,B1
+tow truck,эвакуатор,noun,,,,,general,B1
+silence,тишина,noun,,,,,general,B1
+memories,воспоминания,noun,,,,,general,B1
+traffic jam,пробка,noun,,,,,general,B1
+quietly,тихо,adverb,,,,,general,B1
+sometimes,иногда,adverb,,,,,general,B1
+often,"зачастую, часто",adverb,,,,,general,B1
+convenient,удобный,adjective,,,,,general,B1
+quadruple,четырёхкратный,adjective,,,,,general,B1
+remember,помнить,verb,,,,,general,B1
+chief,начальник,noun,,,,,general,B1
+tense,время (глагола),noun,,,,,grammar,B1
+zero conditional,нулевое условное предложение,noun,,,,,grammar,B1
+noun,существительное,noun,,,,,grammar,B1
+adjective,прилагательное,noun,,,,,grammar,B1
+superlative,превосходная степень,noun,,,,,grammar,B1
+consonant,согласный звук,noun,,,,,grammar,B1
+vowel,гласный звук,noun,,,,,grammar,B1
+one-syllable adjective,односложное прилагательное,noun,,,,,grammar,B1
+present perfect,настоящее совершённое время,noun,,,,,grammar,B1
+past simple,простое прошедшее время,noun,,,,,grammar,B1

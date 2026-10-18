@@ -4,8 +4,6 @@
 
     <string name="nav_home">Home</string>
     <string name="nav_learn">Learn</string>
-    <string name="nav_review">Review</string>
-    <string name="nav_search">Search</string>
     <string name="nav_profile">Profile</string>
 
     <string name="action_skip">Skip</string>
@@ -21,11 +19,9 @@
     <string name="action_save">Save</string>
     <string name="action_unsave">Remove from saved</string>
     <string name="action_continue_learning">Continue learning</string>
-    <string name="action_start_review">Start review</string>
     <string name="action_reveal">Reveal translation</string>
     <string name="action_know">I know it</string>
     <string name="action_dont_know">I don\'t know it</string>
-    <string name="action_review_again">Review again</string>
     <string name="action_listen">Listen</string>
     <string name="action_stop">Stop</string>
 
@@ -58,25 +54,24 @@
         <item quantity="other">%1$d of %2$d words learned today</item>
     </plurals>
     <string name="percent">%1$d%%</string>
-    <string name="home_review_title">Today\'s review</string>
     <string name="home_streak">Streak</string>
     <string name="home_words_learned">Words learned</string>
     <string name="home_recent_words">Recent words</string>
     <string name="home_saved_words">Saved</string>
     <string name="home_empty_vocabulary_title">The dictionary is empty</string>
     <string name="home_empty_vocabulary_message">The local vocabulary hasn\'t been loaded yet. Restart the app to try again.</string>
-    <string name="goal_reached_title">Daily goal reached</string>
-    <string name="goal_reached_message">You learned %1$d of %2$d words. Now make them stick with a review.</string>
-    <string name="goal_reached_action">Go to review</string>
 
     <string name="learn_title">Cards</string>
-    <string name="learn_position">%1$d of %2$d</string>
-    <string name="learn_completed">Answered %1$d of %2$d</string>
     <string name="learn_example">Example</string>
     <string name="learn_definition">Definition</string>
     <string name="learn_pronunciation">Pronunciation</string>
-    <string name="learn_finished_title">Session complete</string>
-    <string name="learn_finished_message">Cards answered: %1$d of %2$d</string>
+    <string name="learn_type_hint">Type the word in English</string>
+    <string name="learn_type_check">Check</string>
+    <string name="learn_type_hint_letter">Letter</string>
+    <string name="learn_type_mismatch">No match</string>
+    <string name="learn_mode_type">Check yourself: type the word</string>
+    <string name="learn_mode_see">See the translation</string>
+    <string name="learn_mode_options">Pick from the options</string>
     <string name="study_swipe_hint">Swipe the card left or right to answer</string>
     <string name="study_answer_known">I already know this word</string>
     <string name="study_answer_study">Study this word</string>
@@ -132,12 +127,7 @@
     <string name="difficulty_b2">B2 · Upper intermediate</string>
     <string name="difficulty_c1">C1 · Advanced</string>
     <string name="difficulty_c2">C2 · Proficient</string>
-
-    <string name="review_title">Review</string>
     <string name="review_think">Think about the meaning, then check yourself.</string>
-    <string name="review_empty_title">Nothing to review</string>
-    <string name="review_empty_message">Learn a few words and they will show up here.</string>
-    <string name="review_finished_title">Review complete</string>
 
     <string name="search_title">Search</string>
     <string name="search_hint">Word or translation</string>
@@ -188,6 +178,7 @@
     <string name="settings_about_text">Rewordly helps you learn English vocabulary through contextual cards with examples and translations.</string>
     <string name="settings_privacy">Privacy policy</string>
     <string name="settings_privacy_text">All of your learning data is stored only on this device. The app does not collect personal data or share it with third parties.</string>
+    <string name="settings_github">Source code on GitHub</string>
     <string name="language_russian">Русский</string>
     <string name="language_english">English</string>
     <string name="learning_language_english">English</string>
@@ -209,32 +200,12 @@
     <string name="learn_empty_title">Every word is learned</string>
     <string name="learn_empty_message">You reached the end of the list: every word was answered correctly often enough. New words show up here as soon as you add them to your vocabulary.</string>
     <string name="action_open_settings">Open settings</string>
-    <string name="action_review_more">Review more</string>
     <string name="action_learn_new">Learn new words</string>
-    <string name="review_finished_message">Reviewed: %1$d · Remembered: %2$d</string>
-    <string name="review_submit_failed">Could not save your answer. Tap the button again.</string>
-    <string name="review_empty_done_title">All done for today!</string>
-    <string name="review_empty_done_message">Every word is reviewed. Come back tomorrow or learn some new words.</string>
     <string name="rating_again">Again</string>
     <string name="rating_hard">Hard</string>
     <string name="rating_good">Good</string>
     <string name="rating_easy">Easy</string>
-    <plurals name="review_due_today">
-        <item quantity="one">Due today: %d word</item>
-        <item quantity="other">Due today: %d words</item>
-    </plurals>
-    <plurals name="review_remaining">
-        <item quantity="one">%d more word due</item>
-        <item quantity="other">%d more words due</item>
-    </plurals>
-    <plurals name="review_feedback_next">
-        <item quantity="one">%1$s · next review in %2$d day</item>
-        <item quantity="other">%1$s · next review in %2$d days</item>
-    </plurals>
 
-    <string name="home_review_progress">Reviewed today: %1$d of %2$d</string>
-    <string name="home_review_done_title">All reviewed!</string>
-    <string name="home_review_done_message">Great work. More words will be due for review later.</string>
     <string name="home_new_words">New words</string>
     <string name="home_total_words">Vocabulary size</string>
     <string name="home_no_new_words">No new words</string>
@@ -274,7 +245,6 @@
     <string name="notification_channel_name">Study reminders</string>
     <string name="notification_channel_encouragement">Encouragement after a session</string>
     <string name="notification_action_start">Start learning</string>
-    <string name="notification_action_review">Review words</string>
 
     <string name="notification_due_title">Time to review your words</string>
     <plurals name="notification_due_text">
@@ -350,7 +320,6 @@
         <item quantity="other">%d words to review</item>
     </plurals>
     <string name="widget_action_start">Start learning</string>
-    <string name="widget_action_review">Review</string>
     <string name="widget_action_refresh">Refresh progress</string>
 
     <!-- STEP 4: AI vocabulary -->
@@ -478,9 +447,9 @@
 
     <!-- STEP 5: personalized learning -->
     <string name="home_plan_title">Today\'s plan</string>
-    <string name="home_plan_summary">To review: %1$d · New words: %2$d</string>
+    <string name="home_plan_summary">%1$d new words for today</string>
     <string name="home_plan_all_done">Nothing left for today</string>
-    <string name="home_plan_all_done_message">There is nothing to review and no new words yet. Come back later, or add words with the AI vocabulary.</string>
+    <string name="home_plan_all_done_message">No new words yet. Come back later, or add words with the AI vocabulary.</string>
     <string name="home_plan_eased_off">Fewer new words today: several words are still hard for you.</string>
     <string name="home_weak_words_title">Your weak words</string>
     <string name="home_weak_words_hint">These are the words you get wrong most often.</string>

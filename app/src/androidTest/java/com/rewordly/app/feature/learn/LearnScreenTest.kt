@@ -1,5 +1,6 @@
 package com.rewordly.app.feature.learn
 
+import androidx.compose.ui.test.assertDoesNotExist
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -8,6 +9,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeRight
@@ -45,6 +47,8 @@ class LearnScreenTest {
         revealed: Boolean = false,
         submitting: Boolean = false,
         firstEncounter: Boolean = true,
+        answerMode: StudyMode? = null,
+        typed: String = "",
     ) {
         val progress = if (firstEncounter) {
             WordProgress(items[position].word.id)
@@ -57,6 +61,10 @@ class LearnScreenTest {
                     session = session.copy(currentPosition = position),
                     items = items,
                     current = items[position].copy(progress = progress),
+                    variants = items.map { it.word.text },
+                    answerMode = answerMode,
+                    typed = typed,
+                    typeMismatch = false,
                     revealed = revealed,
                     isSubmitting = submitting,
                     submitFailed = false,
@@ -68,30 +76,48 @@ class LearnScreenTest {
     }
 
     @Test
-    fun showsPositionAndCompletedCount() {
-        show(position = 1)
-        compose.onNodeWithText(uiString(R.string.learn_position, 2, 3)).assertIsDisplayed()
-        compose.onNodeWithText(uiString(R.string.learn_completed, 1, 3)).assertIsDisplayed()
-    }
-
-    @Test
-    fun currentCard_showsTheWord_butKeepsTheTranslationHidden() {
+    fun currentCard_showsTheTranslation_butKeepsTheWordHidden() {
         show()
-        compose.onNodeWithText(items[0].word.text, useUnmergedTree = true).assertIsDisplayed()
-        compose.onNodeWithText(items[0].word.translation.text, useUnmergedTree = true).assertDoesNotExist()
-    }
-
-    @Test
-    fun revealing_showsTheTranslation() {
-        show(revealed = true)
         compose.onNodeWithText(items[0].word.translation.text, useUnmergedTree = true).assertIsDisplayed()
+        compose.onNodeWithText(items[0].word.text, useUnmergedTree = true).assertDoesNotExist()
     }
 
     @Test
-    fun revealButton_sendsTheRevealEvent() {
+    fun revealing_showsTheEnglishWord() {
+        show(revealed = true)
+        compose.onNodeWithText(items[0].word.text, useUnmergedTree = true).assertIsDisplayed()
+    }
+
+    @Test
+    fun theThreeModeButtons_sendSelectModeEvents() {
         show()
-        compose.onNodeWithText(uiString(R.string.action_reveal)).performClick()
-        assertEquals(listOf<LearnUiEvent>(LearnUiEvent.Reveal), events)
+        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_type)).performClick()
+        assertEquals(listOf<LearnUiEvent>(LearnUiEvent.SelectMode(StudyMode.TYPE)), events)
+    }
+
+    @Test
+    fun typingPanel_acceptsInput_andChecksIt() {
+        show(answerMode = StudyMode.TYPE)
+        compose.onNodeWithText(uiString(R.string.learn_type_hint)).performTextInput("plan")
+        compose.onNodeWithText(uiString(R.string.learn_type_check)).performScrollTo().performClick()
+        compose.onNodeWithText(uiString(R.string.learn_type_hint_letter)).performClick()
+
+        assertEquals(
+            listOf(
+                LearnUiEvent.TypeText("plan"),
+                LearnUiEvent.TypeCheck,
+                LearnUiEvent.TypeHint,
+            ),
+            events,
+        )
+    }
+
+    @Test
+    fun optionsPanel_offersVariants_andReportsThePick() {
+        val expectedVariant = items[1].word.text
+        show(answerMode = StudyMode.OPTIONS)
+        compose.onNodeWithText(expectedVariant).performScrollTo().performClick()
+        assertEquals(listOf<LearnUiEvent>(LearnUiEvent.PickVariant(expectedVariant)), events)
     }
 
     /** A word the user has never met is triaged, so the answers talk about knowing, not remembering. */
@@ -123,7 +149,8 @@ class LearnScreenTest {
     @Test
     fun swipingTheCardLeft_answersRemembered() {
         show(firstEncounter = false)
-        compose.onNodeWithText(items[0].word.text, useUnmergedTree = true).performTouchInput { swipeLeft() }
+        compose.onNodeWithText(items[0].word.translation.text, useUnmergedTree = true)
+            .performTouchInput { swipeLeft() }
         compose.waitUntil(timeoutMillis = WAIT_MILLIS) { events.isNotEmpty() }
         assertEquals(listOf<LearnUiEvent>(LearnUiEvent.Answer(remembered = true)), events)
     }
@@ -131,7 +158,8 @@ class LearnScreenTest {
     @Test
     fun swipingTheCardRight_answersNotRemembered() {
         show(firstEncounter = false)
-        compose.onNodeWithText(items[0].word.text, useUnmergedTree = true).performTouchInput { swipeRight() }
+        compose.onNodeWithText(items[0].word.translation.text, useUnmergedTree = true)
+            .performTouchInput { swipeRight() }
         compose.waitUntil(timeoutMillis = WAIT_MILLIS) { events.isNotEmpty() }
         assertEquals(listOf<LearnUiEvent>(LearnUiEvent.Answer(remembered = false)), events)
     }
@@ -144,21 +172,13 @@ class LearnScreenTest {
     }
 
     @Test
-    fun saveAndListen_areVisible() {
+    fun saveAndDetails_areVisible() {
         show()
-        compose.onNodeWithContentDescription(uiString(R.string.a11y_pronounce, items[0].word.text))
-            .performScrollTo()
-            .assertIsDisplayed()
         compose.onNodeWithContentDescription(uiString(R.string.action_save)).performScrollTo().performClick()
-        assertTrue(events.contains(LearnUiEvent.ToggleSaved))
-    }
-
-    @Test
-    fun detailsButton_opensTheWord() {
-        show()
         compose.onNodeWithContentDescription(uiString(R.string.a11y_open_details, items[0].word.text))
             .performScrollTo()
             .performClick()
+        assertTrue(events.contains(LearnUiEvent.ToggleSaved))
         assertEquals(items[0].word.id, openedWordId)
     }
 

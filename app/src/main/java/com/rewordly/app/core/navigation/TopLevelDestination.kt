@@ -6,16 +6,13 @@ import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Replay
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Replay
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.rewordly.app.R
 import kotlin.reflect.KClass
 
+/** The bottom bar tabs. Search lives inside the profile tab, so it has no entry here. */
 enum class TopLevelDestination(
     val route: Any,
     val routeClass: KClass<*>,
@@ -31,7 +28,5 @@ enum class TopLevelDestination(
         Icons.AutoMirrored.Filled.MenuBook,
         Icons.AutoMirrored.Outlined.MenuBook,
     ),
-    REVIEW(ReviewRoute, ReviewRoute::class, R.string.nav_review, Icons.Filled.Replay, Icons.Outlined.Replay),
-    SEARCH(SearchRoute(), SearchRoute::class, R.string.nav_search, Icons.Filled.Search, Icons.Outlined.Search),
     PROFILE(ProfileRoute, ProfileRoute::class, R.string.nav_profile, Icons.Filled.Person, Icons.Outlined.Person),
 }

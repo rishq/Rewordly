@@ -1,6 +1,5 @@
 package com.rewordly.app.feature.search
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,32 +16,25 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.SearchOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.heading
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -61,6 +53,19 @@ import com.rewordly.app.feature.add.AddWordSheet
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(onOpenWord: (String) -> Unit, viewModel: SearchViewModel = hiltViewModel()) {
+    SearchSurface(onOpenWord = onOpenWord, embedded = false, viewModel = viewModel)
+}
+
+/** The search UI embedded as a section inside the profile tab, without its own top bar. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchSection(onOpenWord: (String) -> Unit, viewModel: SearchViewModel = hiltViewModel()) {
+    SearchSurface(onOpenWord = onOpenWord, embedded = true, viewModel = viewModel)
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SearchSurface(onOpenWord: (String) -> Unit, embedded: Boolean, viewModel: SearchViewModel) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val filters by viewModel.activeFilters.collectAsStateWithLifecycle()
 
@@ -72,10 +77,8 @@ fun SearchScreen(onOpenWord: (String) -> Unit, viewModel: SearchViewModel = hilt
         uiState = uiState,
         filters = filters,
         onFiltersChange = viewModel::onFiltersChange,
-        onSubmit = viewModel::onSubmit,
-        onRecentSelected = viewModel::onRecentSelected,
-        onClearRecent = viewModel::clearRecent,
         onOpenWord = onOpenWord,
+        embedded = embedded,
         onAddWord = { word -> addWordFor = word },
     )
     addWordFor?.let { word ->
@@ -98,98 +101,130 @@ fun SearchContent(
     uiState: SearchUiState,
     filters: VocabularyFilters,
     onFiltersChange: (VocabularyFilters) -> Unit,
-    onSubmit: () -> Unit,
-    onRecentSelected: (String) -> Unit,
-    onClearRecent: () -> Unit,
     onOpenWord: (String) -> Unit,
     modifier: Modifier = Modifier,
+    /** Inside the profile tab: no own top bar, and plain lists because the parent already scrolls. */
+    embedded: Boolean = false,
     /** Opens the add-word sheet for the given word; blank means the user starts from an empty field. */
     onAddWord: (String) -> Unit = {},
 ) {
+    if (embedded) {
+        SearchBody(
+            query,
+            onQueryChange,
+            uiState,
+            filters,
+            onFiltersChange,
+            onOpenWord,
+            onAddWord,
+            embedded = true,
+            modifier = modifier,
+        )
+    } else {
+        Scaffold(
+            modifier = modifier,
+            topBar = {
+                TopAppBar(
+                    title = { Text(stringResource(R.string.search_title)) },
+                    actions = {
+                        IconButton(onClick = { onAddWord("") }) {
+                            Icon(Icons.Outlined.Add, contentDescription = stringResource(R.string.add_word_action))
+                        }
+                    },
+                )
+            },
+        ) { padding ->
+            SearchBody(
+                query,
+                onQueryChange,
+                uiState,
+                filters,
+                onFiltersChange,
+                onOpenWord,
+                onAddWord,
+                embedded = false,
+                modifier = Modifier.fillMaxSize().padding(padding),
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SearchBody(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    uiState: SearchUiState,
+    filters: VocabularyFilters,
+    onFiltersChange: (VocabularyFilters) -> Unit,
+    onOpenWord: (String) -> Unit,
+    onAddWord: (String) -> Unit,
+    embedded: Boolean,
+    modifier: Modifier = Modifier,
+) {
     val keyboard = LocalSoftwareKeyboardController.current
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.search_title)) },
-                actions = {
-                    IconButton(onClick = { onAddWord("") }) {
-                        Icon(Icons.Outlined.Add, contentDescription = stringResource(R.string.add_word_action))
-                    }
-                },
-            )
-        },
-    ) { padding ->
-        Column(
+    Column(modifier = modifier) {
+        OutlinedTextField(
+            value = query,
+            onValueChange = onQueryChange,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-        ) {
-            OutlinedTextField(
-                value = query,
-                onValueChange = onQueryChange,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = Dimens.screenPadding),
-                placeholder = { Text(stringResource(R.string.search_hint)) },
-                leadingIcon = { Icon(Icons.Outlined.Search, contentDescription = null) },
-                trailingIcon = {
-                    if (query.isNotEmpty()) {
-                        IconButton(onClick = { onQueryChange("") }) {
-                            Icon(Icons.Outlined.Close, contentDescription = stringResource(R.string.action_clear))
-                        }
+                .fillMaxWidth()
+                .padding(horizontal = Dimens.screenPadding),
+            placeholder = { Text(stringResource(R.string.search_hint)) },
+            leadingIcon = { Icon(Icons.Outlined.Search, contentDescription = null) },
+            trailingIcon = {
+                if (query.isNotEmpty()) {
+                    IconButton(onClick = { onQueryChange("") }) {
+                        Icon(Icons.Outlined.Close, contentDescription = stringResource(R.string.action_clear))
+                    }
+                }
+            },
+            singleLine = true,
+            shape = MaterialTheme.shapes.large,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(
+                onSearch = { keyboard?.hide() },
+            ),
+        )
+        FilterRow(filters = filters, onFiltersChange = onFiltersChange)
+        when (val state = uiState) {
+            SearchUiState.Loading -> LoadingState()
+            is SearchUiState.NoResults -> EmptyState(
+                icon = Icons.Outlined.SearchOff,
+                title = stringResource(R.string.search_empty_title),
+                message = if (state.query.isBlank()) {
+                    stringResource(R.string.search_empty_filters_message)
+                } else {
+                    stringResource(R.string.search_empty_message, state.query)
+                },
+                action = {
+                    // An empty query with active filters is not a word to look up, so the offer only
+                    // appears when the user actually typed something that is missing.
+                    if (state.query.isNotBlank()) {
+                        PrimaryButton(
+                            text = stringResource(R.string.add_word_empty_action, state.query.trim()),
+                            onClick = { onAddWord(state.query.trim()) },
+                            icon = Icons.Outlined.Add,
+                        )
                     }
                 },
-                singleLine = true,
-                shape = MaterialTheme.shapes.large,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                keyboardActions = KeyboardActions(
-                    onSearch = {
-                        onSubmit()
-                        keyboard?.hide()
-                    },
-                ),
             )
-            FilterRow(filters = filters, onFiltersChange = onFiltersChange)
-            when (val state = uiState) {
-                SearchUiState.Loading -> LoadingState()
-                is SearchUiState.Idle -> RecentSearches(
-                    recent = state.recentSearches,
-                    onSelect = onRecentSelected,
-                    onClear = onClearRecent,
-                )
-                is SearchUiState.NoResults -> EmptyState(
-                    icon = Icons.Outlined.SearchOff,
-                    title = stringResource(R.string.search_empty_title),
-                    message = if (state.query.isBlank()) {
-                        stringResource(R.string.search_empty_filters_message)
-                    } else {
-                        stringResource(R.string.search_empty_message, state.query)
-                    },
-                    action = {
-                        // An empty query with active filters is not a word to look up, so the offer only
-                        // appears when the user actually typed something that is missing.
-                        if (state.query.isNotBlank()) {
-                            PrimaryButton(
-                                text = stringResource(R.string.add_word_empty_action, state.query.trim()),
-                                onClick = { onAddWord(state.query.trim()) },
-                                icon = Icons.Outlined.Add,
-                            )
-                        }
-                    },
-                )
-                is SearchUiState.Results -> LazyColumn(
+            is SearchUiState.Results -> if (embedded) {
+                Column(
+                    modifier = Modifier.padding(horizontal = Dimens.screenPadding),
+                    verticalArrangement = Arrangement.spacedBy(Dimens.spaceSm),
+                ) {
+                    state.words.forEach { item ->
+                        WordListItem(item = item, onClick = { onOpenWord(item.word.id) })
+                    }
+                }
+            } else {
+                LazyColumn(
                     contentPadding = PaddingValues(Dimens.screenPadding),
                     verticalArrangement = Arrangement.spacedBy(Dimens.spaceSm),
                 ) {
                     items(state.words, key = { it.word.id }) { item ->
-                        WordListItem(
-                            item = item,
-                            onClick = {
-                                onSubmit()
-                                onOpenWord(item.word.id)
-                            },
-                        )
+                        WordListItem(item = item, onClick = { onOpenWord(item.word.id) })
                     }
                 }
             }
@@ -223,47 +258,6 @@ private fun FilterRow(filters: VocabularyFilters, onFiltersChange: (VocabularyFi
                     label = { Text(stringResource(option.filterRes)) },
                 )
             }
-        }
-    }
-}
-
-@Composable
-private fun RecentSearches(recent: List<String>, onSelect: (String) -> Unit, onClear: () -> Unit) {
-    if (recent.isEmpty()) {
-        EmptyState(
-            icon = Icons.Outlined.Search,
-            title = stringResource(R.string.search_idle_title),
-            message = stringResource(R.string.search_idle_message),
-        )
-        return
-    }
-    LazyColumn(contentPadding = PaddingValues(vertical = Dimens.spaceLg)) {
-        item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = Dimens.screenPadding),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(R.string.search_recent),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier
-                        .weight(1f)
-                        .semantics { heading() },
-                )
-                TextButton(onClick = onClear) { Text(stringResource(R.string.action_clear_all)) }
-            }
-        }
-        items(recent, key = { it }) { value ->
-            ListItem(
-                headlineContent = { Text(value) },
-                leadingContent = { Icon(Icons.Outlined.History, contentDescription = null) },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background),
-                modifier = Modifier
-                    .padding(horizontal = Dimens.spaceSm)
-                    .clickable { onSelect(value) },
-            )
         }
     }
 }

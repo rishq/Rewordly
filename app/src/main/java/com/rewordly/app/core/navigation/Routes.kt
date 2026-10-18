@@ -11,9 +11,6 @@ data object HomeRoute
 @Serializable
 data object LearnRoute
 
-@Serializable
-data object ReviewRoute
-
 /** [query] pre-fills the search field, e.g. when opening a related word. */
 @Serializable
 data class SearchRoute(val query: String = "")

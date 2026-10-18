@@ -191,11 +191,6 @@ object ReminderNotifier {
             .setStyle(NotificationCompat.BigTextStyle().bigText(textOf(kind, localized, reminder)))
             .setContentIntent(openIntent(context, contentDestination(kind)))
             .addAction(0, localized.getString(R.string.notification_action_start), openIntent(context, LEARN))
-            .apply {
-                if (kind == ReminderKind.DUE_WORDS) {
-                    addAction(0, localized.getString(R.string.notification_action_review), openIntent(context, REVIEW))
-                }
-            }
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
@@ -203,11 +198,10 @@ object ReminderNotifier {
         return true
     }
 
-    /** Tap opens the screen the notification is actually about. */
+    /** Tap opens the screen the notification is actually about. Everything opens the learn loop. */
     private fun contentDestination(kind: ReminderKind): NotificationDestination = when (kind) {
-        ReminderKind.DUE_WORDS -> REVIEW
-        ReminderKind.GOAL_INCOMPLETE, ReminderKind.STREAK_AT_RISK, ReminderKind.DAILY -> LEARN
         ReminderKind.SESSION_DONE -> HOME
+        else -> LEARN
     }
 
     private fun titleOf(kind: ReminderKind): Int = when (kind) {
@@ -276,6 +270,5 @@ object ReminderNotifier {
 
     private const val NOTIFICATION_ID_BASE = 1001
     private val LEARN = NotificationDestination.LEARN
-    private val REVIEW = NotificationDestination.REVIEW
     private val HOME = NotificationDestination.HOME
 }

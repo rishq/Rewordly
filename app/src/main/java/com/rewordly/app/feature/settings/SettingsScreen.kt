@@ -29,6 +29,7 @@ import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Flag
 import androidx.compose.material.icons.outlined.Info
@@ -322,6 +323,13 @@ private fun SettingsContent(
                 value = null,
                 onClick = { dialog = SettingsDialog.PRIVACY },
             )
+            val uriHandler = LocalUriHandler.current
+            SettingsRow(
+                icon = Icons.Outlined.Code,
+                title = stringResource(R.string.settings_github),
+                value = GITHUB_URL,
+                onClick = { uriHandler.openUri(GITHUB_URL) },
+            )
         }
     }
 
@@ -458,6 +466,8 @@ private fun maskApiKey(apiKey: String): String =
 
 private const val MASK = "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"
 private const val MASK_VISIBLE_TAIL = 4
+
+private const val GITHUB_URL = "https://github.com/rishq/Rewordly"
 
 /** States where generation will actually go, so the effect of the choice is never a guess. */
 @Composable

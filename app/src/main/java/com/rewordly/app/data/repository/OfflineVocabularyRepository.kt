@@ -1,21 +1,30 @@
 package com.rewordly.app.data.repository
 
 import com.rewordly.app.core.common.AppResult
+import com.rewordly.app.core.common.IdProvider
 import com.rewordly.app.core.common.TimeProvider
 import com.rewordly.app.core.database.dao.WordDao
 import com.rewordly.app.core.database.dao.WordProgressDao
+import com.rewordly.app.core.database.entity.WordEntity
+import com.rewordly.app.core.database.entity.WordExampleEntity
 import com.rewordly.app.core.database.entity.WordProgressEntity
 import com.rewordly.app.core.database.safeDbCall
-import com.rewordly.app.data.local.MockVocabulary
 import com.rewordly.app.data.local.exampleEntities
 import com.rewordly.app.data.local.toDomain
 import com.rewordly.app.data.local.toEntity
+import com.rewordly.app.domain.model.Difficulty
 import com.rewordly.app.domain.model.LearningLanguage
+import com.rewordly.app.domain.model.PartOfSpeech
+import com.rewordly.app.domain.model.VocabularyEntry
+import com.rewordly.app.domain.model.VocabularyFileFormat
 import com.rewordly.app.domain.model.Word
 import com.rewordly.app.domain.model.WordKeys
 import com.rewordly.app.domain.model.WordProgress
+import com.rewordly.app.domain.model.WordSource
 import com.rewordly.app.domain.model.WordWithProgress
 import com.rewordly.app.domain.repository.VocabularyRepository
+import com.rewordly.app.domain.service.ImportLimits
+import com.rewordly.app.domain.service.VocabularyImportParser
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
@@ -27,19 +36,36 @@ import kotlinx.coroutines.flow.map
 class OfflineVocabularyRepository @Inject constructor(
     private val wordDao: WordDao,
     private val progressDao: WordProgressDao,
+    private val importParser: VocabularyImportParser,
+    private val idProvider: IdProvider,
     private val timeProvider: TimeProvider,
+    private val seedSource: VocabularySeedSource,
 ) : VocabularyRepository {
 
     override suspend fun ensureSeeded(): AppResult<Unit> = safeDbCall {
-        if (wordDao.count() == 0) {
-            val base = timeProvider.nowMillis()
-            val words = MockVocabulary.words
-            // Offsets keep the bundled order stable when sorted by created_at.
-            wordDao.insertVocabulary(
-                words = words.mapIndexed { index, word -> word.toEntity(createdAt = base + index) },
-                examples = words.flatMap { it.exampleEntities() },
-            )
+        if (wordDao.count() != 0) return@safeDbCall
+        val base = timeProvider.nowMillis()
+        // The bundled B1 starter vocabulary: the learn loop needs cards from the very first run.
+        val entries = importParser.parse(seedSource.read(), VocabularyFileFormat.CSV, ImportLimits()).entries
+        var index = 0
+        val seedWords = mutableListOf<WordEntity>()
+        val seedExamples = mutableListOf<WordExampleEntity>()
+        for (parsedEntry in entries) {
+            val wordId = idProvider.newId()
+            seedWords += parsedEntry.entry.toEntity(id = wordId, createdAt = base + index)
+            parsedEntry.entry.examples.forEachIndexed { position, example ->
+                seedExamples += WordExampleEntity(
+                    id = idProvider.newId(),
+                    wordId = wordId,
+                    text = example.english,
+                    translation = example.russian,
+                    position = position,
+                )
+            }
+            index++
         }
+        // Offsets keep the bundled order stable when sorted by created_at.
+        wordDao.insertVocabulary(words = seedWords, examples = seedExamples)
     }
 
     override fun observeWords(language: LearningLanguage): Flow<List<WordWithProgress>> =
@@ -99,7 +125,43 @@ class OfflineVocabularyRepository @Inject constructor(
         fresh.map { it.id }
     }
 
+    /**
+     * A bundled CSV row is written the same way an imported row is: unknown enum names fall back,
+     * and the row carries no pronunciation or audio until the app fetches it.
+     */
+    private fun VocabularyEntry.toEntity(id: String, createdAt: Long): WordEntity {
+        val partOfSpeech = partsOfSpeech().firstOrNull { it.name.equals(partOfSpeech.trim(), ignoreCase = true) }
+        val level = difficulties().firstOrNull { it.name.equals(difficulty.trim(), ignoreCase = true) }
+        return WordEntity(
+            id = id,
+            language = LearningLanguage.ENGLISH.tag,
+            text = text,
+            translation = translation,
+            translationLanguage = SEED_TRANSLATION_LANGUAGE,
+            pronunciation = "",
+            partOfSpeech = (partOfSpeech ?: PartOfSpeech.PHRASE).name,
+            difficulty = (level ?: Difficulty.A1).name,
+            definition = definition,
+            definitionTranslation = definitionTranslation,
+            forms = emptyList(),
+            relatedWords = emptyList(),
+            synonyms = emptyList(),
+            audioUrl = null,
+            createdAt = createdAt,
+            source = WordSource.BUNDLED.name,
+            topic = topic,
+        )
+    }
+
     /** The row to start from when the word has no progress yet; the DAO fills it in inside its transaction. */
     private fun blankProgress(wordId: String, updatedAt: Long): WordProgressEntity =
         WordProgress(wordId = wordId).toEntity(updatedAt = updatedAt)
+
+    private companion object {
+        /** Translations in the bundled file are Russian, like everywhere else in the app. */
+        const val SEED_TRANSLATION_LANGUAGE = "ru"
+
+        fun partsOfSpeech(): List<PartOfSpeech> = PartOfSpeech.entries
+        fun difficulties(): List<Difficulty> = Difficulty.entries
+    }
 }

@@ -17,6 +17,7 @@ import com.rewordly.app.domain.usecase.StartStudyingWordUseCase
 import com.rewordly.app.domain.usecase.SubmitReviewAnswerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -38,6 +39,10 @@ sealed interface LearnUiState {
         val session: LearningSession,
         val items: List<WordWithProgress>,
         val current: WordWithProgress,
+        val variants: List<String>,
+        val answerMode: StudyMode?,
+        val typed: String,
+        val typeMismatch: Boolean,
         val revealed: Boolean,
         val isSubmitting: Boolean,
         val submitFailed: Boolean,
@@ -52,25 +57,44 @@ sealed interface LearnUiState {
          */
         val isFirstEncounter: Boolean get() = current.progress.isUntouched
     }
-
-    /** Every word in the session was answered. */
-    data class Finished(val completedCount: Int, val total: Int) : LearnUiState
 }
+
+/**
+ * How the user verifies the card: the Russian translation is always face up, so the answer to produce or
+ * check is the English word. See shows it, Type asks for it (with a letter hint), Options offers choices.
+ */
+enum class StudyMode { TYPE, SEE, OPTIONS }
 
 sealed interface LearnUiEvent {
     /** The swipe (or the matching half of the answer bar): true when the word was recognised. */
     data class Answer(val remembered: Boolean) : LearnUiEvent
 
-    /** Shows the translation and the examples before answering. */
+    /** Chooses the verification panel shown under the card; tapping it again folds it away. */
+    data class SelectMode(val mode: StudyMode) : LearnUiEvent
+
+    /** The typed answer changes with every keystroke. */
+    data class TypeText(val text: String) : LearnUiEvent
+
+    /** Checks the typed answer against the word: a match answers the card as remembered. */
+    data object TypeCheck : LearnUiEvent
+
+    /** Reveals the next letter of the English word; the first letter when the field is empty. */
+    data object TypeHint : LearnUiEvent
+
+    /** One of the offered options was picked. */
+    data class PickVariant(val text: String) : LearnUiEvent
+
+    /** Shows the English word, pronunciation and examples before answering. */
     data object Reveal : LearnUiEvent
 
     data object ToggleSaved : LearnUiEvent
-
-    data object Restart : LearnUiEvent
 }
 
 /** Transient state of the single card on screen, kept out of [LearnUiState] to keep it a plain snapshot. */
 private data class CardFlags(
+    val answerMode: StudyMode? = null,
+    val typed: String = "",
+    val typeMismatch: Boolean = false,
     val revealed: Boolean = false,
     val isSubmitting: Boolean = false,
     val submitFailed: Boolean = false,
@@ -103,13 +127,18 @@ class LearnViewModel @Inject constructor(
         .distinctUntilChanged()
         .flatMapLatest { vocabularyRepository.observeWordsByIds(it) }
 
+    /**
+     * The queue is a batch of [settings.dailyGoal] cards; finishing one chains straight into the
+     * next batch, so the loop runs with no end screen until the vocabulary itself runs out.
+     */
     val uiState: StateFlow<LearnUiState> = combine(session, words, flags) { current, list, cardFlags ->
         toState(current, list, cardFlags)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS), LearnUiState.Loading)
 
     init {
         viewModelScope.launch {
-            if (session.value == null) startNewSession()
+            val restored = session.value
+            if (restored == null || restored.isFinished) startNewSession()
         }
         // Every time a different card is shown, remember that the user saw it and start the timer.
         viewModelScope.launch {
@@ -128,10 +157,80 @@ class LearnViewModel @Inject constructor(
     fun onEvent(event: LearnUiEvent) {
         when (event) {
             is LearnUiEvent.Answer -> answer(event.remembered)
+            is LearnUiEvent.SelectMode -> {
+                val current = flags.value
+                flags.value = when {
+                    // The eye folds the panel away without un-revealing what the user already saw.
+                    event.mode == StudyMode.SEE && current.answerMode == StudyMode.SEE ->
+                        current.copy(answerMode = null)
+                    event.mode == StudyMode.SEE -> current.copy(answerMode = StudyMode.SEE, revealed = true)
+                    event.mode == current.answerMode -> current.copy(answerMode = null, typeMismatch = false)
+                    else -> current.copy(answerMode = event.mode, typeMismatch = false)
+                }
+            }
+            is LearnUiEvent.TypeText -> flags.value = flags.value.copy(typed = event.text, typeMismatch = false)
+            LearnUiEvent.TypeCheck -> typeCheck()
+            LearnUiEvent.TypeHint -> hintNextLetter()
+            is LearnUiEvent.PickVariant -> if (isCorrectAnswer(event.text)) {
+                answer(remembered = true)
+            } else {
+                flags.value = flags.value.copy(typeMismatch = true)
+            }
             LearnUiEvent.Reveal -> flags.value = flags.value.copy(revealed = true)
             LearnUiEvent.ToggleSaved -> toggleSaved()
-            LearnUiEvent.Restart -> viewModelScope.launch { startNewSession() }
         }
+    }
+
+    /** Typing the English word right is the same as answering "remembered" by hand. */
+    private fun typeCheck() {
+        if (isCorrectAnswer(flags.value.typed)) {
+            answer(remembered = true)
+        } else {
+            flags.value = flags.value.copy(typeMismatch = true)
+        }
+    }
+
+    private fun isCorrectAnswer(text: String): Boolean {
+        val guess = normalizeAnswer(text)
+        if (guess.isEmpty()) return false
+        val word = (uiState.value as? LearnUiState.Content)?.current?.word?.text.orEmpty()
+        return normalizeAnswer(word) == guess
+    }
+
+    /**
+     * The comparison is deliberately lenient: case and runs of whitespace do not matter, but a different
+     * word stays wrong so typing is worth the same credit as a remembered card.
+     */
+    private fun normalizeAnswer(value: String): String = value.trim().lowercase().replace(WHITESPACE_REGEX, " ")
+
+    private fun hintNextLetter() {
+        val state = uiState.value as? LearnUiState.Content ?: return
+        // The hint always builds the English word itself, because that is what the user must recall.
+        val target = state.current.word.text
+        val typed = flags.value.typed
+        val next = when {
+            typed.length >= target.length -> return
+            target.regionMatches(0, typed, 0, typed.length, ignoreCase = true) -> target.take(typed.length + 1)
+            else -> return
+        }
+        flags.value = flags.value.copy(typed = next, typeMismatch = false)
+    }
+
+    /**
+     * Four English word options for the card, stable for a given card: three distractors from the same
+     * batch plus the real word, shuffled with a seed derived from the word id.
+     */
+    private fun variantsFor(current: WordWithProgress, pool: List<WordWithProgress>, position: Int): List<String> {
+        val correct = current.word.text.trim()
+        val wrong = pool.asSequence()
+            .map { it.word.text.trim() }
+            .filter { it.isNotEmpty() && normalizeAnswer(it) != normalizeAnswer(correct) }
+            .distinct()
+            .toList()
+        if (wrong.isEmpty()) return listOf(correct)
+        val random = Random(current.word.id.hashCode() + position)
+        val picks = wrong.shuffled(random).take(VARIANT_COUNT - 1)
+        return (picks + correct).shuffled(random)
     }
 
     /**
@@ -174,20 +273,26 @@ class LearnViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Finishes the card and in one breath continues the loop: if this was the last card of the batch,
+     * the next one starts without an end screen — the user simply never runs out of cards.
+     */
     private fun complete(wordId: String) {
-        update { current ->
-            val completed = current.completedWordIds + wordId
-            val finished = completed.size >= current.total
-            current.copy(
-                completedWordIds = completed,
-                completedAt = if (finished) current.completedAt ?: now() else current.completedAt,
-                currentPosition = if (finished) current.currentPosition else current.currentPosition + 1,
-            )
+        val current = session.value ?: return
+        val completed = current.completedWordIds + wordId
+        if (completed.size >= current.total) {
+            session.value = null
+            flags.value = CardFlags()
+            viewModelScope.launch { startNewSession() }
+            return
         }
+        session.value = current.copy(
+            completedWordIds = completed,
+            completedAt = null,
+            currentPosition = current.currentPosition + 1,
+        ).also(::persist)
         flags.value = CardFlags()
     }
-
-    private fun now(): Long = timeProvider.nowMillis()
 
     private suspend fun startNewSession() {
         val settings = settingsRepository.settings.first()
@@ -195,25 +300,19 @@ class LearnViewModel @Inject constructor(
             .also(::persist)
     }
 
-    private fun update(transform: (LearningSession) -> LearningSession) {
-        session.value = session.value?.let(transform)?.also(::persist)
-    }
-
     private fun toState(current: LearningSession?, words: List<WordWithProgress>, flags: CardFlags): LearnUiState {
         if (current == null) return LearnUiState.Loading
         val ordered = orderOf(current, words)
         if (ordered.isEmpty()) return LearnUiState.Empty
-        if (current.isFinished) {
-            return LearnUiState.Finished(
-                completedCount = current.completedCount,
-                total = current.total,
-            )
-        }
         val position = current.currentPosition.coerceIn(0, ordered.lastIndex)
         return LearnUiState.Content(
             session = current.copy(currentPosition = position),
             items = ordered,
             current = ordered[position],
+            variants = variantsFor(ordered[position], ordered, position),
+            answerMode = flags.answerMode,
+            typed = flags.typed,
+            typeMismatch = flags.typeMismatch,
             revealed = flags.revealed,
             isSubmitting = flags.isSubmitting,
             submitFailed = flags.submitFailed,
@@ -250,6 +349,8 @@ class LearnViewModel @Inject constructor(
     private companion object {
         const val STOP_TIMEOUT_MILLIS = 5_000L
         const val MAX_CARD_DURATION_MILLIS = 120_000L
+        const val VARIANT_COUNT = 4
+        val WHITESPACE_REGEX = Regex("\\s+")
         const val KEY_SESSION_ID = "session_id"
         const val KEY_WORD_IDS = "session_word_ids"
         const val KEY_STARTED_AT = "session_started_at"

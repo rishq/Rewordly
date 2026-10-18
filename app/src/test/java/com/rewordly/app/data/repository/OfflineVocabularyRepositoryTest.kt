@@ -2,11 +2,14 @@ package com.rewordly.app.data.repository
 
 import com.rewordly.app.data.local.MockVocabulary
 import com.rewordly.app.domain.model.LearningLanguage
+import com.rewordly.app.domain.service.VocabularyImportParser
 import com.rewordly.app.testing.FakeWordDao
 import com.rewordly.app.testing.FakeWordProgressDao
+import com.rewordly.app.testing.SequentialIdProvider
 import com.rewordly.app.testing.TestTimeProvider
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -15,7 +18,14 @@ class OfflineVocabularyRepositoryTest {
     private val wordDao = FakeWordDao(MockVocabulary.words)
     private val progressDao = FakeWordProgressDao(wordDao.progress)
     private val time = TestTimeProvider()
-    private val repository = OfflineVocabularyRepository(wordDao, progressDao, time)
+    private val repository = OfflineVocabularyRepository(
+        wordDao = wordDao,
+        progressDao = progressDao,
+        importParser = VocabularyImportParser(Json),
+        idProvider = SequentialIdProvider(),
+        timeProvider = time,
+        seedSource = VocabularySeedSource { "" },
+    )
 
     @Test
     fun ensureSeeded_isIdempotent() = runTest {

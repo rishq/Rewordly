@@ -100,10 +100,11 @@ private fun NavDestination?.isTransientStart(): Boolean {
 }
 
 private fun NavHostController.navigateToNotification(destination: NotificationDestination) {
+    // The review chapter is gone: old notifications that point at it open the learn loop instead.
     val topLevel = when (destination) {
         NotificationDestination.HOME -> TopLevelDestination.HOME
         NotificationDestination.LEARN -> TopLevelDestination.LEARN
-        NotificationDestination.REVIEW -> TopLevelDestination.REVIEW
+        NotificationDestination.REVIEW -> TopLevelDestination.LEARN
     }
     navigateToTopLevel(topLevel)
 }

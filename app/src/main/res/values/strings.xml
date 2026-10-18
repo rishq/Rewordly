@@ -6,8 +6,6 @@
     <!-- Navigation -->
     <string name="nav_home">Главная</string>
     <string name="nav_learn">Учить</string>
-    <string name="nav_review">Повторение</string>
-    <string name="nav_search">Поиск</string>
     <string name="nav_profile">Профиль</string>
 
     <!-- Common actions -->
@@ -24,11 +22,9 @@
     <string name="action_save">Сохранить</string>
     <string name="action_unsave">Убрать из сохранённых</string>
     <string name="action_continue_learning">Продолжить обучение</string>
-    <string name="action_start_review">Начать повторение</string>
     <string name="action_reveal">Показать перевод</string>
     <string name="action_know">Я знаю</string>
     <string name="action_dont_know">Не знаю</string>
-    <string name="action_review_again">Повторить ещё раз</string>
     <string name="action_listen">Слушать</string>
     <string name="action_stop">Остановить</string>
 
@@ -66,26 +62,25 @@
         <item quantity="other">Выучено %1$d из %2$d слова сегодня</item>
     </plurals>
     <string name="percent">%1$d%%</string>
-    <string name="home_review_title">На повторение сегодня</string>
     <string name="home_streak">Серия</string>
     <string name="home_words_learned">Выучено слов</string>
     <string name="home_recent_words">Недавние слова</string>
     <string name="home_saved_words">Сохранено</string>
     <string name="home_empty_vocabulary_title">Словарь пока пуст</string>
     <string name="home_empty_vocabulary_message">Локальный словарь ещё не загружен. Перезапустите приложение, чтобы попробовать снова.</string>
-    <string name="goal_reached_title">Цель на сегодня выполнена</string>
-    <string name="goal_reached_message">Выучено %1$d слов из %2$d. Можно закрепить их повторением.</string>
-    <string name="goal_reached_action">Перейти к повторению</string>
 
     <!-- Learn -->
     <string name="learn_title">Карточки</string>
-    <string name="learn_position">%1$d из %2$d</string>
-    <string name="learn_completed">Пройдено %1$d из %2$d</string>
     <string name="learn_example">Пример</string>
     <string name="learn_definition">Значение</string>
     <string name="learn_pronunciation">Произношение</string>
-    <string name="learn_finished_title">Занятие завершено</string>
-    <string name="learn_finished_message">Карточек пройдено: %1$d из %2$d</string>
+    <string name="learn_type_hint">Введите слово по-английски</string>
+    <string name="learn_type_check">Проверить</string>
+    <string name="learn_type_hint_letter">Буква</string>
+    <string name="learn_type_mismatch">Не совпало</string>
+    <string name="learn_mode_type">Проверить себя: вписать слово</string>
+    <string name="learn_mode_see">Посмотреть перевод</string>
+    <string name="learn_mode_options">Выбрать из вариантов</string>
     <string name="study_swipe_hint">Свайпните карточку влево или вправо, чтобы ответить</string>
     <string name="study_answer_known">Я знаю это слово</string>
     <string name="study_answer_study">Учить это слово</string>
@@ -148,11 +143,7 @@
     <string name="difficulty_c2">C2 · Профессиональный</string>
 
     <!-- Review -->
-    <string name="review_title">Повторение</string>
     <string name="review_think">Вспомните значение слова, затем проверьте себя.</string>
-    <string name="review_empty_title">Нечего повторять</string>
-    <string name="review_empty_message">Изучите несколько слов, и они появятся здесь.</string>
-    <string name="review_finished_title">Повторение завершено</string>
 
     <!-- Search -->
     <string name="search_title">Поиск</string>
@@ -214,6 +205,7 @@
     <string name="settings_about_text">Rewordly помогает учить английские слова через контекстные карточки с примерами и переводом.</string>
     <string name="settings_privacy">Политика конфиденциальности</string>
     <string name="settings_privacy_text">Все данные о вашем обучении хранятся только на этом устройстве. Приложение не собирает личные данные и не передаёт их третьим лицам.</string>
+    <string name="settings_github">Исходный код на GitHub</string>
     <string name="language_russian">Русский</string>
     <string name="language_english">English</string>
     <string name="learning_language_english">Английский</string>
@@ -241,38 +233,12 @@
     <string name="learn_empty_title">Все слова выучены</string>
     <string name="learn_empty_message">Вы дошли до конца списка: каждое слово отвечено правильно нужное число раз. Новые слова появятся здесь, как только вы добавите их в словарь.</string>
     <string name="action_open_settings">Открыть настройки</string>
-    <string name="action_review_more">Повторить ещё</string>
     <string name="action_learn_new">Учить новые слова</string>
-    <string name="review_finished_message">Повторено слов: %1$d · Запомнили: %2$d</string>
-    <string name="review_submit_failed">Не удалось сохранить ответ. Нажмите кнопку ещё раз.</string>
-    <string name="review_empty_done_title">На сегодня всё!</string>
-    <string name="review_empty_done_message">Все слова повторены. Загляните завтра или выучите новые слова.</string>
     <string name="rating_again">Снова</string>
     <string name="rating_hard">Трудно</string>
     <string name="rating_good">Хорошо</string>
     <string name="rating_easy">Легко</string>
-    <plurals name="review_due_today">
-        <item quantity="one">К повторению сегодня: %d слово</item>
-        <item quantity="few">К повторению сегодня: %d слова</item>
-        <item quantity="many">К повторению сегодня: %d слов</item>
-        <item quantity="other">К повторению сегодня: %d слова</item>
-    </plurals>
-    <plurals name="review_remaining">
-        <item quantity="one">Ещё к повторению: %d слово</item>
-        <item quantity="few">Ещё к повторению: %d слова</item>
-        <item quantity="many">Ещё к повторению: %d слов</item>
-        <item quantity="other">Ещё к повторению: %d слова</item>
-    </plurals>
-    <plurals name="review_feedback_next">
-        <item quantity="one">%1$s · повтор через %2$d день</item>
-        <item quantity="few">%1$s · повтор через %2$d дня</item>
-        <item quantity="many">%1$s · повтор через %2$d дней</item>
-        <item quantity="other">%1$s · повтор через %2$d дня</item>
-    </plurals>
 
-    <string name="home_review_progress">Повторено сегодня: %1$d из %2$d</string>
-    <string name="home_review_done_title">Всё повторено!</string>
-    <string name="home_review_done_message">Отличная работа. Новые слова для повторения появятся позже.</string>
     <string name="home_new_words">Новых слов</string>
     <string name="home_total_words">Всего в словаре</string>
     <string name="home_no_new_words">Новых слов нет</string>
@@ -312,7 +278,6 @@
     <string name="notification_channel_name">Напоминания о занятиях</string>
     <string name="notification_channel_encouragement">Поддержка после занятия</string>
     <string name="notification_action_start">Начать занятие</string>
-    <string name="notification_action_review">Повторить слова</string>
 
     <string name="notification_due_title">Пора повторить слова</string>
     <plurals name="notification_due_text">
@@ -400,7 +365,6 @@
         <item quantity="other">%d слова к повторению</item>
     </plurals>
     <string name="widget_action_start">Начать занятие</string>
-    <string name="widget_action_review">Повторить</string>
     <string name="widget_action_refresh">Обновить прогресс</string>
 
     <!-- STEP 4: AI vocabulary -->
@@ -534,9 +498,9 @@
 
     <!-- STEP 5: personalized learning -->
     <string name="home_plan_title">План на сегодня</string>
-    <string name="home_plan_summary">К повторению: %1$d · Новых слов: %2$d</string>
+    <string name="home_plan_summary">%1$d новых слов на сегодня</string>
     <string name="home_plan_all_done">На сегодня всё</string>
-    <string name="home_plan_all_done_message">Повторять нечего и новых слов пока нет. Загляните позже или добавьте слова через ИИ-словарь.</string>
+    <string name="home_plan_all_done_message">Новых слов пока нет. Загляните позже или добавьте слова через ИИ-словарь.</string>
     <string name="home_plan_eased_off">Новых слов сегодня меньше: несколько слов всё ещё даются трудно.</string>
     <string name="home_weak_words_title">Сложные слова</string>
     <string name="home_weak_words_hint">В этих словах вы чаще всего ошибаетесь.</string>

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -148,47 +147,6 @@ fun StatTile(
     } else {
         Card(modifier = modifier, shape = MaterialTheme.shapes.large, colors = colors) {
             content()
-        }
-    }
-}
-
-/** Shown on Home when the daily goal is already met. */
-@Composable
-fun GoalReachedCard(learnedToday: Int, dailyGoal: Int, onReview: () -> Unit, modifier: Modifier = Modifier) {
-    Card(
-        onClick = onReview,
-        modifier = modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.extraLarge,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-        ),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Dimens.cardPadding)
-                .semantics(mergeDescendants = true) {},
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Dimens.spaceLg),
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.EmojiEvents,
-                contentDescription = null,
-                modifier = Modifier.size(Dimens.iconLg),
-            )
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(Dimens.spaceXs)) {
-                Text(text = stringResource(R.string.goal_reached_title), style = MaterialTheme.typography.titleMedium)
-                Text(
-                    text = stringResource(R.string.goal_reached_message, learnedToday, dailyGoal),
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-                Text(
-                    text = stringResource(R.string.goal_reached_action),
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary,
-                )
-            }
         }
     }
 }

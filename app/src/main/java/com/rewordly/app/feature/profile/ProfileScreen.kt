@@ -17,6 +17,7 @@ import androidx.compose.material.icons.outlined.Flag
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.Replay
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -32,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rewordly.app.R
@@ -56,6 +58,7 @@ import kotlin.math.roundToInt
 fun ProfileScreen(
     onOpenSettings: () -> Unit,
     onOpenHistory: () -> Unit,
+    onOpenSearch: () -> Unit,
     onOpenWord: (String) -> Unit,
     viewModel: ProgressViewModel = hiltViewModel(),
 ) {
@@ -84,6 +87,7 @@ fun ProfileScreen(
                 statistics = state.statistics,
                 insight = state.insight,
                 onOpenHistory = onOpenHistory,
+                onOpenSearch = onOpenSearch,
                 onOpenWord = onOpenWord,
                 modifier = Modifier.padding(padding),
             )
@@ -97,6 +101,7 @@ private fun ProfileContent(
     statistics: ReviewStatistics,
     insight: LearningInsight,
     onOpenHistory: () -> Unit,
+    onOpenSearch: () -> Unit,
     onOpenWord: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -163,6 +168,12 @@ private fun ProfileContent(
             }
             InsightsCard(insight = insight, onOpenWord = onOpenWord)
             ReviewStatsCard(statistics)
+            SecondaryButton(
+                text = stringResource(R.string.search_title),
+                icon = Icons.Outlined.Search,
+                onClick = onOpenSearch,
+                modifier = Modifier.fillMaxWidth(),
+            )
             SecondaryButton(
                 text = stringResource(R.string.action_history),
                 icon = Icons.Outlined.History,
@@ -261,7 +272,8 @@ private fun StatRow(@StringRes label: Int, value: String) {
             text = stringResource(label),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.weight(1f),
         )
-        Text(text = value, style = MaterialTheme.typography.titleMedium)
+        Text(text = value, style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.End)
     }
 }

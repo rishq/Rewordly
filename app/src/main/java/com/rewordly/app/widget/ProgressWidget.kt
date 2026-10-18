@@ -104,7 +104,7 @@ class ProgressWidget : GlanceAppWidget() {
                 )
             }
             Spacer(GlanceModifier.height(12.dp))
-            Actions(state, localized)
+            Actions(localized)
         }
     }
 
@@ -166,19 +166,12 @@ class ProgressWidget : GlanceAppWidget() {
     }
 
     @Composable
-    private fun Actions(state: WidgetState, localized: Context) {
+    private fun Actions(localized: Context) {
         Row(modifier = GlanceModifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Button(
                 text = localized.getString(R.string.widget_action_start),
                 onClick = openApp(localized, NotificationDestination.LEARN),
             )
-            if (state.dueWords > 0) {
-                Spacer(GlanceModifier.defaultWeight())
-                Button(
-                    text = localized.getString(R.string.widget_action_review),
-                    onClick = openApp(localized, NotificationDestination.REVIEW),
-                )
-            }
             Spacer(GlanceModifier.defaultWeight())
             Image(
                 provider = ImageProvider(R.drawable.ic_widget_refresh),

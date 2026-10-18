@@ -28,12 +28,9 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 sealed interface SearchUiState {
     data object Loading : SearchUiState
-
-    data class Idle(val recentSearches: List<String>) : SearchUiState
 
     data class Results(val words: List<WordWithProgress>) : SearchUiState
 
@@ -66,18 +63,13 @@ class SearchViewModel @Inject constructor(
     val uiState: StateFlow<SearchUiState> = combine(normalizedQuery, language, filters) { q, lang, active ->
         Triple(q, lang, active)
     }.flatMapLatest { (q, lang, active) ->
-        if (q.isEmpty() && !active.isActive) {
-            settingsRepository.recentSearches.map { SearchUiState.Idle(it) }
-        } else {
-            val source = if (q.isEmpty()) {
-                vocabularyRepository.observeWords(lang)
-            } else {
-                searchWords(lang, q)
-            }
-            source.map { words ->
-                val filtered = filterVocabulary(words, active)
-                if (filtered.isEmpty()) SearchUiState.NoResults(q) else SearchUiState.Results(filtered)
-            }
+        // An empty query lists the whole vocabulary, the same way every other section does; a typed
+        // query narrows it. This replaced the recent-searches idle state, which had left the default
+        // "Все" screen without any word list at all.
+        val source = if (q.isEmpty()) vocabularyRepository.observeWords(lang) else searchWords(lang, q)
+        source.map { words ->
+            val filtered = filterVocabulary(words, active)
+            if (filtered.isEmpty()) SearchUiState.NoResults(q) else SearchUiState.Results(filtered)
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), SearchUiState.Loading)
 
@@ -87,29 +79,6 @@ class SearchViewModel @Inject constructor(
 
     fun onFiltersChange(value: VocabularyFilters) {
         filters.value = value
-    }
-
-    fun onSubmit() {
-        saveRecent(query)
-    }
-
-    fun onRecentSelected(value: String) {
-        query = value
-    }
-
-    fun onResultOpened() {
-        saveRecent(query)
-    }
-
-    fun clearRecent() {
-        viewModelScope.launch { settingsRepository.clearRecentSearches() }
-    }
-
-    private fun saveRecent(value: String) {
-        val normalized = SearchWordsUseCase.normalize(value)
-        if (normalized.isNotEmpty()) {
-            viewModelScope.launch { settingsRepository.addRecentSearch(normalized) }
-        }
     }
 
     private companion object {

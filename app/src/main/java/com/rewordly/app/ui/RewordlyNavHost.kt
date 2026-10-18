@@ -18,7 +18,6 @@ import com.rewordly.app.core.navigation.LearnRoute
 import com.rewordly.app.core.navigation.OnboardingRoute
 import com.rewordly.app.core.navigation.PlacementRoute
 import com.rewordly.app.core.navigation.ProfileRoute
-import com.rewordly.app.core.navigation.ReviewRoute
 import com.rewordly.app.core.navigation.SavedRoute
 import com.rewordly.app.core.navigation.SearchRoute
 import com.rewordly.app.core.navigation.SettingsRoute
@@ -36,7 +35,6 @@ import com.rewordly.app.feature.learn.LearnScreen
 import com.rewordly.app.feature.onboarding.OnboardingScreen
 import com.rewordly.app.feature.placement.PlacementScreen
 import com.rewordly.app.feature.profile.ProfileScreen
-import com.rewordly.app.feature.review.ReviewScreen
 import com.rewordly.app.feature.saved.SavedScreen
 import com.rewordly.app.feature.search.SearchScreen
 import com.rewordly.app.feature.settings.SettingsScreen
@@ -67,7 +65,6 @@ fun RewordlyNavHost(
         composable<HomeRoute> {
             HomeScreen(
                 onContinueLearning = { navController.navigateToTopLevel(TopLevelDestination.LEARN) },
-                onStartReview = { navController.navigateToTopLevel(TopLevelDestination.REVIEW) },
                 onOpenWord = openWord,
                 onOpenSaved = { navController.navigate(SavedRoute) },
                 onOpenAi = { navController.navigate(AiHomeRoute) },
@@ -77,12 +74,6 @@ fun RewordlyNavHost(
         composable<LearnRoute> {
             LearnScreen(onOpenWord = openWord)
         }
-        composable<ReviewRoute> {
-            ReviewScreen(
-                onOpenWord = openWord,
-                onStartLearning = { navController.navigateToTopLevel(TopLevelDestination.LEARN) },
-            )
-        }
         composable<SearchRoute> {
             SearchScreen(onOpenWord = openWord)
         }
@@ -90,6 +81,7 @@ fun RewordlyNavHost(
             ProfileScreen(
                 onOpenSettings = { navController.navigate(SettingsRoute) },
                 onOpenHistory = { navController.navigate(HistoryRoute) },
+                onOpenSearch = { navController.navigate(SearchRoute()) },
                 onOpenWord = openWord,
             )
         }

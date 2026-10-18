@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
-import androidx.compose.material.icons.outlined.Replay
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -28,20 +27,13 @@ import com.rewordly.app.domain.model.Difficulty
 import com.rewordly.app.domain.model.RecommendationReason
 
 /**
- * Summary of the recommended session: how much there is to review and how many new words the plan
- * is willing to introduce today. Both actions are always available, so the user keeps control.
+ * Summary of the recommended session: how many new words the plan will introduce today.
+ * Learning is one endless loop, so there is nothing to schedule on the side.
  */
 @Composable
-fun TodayPlanCard(
-    reviewCount: Int,
-    newWordCount: Int,
-    easedOff: Boolean,
-    onStartReview: () -> Unit,
-    onStartLearning: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
+fun TodayPlanCard(newWordCount: Int, easedOff: Boolean, onStartLearning: () -> Unit, modifier: Modifier = Modifier) {
     SectionCard(title = stringResource(R.string.home_plan_title), modifier = modifier) {
-        if (reviewCount == 0 && newWordCount == 0) {
+        if (newWordCount == 0) {
             Text(
                 text = stringResource(R.string.home_plan_all_done_message),
                 style = MaterialTheme.typography.bodyMedium,
@@ -49,7 +41,7 @@ fun TodayPlanCard(
             )
         } else {
             Text(
-                text = stringResource(R.string.home_plan_summary, reviewCount, newWordCount),
+                text = stringResource(R.string.home_plan_summary, newWordCount),
                 style = MaterialTheme.typography.titleMedium,
             )
         }
@@ -58,14 +50,6 @@ fun TodayPlanCard(
                 text = stringResource(R.string.home_plan_eased_off),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-        if (reviewCount > 0) {
-            PrimaryButton(
-                text = stringResource(R.string.action_start_review),
-                icon = Icons.Outlined.Replay,
-                onClick = onStartReview,
-                modifier = Modifier.fillMaxWidth(),
             )
         }
         if (newWordCount > 0) {
