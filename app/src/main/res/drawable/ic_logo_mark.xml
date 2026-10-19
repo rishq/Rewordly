@@ -1,21 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  The in-app mark: concept A, "W in a tile", as a filled indigo tile with the W
-  knocked out of it. Used on the splash screen and anywhere else the app shows
-  its own logo, where the surface behind it is the app background rather than
-  the launcher wallpaper — so the fill is the brand colour, not white.
-
-  Same generated geometry as the launcher icon; see ic_launcher_foreground.xml
-  for provenance and regeneration instructions.
+  The in-app mark: brand-gradient flashcard with the white R, same geometry as
+  the launcher foreground (ic_launcher_foreground.xml). Used on the splash
+  screen; the surface behind it is the app background, so the card carries the
+  brand colour itself. Hand-converted from rewordly-icon.svg.
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-  android:width="48dp"
-  android:height="48dp"
-  android:viewportWidth="256"
-  android:viewportHeight="256">
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="304"
+    android:viewportHeight="304">
 
-  <path
-    android:fillColor="@color/brand_primary"
-    android:fillType="evenOdd"
-    android:pathData="M76,30 H180 A46,46 0 0 1 226,76 V180 A46,46 0 0 1 180,226 H76 A46,46 0 0 1 30,180 V76 A46,46 0 0 1 76,30 Z M62.48,83.62 L97.97,216.09 L125.74,112.45 L130.26,112.45 L158.03,216.09 L193.52,83.62 L166.48,76.38 L158.03,107.91 L151.74,84.45 L104.26,84.45 L97.97,107.91 L89.52,76.38 Z" />
+  <group android:translateX="-95" android:translateY="-108">
+    <!-- flashcard, -8deg, filled with the R gradient -->
+    <group android:rotation="-8" android:pivotX="247" android:pivotY="260">
+      <path android:pathData="M178,122 H316 A38,38 0 0 1 354,160 V360 A38,38 0 0 1 316,398 H178 A38,38 0 0 1 140,360 V160 A38,38 0 0 1 178,122 Z">
+        <aapt:attr name="android:fillColor">
+          <gradient
+            android:startColor="#6A3DF0"
+            android:endColor="#2E8BFF"
+            android:angle="45" />
+        </aapt:attr>
+      </path>
+      <!-- the R -->
+      <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="38"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M205,205 V325" />
+      <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="38"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M205,205 H255 a46,46 0 0 1 0,92 H205" />
+      <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="38"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M252,300 L298,340" />
+    </group>
+  </group>
 </vector>

@@ -1,38 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Rewordly launcher icon — concept A, "W in a tile".
+  Rewordly launcher icon foreground — tilted white flashcard with the brand R.
 
-  Generated geometry, do not hand-edit. The tile and the W both come from
-  .workbuddy-ai/logo-work/gen_final.py, which is also what draws the README
-  banner, so the launcher icon and the README art cannot drift apart.
-  Regenerate there and paste the path data back.
-
-  The W is a six-vertex polyline with a flat-topped centre apex, offset to a
-  28-unit stroke band. Every edge sits on an exact 15/75/105 degree angle, so
-  the mark stays crisp at 16 dp.
-
-  One even-odd path: the rounded tile is the outer contour and the W is the
-  inner one, so the W is a HOLE. The adaptive-icon background is
-  @color/brand_primary, which therefore shows through the W — white tile,
-  indigo letter, exactly like the concept art.
-
-  108 x 108 is the adaptive-icon viewport and the 66 x 66 safe zone is centred
-  on 54, so the 256-unit artwork is scaled by 66/256 and translated by 21.
+  Hand-converted from rewordly-icon.svg (512 x 512). The SVG drop shadow is not
+  portable to a vector, so the card stays flat. All art is scaled into the
+  adaptive-icon safe zone: 66 / 512 = 0.12890625, centred by a 21dp inset.
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-  android:width="108dp"
-  android:height="108dp"
-  android:viewportWidth="108"
-  android:viewportHeight="108">
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
 
   <group
-    android:scaleX="0.257812"
-    android:scaleY="0.257812"
+    android:scaleX="0.12890625"
+    android:scaleY="0.12890625"
     android:translateX="21"
     android:translateY="21">
+
+    <!-- ghost card, +14deg, 30% white -->
+    <group android:rotation="14" android:pivotX="247" android:pivotY="250">
+      <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.30"
+        android:pathData="M178,112 H316 A38,38 0 0 1 354,150 V350 A38,38 0 0 1 316,388 H178 A38,38 0 0 1 140,350 V150 A38,38 0 0 1 178,112 Z" />
+    </group>
+
+    <!-- flashcard, -8deg -->
+    <group android:rotation="-8" android:pivotX="247" android:pivotY="260">
+      <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M178,122 H316 A38,38 0 0 1 354,160 V360 A38,38 0 0 1 316,398 H178 A38,38 0 0 1 140,360 V160 A38,38 0 0 1 178,122 Z" />
+      <!-- the R -->
+      <path
+        android:strokeWidth="38"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M205,205 V325">
+        <aapt:attr name="android:strokeColor">
+          <gradient
+            android:startColor="#6A3DF0"
+            android:endColor="#2E8BFF"
+            android:angle="45" />
+        </aapt:attr>
+      </path>
+      <path
+        android:strokeWidth="38"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M205,205 H255 a46,46 0 0 1 0,92 H205">
+        <aapt:attr name="android:strokeColor">
+          <gradient
+            android:startColor="#6A3DF0"
+            android:endColor="#2E8BFF"
+            android:angle="45" />
+        </aapt:attr>
+      </path>
+      <path
+        android:strokeWidth="38"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M252,300 L298,340">
+        <aapt:attr name="android:strokeColor">
+          <gradient
+            android:startColor="#6A3DF0"
+            android:endColor="#2E8BFF"
+            android:angle="45" />
+        </aapt:attr>
+      </path>
+    </group>
+
+    <!-- gold sparkles -->
+    <path
+      android:fillColor="#FFC53D"
+      android:pathData="M338,104 Q338,138 372,138 Q338,138 338,172 Q338,138 304,138 Q338,138 338,104 Z" />
+    <path
+      android:fillColor="#FFE08A"
+      android:pathData="M380,180 Q380,196 396,196 Q380,196 380,212 Q380,196 364,196 Q380,196 380,180 Z" />
+
+    <!-- soften dot -->
     <path
       android:fillColor="#FFFFFF"
-      android:fillType="evenOdd"
-      android:pathData="M76,30 H180 A46,46 0 0 1 226,76 V180 A46,46 0 0 1 180,226 H76 A46,46 0 0 1 30,180 V76 A46,46 0 0 1 76,30 Z M62.48,83.62 L97.97,216.09 L125.74,112.45 L130.26,112.45 L158.03,216.09 L193.52,83.62 L166.48,76.38 L158.03,107.91 L151.74,84.45 L104.26,84.45 L97.97,107.91 L89.52,76.38 Z" />
+      android:fillAlpha="0.6"
+      android:pathData="M141,420 A9,9 0 1 1 159,420 A9,9 0 1 1 141,420 Z" />
   </group>
 </vector>
