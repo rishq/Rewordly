@@ -2,7 +2,7 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/banner-dark.svg">
-  <img alt="Rewordly — learn English vocabulary, one card at a time" src="docs/images/banner.svg">
+  <img alt="Rewordly — Learn English, one card at a time" src="docs/images/banner.svg">
 </picture>
 
 Native Android app for learning English vocabulary through contextual cards (STEP 1: foundation + UI on local mock data).
