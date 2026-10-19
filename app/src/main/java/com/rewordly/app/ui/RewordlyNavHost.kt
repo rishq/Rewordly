@@ -1,9 +1,13 @@
 package com.rewordly.app.ui
 
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,6 +27,7 @@ import com.rewordly.app.core.navigation.SearchRoute
 import com.rewordly.app.core.navigation.SettingsRoute
 import com.rewordly.app.core.navigation.TopLevelDestination
 import com.rewordly.app.core.navigation.WordDetailsRoute
+import com.rewordly.app.core.ui.motionMillis
 import com.rewordly.app.domain.usecase.StartDestination
 import com.rewordly.app.feature.ai.AiHistoryScreen
 import com.rewordly.app.feature.ai.AiHomeScreen
@@ -40,6 +45,8 @@ import com.rewordly.app.feature.search.SearchScreen
 import com.rewordly.app.feature.settings.SettingsScreen
 import com.rewordly.app.feature.word.WordDetailsScreen
 
+private const val NAV_MILLIS = 220
+
 @Composable
 fun RewordlyNavHost(
     navController: NavHostController,
@@ -47,13 +54,22 @@ fun RewordlyNavHost(
     modifier: Modifier = Modifier,
 ) {
     val openWord: (String) -> Unit = { id -> navController.navigate(WordDetailsRoute(id)) }
+    // Collapses to zero when the user disabled animations system-wide.
+    val motion = motionMillis(NAV_MILLIS)
+    val navTween = tween<Float>(motion)
 
     NavHost(
         navController = navController,
         startDestination = if (startDestination == StartDestination.HOME) HomeRoute else OnboardingRoute,
         modifier = modifier,
-        enterTransition = { fadeIn() },
-        exitTransition = { fadeOut() },
+        enterTransition = {
+            fadeIn(navTween) + slideInHorizontally(tween<IntOffset>(motion)) { it / 12 }
+        },
+        exitTransition = { fadeOut(navTween) },
+        popEnterTransition = { fadeIn(navTween) },
+        popExitTransition = {
+            fadeOut(navTween) + slideOutHorizontally(tween<IntOffset>(motion)) { it / 12 }
+        },
     ) {
         composable<OnboardingRoute> {
             OnboardingScreen(

@@ -1,19 +1,22 @@
 package com.rewordly.app.feature.learn
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,7 +38,6 @@ import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Keyboard
 import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -54,6 +56,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -61,6 +64,8 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -71,6 +76,7 @@ import com.rewordly.app.core.ui.components.PrimaryButton
 import com.rewordly.app.core.ui.components.SecondaryButton
 import com.rewordly.app.core.ui.components.StudyAnswerBar
 import com.rewordly.app.core.ui.components.SwipeableCard
+import com.rewordly.app.core.ui.motionMillis
 import com.rewordly.app.core.ui.theme.Dimens
 import com.rewordly.app.core.ui.theme.RewordlyTextStyles
 import com.rewordly.app.domain.model.Word
@@ -131,14 +137,33 @@ fun LearnContent(
                 .widthIn(max = Dimens.maxContentWidth)
                 .fillMaxWidth(),
         ) {
-            StudyCard(word = state.current.word, revealed = state.revealed)
+            // Fading the outgoing word into the next one keeps the swipe-off, answer and new card one motion.
+            Crossfade(
+                targetState = state.current.word to state.revealed,
+                animationSpec = tween(motionMillis(220)),
+                label = "learn-card",
+            ) { (word, revealed) ->
+                StudyCard(word = word, revealed = revealed)
+            }
         }
         LearnSecondaryActions(state = state, onEvent = onEvent, onOpenWord = onOpenWord)
         LearnModeSelector(state = state, onEvent = onEvent)
-        when (state.answerMode) {
-            StudyMode.TYPE -> LearnTypingPanel(state = state, onEvent = onEvent)
-            StudyMode.OPTIONS -> LearnOptionsPanel(state = state, onEvent = onEvent)
-            StudyMode.SEE, null -> Unit
+        // The panel below grows and collapses instead of shoving the answer bar around.
+        val fadeTween = tween<Float>(motionMillis(200))
+        val sizeTween = tween<IntSize>(motionMillis(200))
+        AnimatedContent(
+            targetState = state.answerMode,
+            transitionSpec = {
+                (fadeIn(fadeTween) + expandVertically(sizeTween)) togetherWith
+                    (fadeOut(fadeTween) + shrinkVertically(sizeTween))
+            },
+            label = "learn-mode-panel",
+        ) { mode ->
+            when (mode) {
+                StudyMode.TYPE -> LearnTypingPanel(state = state, onEvent = onEvent)
+                StudyMode.OPTIONS -> LearnOptionsPanel(state = state, onEvent = onEvent)
+                StudyMode.SEE, null -> Box(Modifier.fillMaxWidth())
+            }
         }
         StudyAnswerBar(
             rememberedLabel = remembered,
@@ -147,7 +172,11 @@ fun LearnContent(
             enabled = !state.isSubmitting,
             modifier = Modifier.widthIn(max = Dimens.maxContentWidth),
         )
-        if (state.submitFailed) {
+        AnimatedVisibility(
+            visible = state.submitFailed,
+            enter = fadeIn(tween(motionMillis(200))) + expandVertically(tween(motionMillis(200))),
+            exit = fadeOut(tween(motionMillis(150))) + shrinkVertically(tween(motionMillis(150))),
+        ) {
             Text(
                 text = stringResource(R.string.study_submit_failed),
                 style = MaterialTheme.typography.bodyMedium,
@@ -271,13 +300,29 @@ private fun ModeButton(
     modifier: Modifier = Modifier,
 ) {
     val scheme = MaterialTheme.colorScheme
+    val motion = tween<Color>(motionMillis(150))
+    val container by animateColorAsState(
+        targetValue = if (selected) scheme.primaryContainer else scheme.surface,
+        animationSpec = motion,
+        label = "mode-container",
+    )
+    val content by animateColorAsState(
+        targetValue = if (selected) scheme.onPrimaryContainer else scheme.onSurfaceVariant,
+        animationSpec = motion,
+        label = "mode-content",
+    )
+    val border by animateColorAsState(
+        targetValue = if (selected) scheme.primary.copy(alpha = 0.5f) else scheme.outlineVariant,
+        animationSpec = motion,
+        label = "mode-border",
+    )
     Surface(
         onClick = onClick,
         modifier = modifier.semantics { contentDescription = label },
         shape = MaterialTheme.shapes.medium,
-        color = if (selected) scheme.primaryContainer else scheme.surface,
-        contentColor = if (selected) scheme.onPrimaryContainer else scheme.onSurfaceVariant,
-        border = BorderStroke(width = 1.dp, color = scheme.outlineVariant),
+        color = container,
+        contentColor = content,
+        border = BorderStroke(width = 1.dp, color = border),
     ) {
         Box(
             modifier = Modifier
@@ -335,12 +380,17 @@ private fun LearnTypingPanel(state: LearnUiState.Content, onEvent: (LearnUiEvent
                 modifier = Modifier.weight(1f),
             )
         }
-        if (state.typeMismatch) MismatchText()
+        AnimatedVisibility(
+            visible = state.typeMismatch,
+            enter = fadeIn(tween(motionMillis(200))) + expandVertically(tween(motionMillis(200))),
+            exit = fadeOut(tween(motionMillis(150))) + shrinkVertically(tween(motionMillis(150))),
+        ) {
+            MismatchText()
+        }
     }
 }
 
-/** Picking the English word from a short list of options. */
-@OptIn(ExperimentalLayoutApi::class)
+/** Picking the English word from a short list of options, laid out as an even two-column grid. */
 @Composable
 private fun LearnOptionsPanel(state: LearnUiState.Content, onEvent: (LearnUiEvent) -> Unit) {
     Column(
@@ -349,19 +399,60 @@ private fun LearnOptionsPanel(state: LearnUiState.Content, onEvent: (LearnUiEven
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(Dimens.spaceSm),
     ) {
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Dimens.spaceSm),
-            verticalArrangement = Arrangement.spacedBy(Dimens.spaceXs),
-        ) {
-            state.variants.forEach { variant ->
-                AssistChip(
-                    onClick = { onEvent(LearnUiEvent.PickVariant(variant)) },
-                    label = { Text(variant) },
-                )
+        // Rows of two equal cells; a trailing spacer keeps an odd last cell the same width as the rest,
+        // so the grid never stretches one lonely option across the full line.
+        state.variants.chunked(OPTION_COLUMNS).forEach { rowVariants ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(Dimens.spaceSm),
+            ) {
+                rowVariants.forEach { variant ->
+                    VariantButton(
+                        label = variant,
+                        onClick = { onEvent(LearnUiEvent.PickVariant(variant)) },
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+                repeat(OPTION_COLUMNS - rowVariants.size) {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
             }
         }
-        if (state.typeMismatch) MismatchText()
+        AnimatedVisibility(
+            visible = state.typeMismatch,
+            enter = fadeIn(tween(motionMillis(200))) + expandVertically(tween(motionMillis(200))),
+            exit = fadeOut(tween(motionMillis(150))) + shrinkVertically(tween(motionMillis(150))),
+        ) {
+            MismatchText()
+        }
+    }
+}
+
+@Composable
+private fun VariantButton(label: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Surface(
+        onClick = onClick,
+        modifier = modifier.semantics { contentDescription = label },
+        shape = MaterialTheme.shapes.medium,
+        color = MaterialTheme.colorScheme.surface,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = VARIANT_BUTTON_MIN_HEIGHT)
+                .padding(horizontal = Dimens.spaceMd, vertical = Dimens.spaceSm),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Center,
+            )
+        }
     }
 }
 
@@ -412,3 +503,5 @@ private fun LearnSecondaryActions(
 }
 
 private val MODE_BUTTON_SIZE = 88.dp
+private val VARIANT_BUTTON_MIN_HEIGHT = 56.dp
+private const val OPTION_COLUMNS = 2

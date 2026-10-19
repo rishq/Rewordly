@@ -123,6 +123,7 @@ private fun HomeContent(
                 newWordCount = state.plan.newWordCount,
                 easedOff = state.plan.easedOff,
                 onStartLearning = onContinueLearning,
+                modifier = Modifier.animateItem(),
             )
         }
         // Once the daily goal is met the card would just repeat 100% forever, so it goes away until
@@ -135,12 +136,13 @@ private fun HomeContent(
                     fraction = insight.goalFraction,
                     onContinue = onContinueLearning,
                     continueEnabled = overview.newWordsAvailable > 0,
+                    modifier = Modifier.animateItem(),
                 )
             }
         }
         if (state.showPlacementPrompt) {
             item(key = "placement") {
-                PlacementPromptCard(onOpenPlacement = onOpenPlacement)
+                PlacementPromptCard(onOpenPlacement = onOpenPlacement, modifier = Modifier.animateItem())
             }
         }
         item(key = "stats") {

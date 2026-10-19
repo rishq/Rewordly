@@ -145,7 +145,11 @@ fun SavedContent(
                 verticalArrangement = Arrangement.spacedBy(Dimens.spaceSm),
             ) {
                 items(state.words, key = { it.word.id }) { item ->
-                    WordListItem(item = item, onClick = { onOpenWord(item.word.id) })
+                    WordListItem(
+                        item = item,
+                        onClick = { onOpenWord(item.word.id) },
+                        modifier = Modifier.animateItem(),
+                    )
                 }
             }
         }
