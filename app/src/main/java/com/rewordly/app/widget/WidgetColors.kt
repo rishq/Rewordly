@@ -16,13 +16,13 @@ import androidx.glance.color.ColorProvider
  * value is what used to live in `values/`, the night value what used to live in `values-night/`.
  */
 object WidgetColors {
-    val background = ColorProvider(day = Color(0xFFFBF8FF), night = Color(0xFF1F1F25))
-    val onBackground = ColorProvider(day = Color(0xFF1B1B21), night = Color(0xFFE4E1E9))
-    val muted = ColorProvider(day = Color(0xFF5B5D72), night = Color(0xFFC4C5DD))
-    val primary = ColorProvider(day = Color(0xFF4C56AF), night = Color(0xFFBDC2FF))
-    val onPrimary = ColorProvider(day = Color(0xFFFBF8FF), night = Color(0xFF000C62))
-    val track = ColorProvider(day = Color(0xFFDFE0FF), night = Color(0xFF2D2F42))
+    val background = ColorProvider(day = Color(0xFFF7F6FF), night = Color(0xFF0D0F24))
+    val onBackground = ColorProvider(day = Color(0xFF1F2340), night = Color(0xFFECEEFF))
+    val muted = ColorProvider(day = Color(0xFF6B7090), night = Color(0xFF9AA0C8))
+    val primary = ColorProvider(day = Color(0xFF6A3DF0), night = Color(0xFF9B7BFF))
+    val onPrimary = ColorProvider(day = Color(0xFFFFFFFF), night = Color(0xFF1F0A5C))
+    val track = ColorProvider(day = Color(0xFFE6DEFF), night = Color(0xFF3A22A8))
 
-    /** Streak accent; the warm coral already used for streaks inside the app. */
-    val accent = ColorProvider(day = Color(0xFF9C4234), night = Color(0xFFFFB4A8))
+    /** Streak accent; the brand gold already used for streaks inside the app. */
+    val accent = ColorProvider(day = Color(0xFFFFC53D), night = Color(0xFFFFC53D))
 }

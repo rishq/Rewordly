@@ -40,7 +40,7 @@ import com.rewordly.app.core.ui.labelRes
 import com.rewordly.app.core.ui.motionMillis
 import com.rewordly.app.core.ui.theme.Dimens
 import com.rewordly.app.core.ui.theme.RewordlyTextStyles
-import com.rewordly.app.core.ui.theme.RewordlyTheme
+import com.rewordly.app.core.ui.theme.extraColors
 import com.rewordly.app.domain.model.Word
 
 /** The visual centerpiece: a large contextual vocabulary card. */
@@ -190,7 +190,7 @@ private fun CardHeader(word: Word, difficulty: String, isSaved: Boolean, isLearn
             Icon(
                 imageVector = Icons.Filled.CheckCircle,
                 contentDescription = null,
-                tint = RewordlyTheme.extendedColors.success,
+                tint = MaterialTheme.extraColors.know,
                 modifier = Modifier.size(Dimens.iconMd),
             )
         }

@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.rewordly.app.R
 import com.rewordly.app.core.ui.labelRes
 import com.rewordly.app.core.ui.theme.Dimens
-import com.rewordly.app.core.ui.theme.RewordlyTheme
+import com.rewordly.app.core.ui.theme.extraColors
 import com.rewordly.app.domain.model.WordStatus
 import com.rewordly.app.domain.model.WordWithProgress
 
@@ -67,7 +67,7 @@ fun WordListItem(item: WordWithProgress, onClick: () -> Unit, modifier: Modifier
                 Icon(
                     imageVector = Icons.Filled.CheckCircle,
                     contentDescription = stringResource(R.string.status_learned),
-                    tint = RewordlyTheme.extendedColors.success,
+                    tint = MaterialTheme.extraColors.know,
                 )
             }
             Icon(
