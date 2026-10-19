@@ -1,5 +1,11 @@
 # Rewordly
 
+<div align="center">
+  <a href="https://github.com/rishq/Rewordly/actions/workflows/ci.yml">
+    <img alt="CI" src="https://github.com/rishq/Rewordly/actions/workflows/ci.yml/badge.svg">
+  </a>
+</div>
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/banner-dark.svg">
   <img alt="Rewordly — Learn English, one card at a time" src="docs/images/banner.svg">
@@ -36,6 +42,21 @@ Native Android app for learning English vocabulary through contextual cards (STE
   `LEARNED` and leaves the study session for good; one miss resets the streak and brings it back.
 - **Review** (`Повторение`) — the spaced-repetition queue for words already in the rotation, driven by the
   same swipe card.
+
+## Roadmap
+
+| Stage | What | Status |
+| --- | --- | --- |
+| 1 | Repository and documentation groundwork (this section, CI badge, data-source overview) | ✅ |
+| 2 | Bundled word packs with a validator instead of mock data | 🚧 |
+| 3 | Data sources & licenses in the About screen, AI privacy consent | 🚧 |
+| 4 | Verify AI provider default model names against vendor docs | 🚧 |
+| 5 | Learning engine: interval-based graduation, undo last answer | 🚧 |
+| 6 | Retention features (reminders, TTS, exercises, statistics, word-of-the-day widget) | 🚧 |
+| 7 | Data import/export (CSV, JSON, full backup) | ✅ |
+| 8 | Quality and CI (instrumented tests, screenshot tests, Dependabot) | 🚧 |
+
+Legend: ✅ shipped · 🚧 in progress.
 
 ## AI vocabulary generation
 
@@ -108,6 +129,20 @@ sheet says so.
 
 Words added this way are stored with `WordSource.LOOKUP`. No source reports a CEFR level, so they are not
 given an invented one; they use the app's default level.
+
+## Data sources & licenses
+
+Every source the app reads, with the license that allows the use:
+
+| Source | Used for | License / terms |
+| --- | --- | --- |
+| Bundled `seed_vocabulary.csv` | Starter vocabulary installed on the first run | Original to this project (own authored data); follows the main repository license |
+| [Wiktionary](https://en.wiktionary.org) | Transcription, part of speech, definitions, Russian translation on lookup | Text is dual-licensed GNU FDL / **CC BY-SA**; used with attribution and the license link |
+| [MyMemory](https://mymemory.translated.net) | Fallback Russian translation on lookup | [MyMemory usage terms](https://mymemory.translated.net/doc/usagelimits.php) |
+| AI providers (OpenAI, Anthropic, Google) or the project backend | On-demand vocabulary generation | Generated entries are not third-party copyrighted data; the provider's terms apply to the API call |
+
+Maintained in detail in [docs/data-sources.md](docs/data-sources.md), and shown inside the app
+(`Настройки → О приложении`) where interactive content requires attribution.
 
 ## Structure
 
