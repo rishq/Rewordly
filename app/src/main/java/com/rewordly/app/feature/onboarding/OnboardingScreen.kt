@@ -3,6 +3,7 @@ package com.rewordly.app.feature.onboarding
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,7 +38,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
@@ -49,6 +52,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rewordly.app.R
 import com.rewordly.app.core.ui.components.PrimaryButton
 import com.rewordly.app.core.ui.theme.Dimens
+import com.rewordly.app.core.ui.theme.extraColors
 import kotlinx.coroutines.launch
 
 private data class OnboardingPage(
@@ -83,6 +87,13 @@ fun OnboardingScreen(onFinished: () -> Unit, viewModel: OnboardingViewModel = hi
                 .padding(Dimens.screenPadding),
         ) {
             Box(modifier = Modifier.fillMaxWidth().height(Dimens.minTouchTarget)) {
+                Image(
+                    painter = painterResource(R.drawable.ic_logo_mark),
+                    contentDescription = stringResource(R.string.app_name),
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .size(Dimens.iconLg),
+                )
                 if (!isLastPage) {
                     TextButton(onClick = viewModel::complete, modifier = Modifier.align(Alignment.CenterEnd)) {
                         Text(stringResource(R.string.action_skip))
@@ -122,13 +133,13 @@ private fun OnboardingPageContent(page: OnboardingPage) {
         Box(
             modifier = Modifier
                 .size(Dimens.onboardingIllustration)
-                .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+                .background(MaterialTheme.extraColors.brandGradient, CircleShape),
             contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = page.icon,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                tint = Color.White,
                 modifier = Modifier.size(Dimens.logoSize * 0.7f),
             )
         }
