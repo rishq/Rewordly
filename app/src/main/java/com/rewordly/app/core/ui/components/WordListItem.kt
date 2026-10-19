@@ -67,7 +67,7 @@ fun WordListItem(item: WordWithProgress, onClick: () -> Unit, modifier: Modifier
                 Icon(
                     imageVector = Icons.Filled.CheckCircle,
                     contentDescription = stringResource(R.string.status_learned),
-                    tint = MaterialTheme.extraColors.know,
+                    tint = MaterialTheme.extraColors.streak,
                 )
             }
             Icon(

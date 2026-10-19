@@ -22,7 +22,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.rewordly.app.core.ui.theme.BrandInk
 import com.rewordly.app.core.ui.theme.Dimens
+import com.rewordly.app.core.ui.theme.extraColors
 
 /**
  * The two answers of a study card, side by side and impossible to miss: the left half says the word is
@@ -38,6 +40,7 @@ fun StudyAnswerBar(
     enabled: Boolean = true,
 ) {
     val scheme = MaterialTheme.colorScheme
+    val extra = MaterialTheme.extraColors
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -48,8 +51,8 @@ fun StudyAnswerBar(
             label = rememberedLabel,
             icon = Icons.AutoMirrored.Filled.ArrowBack,
             iconFirst = true,
-            container = scheme.primary,
-            content = scheme.onPrimary,
+            container = extra.know,
+            content = BrandInk,
             enabled = enabled,
             onClick = { onAnswer(true) },
             modifier = Modifier
@@ -61,8 +64,8 @@ fun StudyAnswerBar(
             label = forgottenLabel,
             icon = Icons.AutoMirrored.Filled.ArrowForward,
             iconFirst = false,
-            container = scheme.surfaceContainerHighest,
-            content = scheme.onSurface,
+            container = extra.study,
+            content = scheme.onPrimary,
             enabled = enabled,
             onClick = { onAnswer(false) },
             modifier = Modifier

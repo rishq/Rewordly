@@ -25,7 +25,9 @@ import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.rewordly.app.core.ui.motionMillis
+import com.rewordly.app.core.ui.theme.BrandInk
 import com.rewordly.app.core.ui.theme.Dimens
+import com.rewordly.app.core.ui.theme.extraColors
 import kotlinx.coroutines.launch
 
 /** Which way the card was thrown. [LEFT] is the "I remembered it" side, [RIGHT] the "not yet" side. */
@@ -60,6 +62,7 @@ fun SwipeableCard(
     val offset = remember(resetKey) { Animatable(0f) }
     val scope = rememberCoroutineScope()
     val scheme = MaterialTheme.colorScheme
+    val extra = MaterialTheme.extraColors
     val flingDuration = motionMillis(FLING_MILLIS)
     val actions = remember(leftLabel, rightLabel, onSwipeLeft, onSwipeRight) {
         listOf(
@@ -108,16 +111,16 @@ fun SwipeableCard(
         // (and both badges) once per touch event.
         SwipeBadge(
             text = rightLabel,
-            container = scheme.errorContainer,
-            content = scheme.onErrorContainer,
+            container = extra.study,
+            content = scheme.onPrimary,
             alignment = Alignment.TopStart,
             rotation = -BADGE_ROTATION,
             alpha = { (offset.value / threshold).coerceIn(-1f, 1f).coerceAtLeast(0f) },
         )
         SwipeBadge(
             text = leftLabel,
-            container = scheme.primary,
-            content = scheme.onPrimary,
+            container = extra.know,
+            content = BrandInk,
             alignment = Alignment.TopEnd,
             rotation = BADGE_ROTATION,
             alpha = { (-offset.value / threshold).coerceIn(-1f, 1f).coerceAtLeast(0f) },

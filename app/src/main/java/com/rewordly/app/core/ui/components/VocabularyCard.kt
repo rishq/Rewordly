@@ -190,7 +190,7 @@ private fun CardHeader(word: Word, difficulty: String, isSaved: Boolean, isLearn
             Icon(
                 imageVector = Icons.Filled.CheckCircle,
                 contentDescription = null,
-                tint = MaterialTheme.extraColors.know,
+                tint = MaterialTheme.extraColors.streak,
                 modifier = Modifier.size(Dimens.iconMd),
             )
         }

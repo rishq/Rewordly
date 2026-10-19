@@ -41,6 +41,7 @@ import com.rewordly.app.core.ui.components.TodayPlanCard
 import com.rewordly.app.core.ui.components.WordListItem
 import com.rewordly.app.core.ui.messageRes
 import com.rewordly.app.core.ui.theme.Dimens
+import com.rewordly.app.core.ui.theme.extraColors
 import com.rewordly.app.domain.model.weakReason
 import com.rewordly.app.domain.usecase.Greeting
 import com.rewordly.app.feature.ai.AiEntryCard
@@ -156,6 +157,7 @@ private fun HomeContent(
                             overview.streak.current,
                         ),
                         label = stringResource(R.string.home_streak),
+                        tint = MaterialTheme.extraColors.streak,
                         modifier = Modifier.weight(1f),
                     )
                     StatTile(
@@ -170,6 +172,7 @@ private fun HomeContent(
                         icon = Icons.Outlined.CheckCircle,
                         value = overview.totalWords.toString(),
                         label = stringResource(R.string.home_total_words),
+                        tint = MaterialTheme.extraColors.streak,
                         modifier = Modifier.weight(1f),
                     )
                     StatTile(

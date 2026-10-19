@@ -46,6 +46,7 @@ import com.rewordly.app.core.ui.components.SectionCard
 import com.rewordly.app.core.ui.components.StatTile
 import com.rewordly.app.core.ui.messageRes
 import com.rewordly.app.core.ui.theme.Dimens
+import com.rewordly.app.core.ui.theme.extraColors
 import com.rewordly.app.domain.model.LearningInsight
 import com.rewordly.app.domain.model.ProgressOverview
 import com.rewordly.app.domain.model.ReviewStatistics
@@ -123,6 +124,7 @@ private fun ProfileContent(
                     icon = Icons.Outlined.CheckCircle,
                     value = overview.wordsLearned.toString(),
                     label = stringResource(R.string.profile_words_learned),
+                    tint = MaterialTheme.extraColors.streak,
                     modifier = Modifier.weight(1f),
                 )
                 StatTile(
@@ -141,6 +143,7 @@ private fun ProfileContent(
                         overview.streak.current,
                     ),
                     label = stringResource(R.string.profile_current_streak),
+                    tint = MaterialTheme.extraColors.streak,
                     modifier = Modifier.weight(1f),
                 )
                 StatTile(
@@ -151,6 +154,7 @@ private fun ProfileContent(
                         overview.streak.longest,
                     ),
                     label = stringResource(R.string.profile_longest_streak),
+                    tint = MaterialTheme.extraColors.streak,
                     modifier = Modifier.weight(1f),
                 )
             }
