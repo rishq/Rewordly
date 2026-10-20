@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -52,11 +53,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -79,6 +82,7 @@ import com.rewordly.app.core.ui.components.SwipeableCard
 import com.rewordly.app.core.ui.motionMillis
 import com.rewordly.app.core.ui.theme.Dimens
 import com.rewordly.app.core.ui.theme.RewordlyTextStyles
+import com.rewordly.app.core.ui.theme.extraColors
 import com.rewordly.app.domain.model.Word
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -131,7 +135,7 @@ fun LearnContent(
             rightLabel = forgotten,
             onSwipeLeft = { onEvent(LearnUiEvent.Answer(remembered = true)) },
             onSwipeRight = { onEvent(LearnUiEvent.Answer(remembered = false)) },
-            enabled = !state.isSubmitting,
+            enabled = !state.isSubmitting && !state.correctPick,
             resetKey = state.current.word.id,
             modifier = Modifier
                 .widthIn(max = Dimens.maxContentWidth)
@@ -169,7 +173,7 @@ fun LearnContent(
             rememberedLabel = remembered,
             forgottenLabel = forgotten,
             onAnswer = { onEvent(LearnUiEvent.Answer(remembered = it)) },
-            enabled = !state.isSubmitting,
+            enabled = !state.isSubmitting && !state.correctPick,
             modifier = Modifier.widthIn(max = Dimens.maxContentWidth),
         )
         AnimatedVisibility(
@@ -255,7 +259,13 @@ private fun StudyCard(word: Word, revealed: Boolean) {
     }
 }
 
-/** The three ways to verify the card, as separate buttons the user taps to choose from. */
+/**
+ * The three ways to verify the card, as separate buttons the user taps to choose from.
+ *
+ * Only one mode can be active, so the buttons the user did not pick leave the screen: the card is
+ * answered the way the user chose, not the way that happened to be pressed last. The empty slots keep
+ * their width, so the row does not jump when the other buttons disappear.
+ */
 @Composable
 private fun LearnModeSelector(state: LearnUiState.Content, onEvent: (LearnUiEvent) -> Unit) {
     val typeLabel = stringResource(R.string.learn_mode_type)
@@ -271,6 +281,7 @@ private fun LearnModeSelector(state: LearnUiState.Content, onEvent: (LearnUiEven
             label = typeLabel,
             icon = Icons.Outlined.Keyboard,
             selected = state.answerMode == StudyMode.TYPE,
+            visible = state.answerMode == null || state.answerMode == StudyMode.TYPE,
             onClick = { onEvent(LearnUiEvent.SelectMode(StudyMode.TYPE)) },
             modifier = Modifier.weight(1f),
         )
@@ -278,6 +289,7 @@ private fun LearnModeSelector(state: LearnUiState.Content, onEvent: (LearnUiEven
             label = seeLabel,
             icon = Icons.Outlined.Visibility,
             selected = state.answerMode == StudyMode.SEE,
+            visible = state.answerMode == null || state.answerMode == StudyMode.SEE,
             onClick = { onEvent(LearnUiEvent.SelectMode(StudyMode.SEE)) },
             modifier = Modifier.weight(1f),
         )
@@ -285,6 +297,7 @@ private fun LearnModeSelector(state: LearnUiState.Content, onEvent: (LearnUiEven
             label = optionsLabel,
             icon = Icons.Outlined.GridView,
             selected = state.answerMode == StudyMode.OPTIONS,
+            visible = state.answerMode == null || state.answerMode == StudyMode.OPTIONS,
             onClick = { onEvent(LearnUiEvent.SelectMode(StudyMode.OPTIONS)) },
             modifier = Modifier.weight(1f),
         )
@@ -296,9 +309,15 @@ private fun ModeButton(
     label: String,
     icon: ImageVector,
     selected: Boolean,
+    visible: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    if (!visible) {
+        // The slot keeps its width, so the row does not jump when the other modes leave the screen.
+        Spacer(modifier)
+        return
+    }
     val scheme = MaterialTheme.colorScheme
     val motion = tween<Color>(motionMillis(150))
     val container by animateColorAsState(
@@ -399,22 +418,34 @@ private fun LearnOptionsPanel(state: LearnUiState.Content, onEvent: (LearnUiEven
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(Dimens.spaceSm),
     ) {
-        // Rows of two equal cells; a trailing spacer keeps an odd last cell the same width as the rest,
-        // so the grid never stretches one lonely option across the full line.
-        state.variants.chunked(OPTION_COLUMNS).forEach { rowVariants ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(Dimens.spaceSm),
-            ) {
-                rowVariants.forEach { variant ->
-                    VariantButton(
-                        label = variant,
-                        onClick = { onEvent(LearnUiEvent.PickVariant(variant)) },
-                        modifier = Modifier.weight(1f),
-                    )
-                }
-                repeat(OPTION_COLUMNS - rowVariants.size) {
-                    Spacer(modifier = Modifier.weight(1f))
+        // The options belong to one card. Without the key the buttons are reused from card to card, and
+        // the green flash of the previous card keeps fading into a button of the next one, which looks
+        // like a wrong answer being marked as the right one.
+        key(state.current.word.id) {
+            // Rows of two equal cells; a trailing spacer keeps an odd last cell the same width as the rest,
+            // so the grid never stretches one lonely option across the full line.
+            state.variants.chunked(OPTION_COLUMNS).forEach { rowVariants ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(Dimens.spaceSm),
+                ) {
+                    rowVariants.forEach { variant ->
+                        val picked = variant == state.pickedVariant
+                        VariantButton(
+                            label = variant,
+                            feedback = when {
+                                !picked -> VariantFeedback.NONE
+                                state.correctPick -> VariantFeedback.CORRECT
+                                else -> VariantFeedback.WRONG
+                            },
+                            enabled = !state.correctPick,
+                            onClick = { onEvent(LearnUiEvent.PickVariant(variant)) },
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+                    repeat(OPTION_COLUMNS - rowVariants.size) {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
                 }
             }
         }
@@ -428,15 +459,65 @@ private fun LearnOptionsPanel(state: LearnUiState.Content, onEvent: (LearnUiEven
     }
 }
 
+/** How the picked option reads back: green on the way to the next card, red for another try. */
+private enum class VariantFeedback { NONE, CORRECT, WRONG }
+
 @Composable
-private fun VariantButton(label: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun VariantButton(
+    label: String,
+    feedback: VariantFeedback,
+    enabled: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val scheme = MaterialTheme.colorScheme
+    val good = MaterialTheme.extraColors.know
+    val motion = tween<Color>(motionMillis(150))
+    val container by animateColorAsState(
+        targetValue = when (feedback) {
+            VariantFeedback.CORRECT -> good.copy(alpha = 0.18f)
+            VariantFeedback.WRONG -> scheme.error.copy(alpha = 0.14f)
+            VariantFeedback.NONE -> scheme.surface
+        },
+        animationSpec = motion,
+        label = "variant-container",
+    )
+    val content by animateColorAsState(
+        targetValue = when (feedback) {
+            VariantFeedback.CORRECT -> good
+            VariantFeedback.WRONG -> scheme.error
+            VariantFeedback.NONE -> scheme.onSurface
+        },
+        animationSpec = motion,
+        label = "variant-content",
+    )
+    val border by animateColorAsState(
+        targetValue = when (feedback) {
+            VariantFeedback.CORRECT -> good
+            VariantFeedback.WRONG -> scheme.error
+            VariantFeedback.NONE -> scheme.outlineVariant
+        },
+        animationSpec = motion,
+        label = "variant-border",
+    )
+    val scale by animateFloatAsState(
+        targetValue = if (feedback == VariantFeedback.NONE) 1f else 1.04f,
+        animationSpec = tween(motionMillis(150)),
+        label = "variant-scale",
+    )
     Surface(
         onClick = onClick,
-        modifier = modifier.semantics { contentDescription = label },
+        enabled = enabled,
+        modifier = modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+            .semantics { contentDescription = label },
         shape = MaterialTheme.shapes.medium,
-        color = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface,
-        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant),
+        color = container,
+        contentColor = content,
+        border = BorderStroke(width = 1.dp, color = border),
     ) {
         Box(
             modifier = Modifier

@@ -48,6 +48,8 @@ class LearnScreenTest {
         firstEncounter: Boolean = true,
         answerMode: StudyMode? = null,
         typed: String = "",
+        pickedVariant: String? = null,
+        correctPick: Boolean = false,
     ) {
         val progress = if (firstEncounter) {
             WordProgress(items[position].word.id)
@@ -64,6 +66,8 @@ class LearnScreenTest {
                     answerMode = answerMode,
                     typed = typed,
                     typeMismatch = false,
+                    pickedVariant = pickedVariant,
+                    correctPick = correctPick,
                     revealed = revealed,
                     isSubmitting = submitting,
                     submitFailed = false,
@@ -95,6 +99,22 @@ class LearnScreenTest {
     }
 
     @Test
+    fun beforeAModeIsChosen_allThreeModeButtonsAreThere() {
+        show()
+        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_type)).assertIsDisplayed()
+        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_see)).assertIsDisplayed()
+        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_options)).assertIsDisplayed()
+    }
+
+    @Test
+    fun afterAModeIsChosen_theOtherModeButtonsLeaveTheScreen() {
+        show(answerMode = StudyMode.SEE)
+        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_see)).assertIsDisplayed()
+        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_type)).assertDoesNotExist()
+        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_options)).assertDoesNotExist()
+    }
+
+    @Test
     fun typingPanel_acceptsInput_andChecksIt() {
         show(answerMode = StudyMode.TYPE)
         compose.onNodeWithText(uiString(R.string.learn_type_hint)).performTextInput("plan")
@@ -117,6 +137,16 @@ class LearnScreenTest {
         show(answerMode = StudyMode.OPTIONS)
         compose.onNodeWithText(expectedVariant).performScrollTo().performClick()
         assertEquals(listOf<LearnUiEvent>(LearnUiEvent.PickVariant(expectedVariant)), events)
+    }
+
+    @Test
+    fun whileTheCorrectPickFlashes_theOptionsAreLocked() {
+        show(
+            answerMode = StudyMode.OPTIONS,
+            pickedVariant = items[1].word.text,
+            correctPick = true,
+        )
+        compose.onNodeWithText(items[1].word.text).performScrollTo().assertIsNotEnabled()
     }
 
     /** A word the user has never met is triaged, so the answers talk about knowing, not remembering. */

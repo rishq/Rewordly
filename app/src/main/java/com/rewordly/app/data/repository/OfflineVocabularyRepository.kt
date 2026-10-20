@@ -27,9 +27,11 @@ import com.rewordly.app.domain.service.ImportLimits
 import com.rewordly.app.domain.service.VocabularyImportParser
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 @Singleton
@@ -125,7 +127,9 @@ class OfflineVocabularyRepository @Inject constructor(
     }
 
     override fun observeWords(language: LearningLanguage): Flow<List<WordWithProgress>> =
-        wordDao.observeAll(language.tag).map { list -> list.map { it.toDomain() } }
+        // The whole vocabulary is mapped here, thousands of words at a time, so it has no business on
+        // the main thread.
+        wordDao.observeAll(language.tag).map { list -> list.map { it.toDomain() } }.flowOn(Dispatchers.Default)
 
     override fun observeWordsByIds(ids: List<String>): Flow<List<WordWithProgress>> = if (ids.isEmpty()) {
         flowOf(emptyList())

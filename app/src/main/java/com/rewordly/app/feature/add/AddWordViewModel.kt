@@ -13,6 +13,7 @@ import com.rewordly.app.domain.usecase.InputError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -115,6 +116,9 @@ class AddWordViewModel @Inject constructor(
         job = viewModelScope.launch {
             // The lookup is awaited outside `update`: its lambda is not a coroutine body.
             val status = statusFor(addWord(word), word)
+            // A lookup that was cancelled - the sheet was closed, or another word was typed - must not
+            // write its result over the newer one.
+            ensureActive()
             update { copy(status = status) }
         }
     }

@@ -25,6 +25,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -45,6 +46,7 @@ import com.rewordly.app.core.ui.messageRes
 import com.rewordly.app.core.ui.theme.Dimens
 import com.rewordly.app.core.ui.theme.RewordlyTextStyles
 import com.rewordly.app.domain.model.Word
+import kotlinx.coroutines.launch
 
 const val ADD_WORD_INPUT_TAG = "add_word_input"
 const val ADD_WORD_SUBMIT_TAG = "add_word_submit"
@@ -69,16 +71,32 @@ fun AddWordSheet(
     viewModel: AddWordViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val scope = rememberCoroutineScope()
     // The sheet is composed afresh on every open, so this is the only place the state is reset.
     LaunchedEffect(Unit) { viewModel.onEvent(AddWordEvent.Started(initialWord)) }
+
+    /**
+     * The sheet closes itself before it is taken off the screen. Removing it while the closing
+     * animation is still running tears the window down mid-flight, and the next opening of the sheet
+     * is the one that pays for it.
+     */
+    fun close(after: () -> Unit = {}) {
+        scope.launch {
+            sheetState.hide()
+            after()
+            onDismiss()
+        }
+    }
+
     ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        onDismissRequest = { close() },
+        sheetState = sheetState,
     ) {
         AddWordContent(
             state = state,
             onEvent = viewModel::onEvent,
-            onOpenWord = onOpenWord,
+            onOpenWord = { wordId -> close { onOpenWord(wordId) } },
         )
     }
 }

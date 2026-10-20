@@ -43,8 +43,13 @@ class FakeVocabularyRepository(words: List<WordWithProgress>) : VocabularyReposi
     /** When set, reading the vocabulary fails, which simulates a broken database. */
     var failure: Exception? = null
 
-    override fun observeWords(language: LearningLanguage): Flow<List<WordWithProgress>> =
-        items.map { list -> failure?.let { throw it } ?: list }
+    /** How often the whole vocabulary was read: it is the slow part of starting a batch. */
+    var vocabularyReads = 0
+
+    override fun observeWords(language: LearningLanguage): Flow<List<WordWithProgress>> {
+        vocabularyReads++
+        return items.map { list -> failure?.let { throw it } ?: list }
+    }
 
     override fun observeWordsByIds(ids: List<String>): Flow<List<WordWithProgress>> {
         val wanted = ids.toSet()

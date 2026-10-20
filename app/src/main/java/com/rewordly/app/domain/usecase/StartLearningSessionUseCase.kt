@@ -20,8 +20,16 @@ class StartLearningSessionUseCase @Inject constructor(
     private val vocabularyRepository: VocabularyRepository,
     private val timeProvider: TimeProvider,
 ) {
-    suspend operator fun invoke(language: LearningLanguage, size: Int = DEFAULT_SIZE): LearningSession {
-        val words = vocabularyRepository.observeWords(language).first()
+    suspend operator fun invoke(language: LearningLanguage, size: Int = DEFAULT_SIZE): LearningSession =
+        build(vocabularyRepository.observeWords(language).first(), size)
+
+    /**
+     * The same batch from a vocabulary that was read earlier.
+     *
+     * Reading the whole vocabulary is the slow part of starting a batch, so a caller that already has
+     * it does not wait for it again.
+     */
+    fun build(words: List<WordWithProgress>, size: Int = DEFAULT_SIZE): LearningSession {
         val startedAt = timeProvider.nowMillis()
         return LearningSession(
             sessionId = sessionId(startedAt),

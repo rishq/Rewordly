@@ -19,6 +19,10 @@ import com.rewordly.app.testing.FakeVocabularyRepository
 import com.rewordly.app.testing.MainDispatcherRule
 import com.rewordly.app.testing.TestTimeProvider
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -87,6 +91,29 @@ class LearnViewModelTest {
         assertTrue(vm.uiState.value is LearnUiState.Content)
         assertEquals(1, vm.content().total)
         assertEquals(0, vm.content().index)
+    }
+
+    @Test
+    fun theNextBatch_isPreparedWhileTheUserIsOnTheLastCard() = runTest {
+        val vm = viewModel()
+        val readsAtStart = repository.vocabularyReads
+        repeat(2) { vm.onEvent(LearnUiEvent.Answer(remembered = true)) }
+        // The last card is on screen, so the vocabulary for the next batch is already read. Reading it
+        // at the boundary is what used to freeze the app for a second or two every ten words.
+        assertTrue(repository.vocabularyReads > readsAtStart)
+    }
+
+    @Test
+    fun aFinishedBatch_neverBlanksTheScreen() = runTest {
+        val vm = viewModel()
+        repeat(2) { vm.onEvent(LearnUiEvent.Answer(remembered = true)) }
+        val seen = mutableListOf<LearnUiState>()
+        val watcher = launch(start = CoroutineStart.UNDISPATCHED) { vm.uiState.collect { seen += it } }
+        vm.onEvent(LearnUiEvent.Answer(remembered = true))
+        watcher.cancel()
+
+        assertFalse(seen.any { it is LearnUiState.Loading })
+        assertTrue(seen.any { it is LearnUiState.Content })
     }
 
     @Test
@@ -274,6 +301,28 @@ class LearnViewModelTest {
     }
 
     @Test
+    fun aLetterHint_afterAWrongStart_wipesTheText_andWritesTheMissingLetter() = runTest {
+        val vm = viewModel()
+        val target = vm.correctAnswer()
+        vm.onEvent(LearnUiEvent.TypeText("tralala"))
+        vm.onEvent(LearnUiEvent.TypeHint)
+
+        assertEquals(target.take(1), vm.content().typed)
+        assertFalse(vm.content().typeMismatch)
+    }
+
+    @Test
+    fun aLetterHint_withASkippedLetter_writesTheMissingLetterBack() = runTest {
+        val vm = viewModel()
+        val target = vm.correctAnswer()
+        // The same letters, one of them left out in the middle.
+        vm.onEvent(LearnUiEvent.TypeText(target.removeRange(MIDDLE, MIDDLE + 1)))
+        vm.onEvent(LearnUiEvent.TypeHint)
+
+        assertEquals(target, vm.content().typed)
+    }
+
+    @Test
     fun typingIsLenientAboutCaseButNotAboutTheWord() = runTest {
         val vm = viewModel()
         vm.onEvent(LearnUiEvent.TypeText(vm.correctAnswer().lowercase().replaceFirstChar { it.uppercase() }))
@@ -290,9 +339,43 @@ class LearnViewModelTest {
     }
 
     @Test
-    fun pickingTheCorrectVariant_answersTheCard() = runTest {
+    fun pickingTheCorrectVariant_flashesItGreen_thenAnswersTheCard() = runTest {
         val vm = viewModel()
         vm.onEvent(LearnUiEvent.PickVariant(vm.correctAnswer()))
+        // The card holds still while the pick is shown, then advances.
+        assertEquals(0, vm.content().index)
+        assertTrue(vm.content().correctPick)
+        assertEquals(vm.correctAnswer(), vm.content().pickedVariant)
+
+        // The green goes out before the card changes, so the next word never shares the screen with it.
+        advanceTimeBy(500)
+        assertEquals(0, vm.content().index)
+        assertEquals(null, vm.content().pickedVariant)
+        assertTrue(vm.content().correctPick)
+
+        advanceUntilIdle()
+        assertEquals(1, vm.content().index)
+    }
+
+    @Test
+    fun whileTheCorrectPickFlashes_furtherPicksAreIgnored() = runTest {
+        val vm = viewModel()
+        val wrong = vm.content().variants.first { it != vm.correctAnswer() }
+        vm.onEvent(LearnUiEvent.PickVariant(vm.correctAnswer()))
+        vm.onEvent(LearnUiEvent.PickVariant(wrong))
+
+        assertTrue(vm.content().correctPick)
+        assertEquals(vm.correctAnswer(), vm.content().pickedVariant)
+        assertEquals(0, vm.content().index)
+    }
+
+    @Test
+    fun anAnswerGivenDuringTheFlash_neverLeaksOntoTheNextCard() = runTest {
+        val vm = viewModel()
+        vm.onEvent(LearnUiEvent.PickVariant(vm.correctAnswer()))
+        vm.onEvent(LearnUiEvent.Answer(remembered = true))
+        advanceUntilIdle()
+
         assertEquals(1, vm.content().index)
     }
 
@@ -303,6 +386,7 @@ class LearnViewModelTest {
         vm.onEvent(LearnUiEvent.PickVariant(wrong))
 
         assertTrue(vm.content().typeMismatch)
+        assertEquals(wrong, vm.content().pickedVariant)
         assertEquals(0, vm.content().index)
         assertTrue(reviews.submissions.isEmpty())
     }
@@ -376,5 +460,20 @@ class LearnViewModelTest {
         vm.onEvent(LearnUiEvent.Answer(remembered = true))
         assertFalse(vm.content().submitFailed)
         assertEquals(1, vm.content().index)
+    }
+
+    @Test
+    fun theChosenMode_isGoneOnTheNextCard() = runTest {
+        val vm = viewModel()
+        vm.onEvent(LearnUiEvent.SelectMode(StudyMode.OPTIONS))
+        assertEquals(StudyMode.OPTIONS, vm.content().answerMode)
+
+        vm.onEvent(LearnUiEvent.Answer(remembered = true))
+        assertEquals(null, vm.content().answerMode)
+    }
+
+    private companion object {
+        /** The letter the hint test leaves out of the middle of the word. */
+        const val MIDDLE = 4
     }
 }
