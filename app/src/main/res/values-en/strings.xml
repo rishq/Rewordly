@@ -236,6 +236,10 @@
     <string name="history_legend_more">More</string>
     <string name="a11y_heatmap">Activity calendar for %1$d weeks: %2$d active days</string>
     <string name="a11y_history_day">%1$s: %2$d actions</string>
+    <plurals name="history_calendar_day">
+        <item quantity="one">%1$s: %2$d action</item>
+        <item quantity="other">%1$s: %2$d actions</item>
+    </plurals>
 
     <string name="settings_reminder_time">Reminder time</string>
     <string name="settings_notifications_blocked">Notifications are turned off in system settings. Toggle the switch to allow them.</string>

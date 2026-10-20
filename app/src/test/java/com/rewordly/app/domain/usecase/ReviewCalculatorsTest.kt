@@ -5,8 +5,11 @@ import com.rewordly.app.domain.model.ReviewKind
 import com.rewordly.app.domain.model.ReviewLogEntry
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.Month
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.TextStyle
+import java.util.Locale
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -211,5 +214,19 @@ class ReviewCalculatorsTest {
         assertEquals(2, cells.getValue(today.minusDays(1)).level)
         assertEquals(1, cells.getValue(today.minusDays(2)).level)
         assertEquals(0, cells.getValue(today.minusDays(3)).level)
+    }
+
+    @Test
+    fun calendar_namesTheMonthOnlyWhereItChanges() {
+        val today = LocalDate.of(2024, 5, 10)
+        val weeks = ActivityCalendarBuilder.build(emptyMap(), today, weeks = 4, firstDayOfWeek = DayOfWeek.MONDAY)
+        val ru = Locale.forLanguageTag("ru")
+        val labels = ActivityCalendarBuilder.monthLabels(weeks, ru)
+
+        // The four weeks start on 15, 22 and 29 April and on 6 May: April is named once, May once.
+        assertEquals(Month.APRIL.getDisplayName(TextStyle.SHORT, ru), labels[0])
+        assertEquals("", labels[1])
+        assertEquals("", labels[2])
+        assertEquals(Month.MAY.getDisplayName(TextStyle.SHORT, ru), labels[3])
     }
 }

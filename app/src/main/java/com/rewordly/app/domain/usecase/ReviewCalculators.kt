@@ -9,6 +9,8 @@ import com.rewordly.app.domain.model.ReviewStatistics
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.format.TextStyle
+import java.util.Locale
 
 /**
  * Groups the UTC-timestamped review log into the user's local calendar days.
@@ -123,5 +125,20 @@ object ActivityCalendarBuilder {
     fun level(count: Int, max: Int): Int = when {
         count <= 0 || max <= 0 -> 0
         else -> ((count.toDouble() / max) * LEVELS).let { kotlin.math.ceil(it).toInt() }.coerceIn(1, LEVELS)
+    }
+
+    /**
+     * The month of every week column, named only where the month changes. A column that starts in
+     * October and ends in November is an October column, the way a calendar is read.
+     */
+    fun monthLabels(weeks: List<List<CalendarCell>>, locale: Locale): List<String> {
+        val months = weeks.map { it.firstOrNull()?.date?.month }
+        return months.mapIndexed { index, month ->
+            if (month != null && month != months.getOrNull(index - 1)) {
+                month.getDisplayName(TextStyle.SHORT, locale)
+            } else {
+                ""
+            }
+        }
     }
 }
