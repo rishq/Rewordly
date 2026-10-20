@@ -25,7 +25,6 @@ import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.rewordly.app.core.ui.motionMillis
-import com.rewordly.app.core.ui.theme.BrandInk
 import com.rewordly.app.core.ui.theme.Dimens
 import com.rewordly.app.core.ui.theme.extraColors
 import kotlinx.coroutines.launch
@@ -120,7 +119,7 @@ fun SwipeableCard(
         SwipeBadge(
             text = leftLabel,
             container = extra.know,
-            content = BrandInk,
+            content = scheme.onTertiary,
             alignment = Alignment.TopEnd,
             rotation = BADGE_ROTATION,
             alpha = { (-offset.value / threshold).coerceIn(-1f, 1f).coerceAtLeast(0f) },

@@ -16,16 +16,13 @@ import androidx.glance.color.ColorProvider
  * value is what used to live in `values/`, the night value what used to live in `values-night/`.
  */
 object WidgetColors {
-    val background = ColorProvider(day = Color(0xFFF7F6FF), night = Color(0xFF0D0F24))
-    val onBackground = ColorProvider(day = Color(0xFF1F2340), night = Color(0xFFECEEFF))
-    val muted = ColorProvider(day = Color(0xFF6B7090), night = Color(0xFF9AA0C8))
-    val primary = ColorProvider(day = Color(0xFF6A3DF0), night = Color(0xFF9B7BFF))
-    val onPrimary = ColorProvider(day = Color(0xFFFFFFFF), night = Color(0xFF1F0A5C))
-    val track = ColorProvider(day = Color(0xFFE6DEFF), night = Color(0xFF3A22A8))
+    val background = ColorProvider(day = Color(0xFFFFFFFF), night = Color(0xFF000000))
+    val onBackground = ColorProvider(day = Color(0xFF1D1D1F), night = Color(0xFFF5F5F7))
+    val muted = ColorProvider(day = Color(0xFF86868B), night = Color(0xFF98989D))
+    val primary = ColorProvider(day = Color(0xFF007AFF), night = Color(0xFF0A84FF))
+    val onPrimary = ColorProvider(day = Color(0xFFFFFFFF), night = Color(0xFFFFFFFF))
+    val track = ColorProvider(day = Color(0xFFE5E5EA), night = Color(0xFF38383A))
 
-    /**
-     * Streak accent. Gold is the brand streak colour, but it only contrasts on dark surfaces,
-     * so the day column uses a deep amber of the same hue (AA on the light widget background).
-     */
-    val accent = ColorProvider(day = Color(0xFF8A6100), night = Color(0xFFFFC53D))
+    /** Streak accent follows the Apple Blue accent in both themes. */
+    val accent = ColorProvider(day = Color(0xFF007AFF), night = Color(0xFF0A84FF))
 }

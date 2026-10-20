@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.rewordly.app.core.ui.theme.BrandInk
 import com.rewordly.app.core.ui.theme.Dimens
 import com.rewordly.app.core.ui.theme.extraColors
 
@@ -52,7 +51,7 @@ fun StudyAnswerBar(
             icon = Icons.AutoMirrored.Filled.ArrowBack,
             iconFirst = true,
             container = extra.know,
-            content = BrandInk,
+            content = scheme.onTertiary,
             enabled = enabled,
             onClick = { onAnswer(true) },
             modifier = Modifier

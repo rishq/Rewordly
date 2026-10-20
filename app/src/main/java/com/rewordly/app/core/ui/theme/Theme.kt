@@ -100,17 +100,17 @@ data class RewordlyExtraColors(
 )
 
 private val LightExtra = RewordlyExtraColors(
-    know = BrandTeal,
+    know = LightTertiary,
     study = LightPrimary,
-    streak = BrandGold,
-    brandGradient = Brush.linearGradient(listOf(BrandViolet, BrandIndigo, BrandTeal)),
+    streak = LightPrimary,
+    brandGradient = Brush.linearGradient(listOf(LightPrimary, LightPrimary)),
 )
 
 private val DarkExtra = RewordlyExtraColors(
     know = DarkTertiary,
     study = DarkPrimary,
-    streak = BrandGold,
-    brandGradient = Brush.linearGradient(listOf(BrandViolet, BrandIndigo, BrandTeal)),
+    streak = DarkPrimary,
+    brandGradient = Brush.linearGradient(listOf(DarkPrimary, DarkPrimary)),
 )
 
 private val LocalExtraColors = staticCompositionLocalOf { LightExtra }
