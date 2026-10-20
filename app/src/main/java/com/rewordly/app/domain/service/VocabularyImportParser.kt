@@ -105,6 +105,7 @@ class VocabularyImportParser @Inject constructor(private val json: Json) {
                 examples = examples,
                 topic = value(CsvColumn.TOPIC, 7),
                 difficulty = value(CsvColumn.DIFFICULTY, 8),
+                pronunciation = value(CsvColumn.PRONUNCIATION, 9),
             ),
         )
     }
@@ -203,6 +204,7 @@ class VocabularyImportParser @Inject constructor(private val json: Json) {
                 examples = examples,
                 topic = word.topic.trim(),
                 difficulty = word.difficulty.trim(),
+                pronunciation = word.pronunciation.trim(),
             ),
         )
     }
@@ -264,6 +266,7 @@ class VocabularyImportParser @Inject constructor(private val json: Json) {
         EXAMPLE_TRANSLATION,
         TOPIC,
         DIFFICULTY,
+        PRONUNCIATION,
     }
 
     private companion object {
@@ -283,6 +286,7 @@ class VocabularyImportParser @Inject constructor(private val json: Json) {
             aliases(CsvColumn.EXAMPLE_TRANSLATION, "example_translation", "example_ru", "перевод_примера")
             aliases(CsvColumn.TOPIC, "topic", "category", "тема")
             aliases(CsvColumn.DIFFICULTY, "difficulty", "level", "уровень")
+            aliases(CsvColumn.PRONUNCIATION, "pronunciation", "transcription", "ipa", "транскрипция", "произношение")
         }
     }
 }
@@ -297,6 +301,7 @@ internal data class ImportJsonWord(
     val definitionTranslation: String = "",
     val topic: String = "",
     val difficulty: String = "",
+    val pronunciation: String = "",
     val examples: List<ImportJsonExample> = emptyList(),
 )
 

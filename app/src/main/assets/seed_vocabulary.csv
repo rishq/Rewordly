@@ -1080,7 +1080,7 @@ straightforward,"простой, понятный",adjective,,,,,it,B1
 popup,всплывающее окно,noun,,,,,it,B1
 organizational unit,организационное подразделение,noun,,,,,it,B1
 determine,определять,verb,,,,,it,B1
-served,обслуженный,participle,,,,,it,B1
+served,обслуженный,verb,,,,,it,B1
 proficiency,"мастерство, умение",noun,,,,,it,B1
 compliance,соответствие требованиям,noun,,,,,it,B1
 sealed,запечатанный,adjective,,,,,it,B1
@@ -1122,25 +1122,25 @@ advantage,преимущество,noun,,,,,business,B1
 downside,недостаток,noun,,,,,business,B1
 treadmill,беговая дорожка,noun,,,,,business,B1
 cubicle,рабочая кабинка,noun,,,,,business,B1
-turn heads,привлекать внимание,idiom,,,,,idioms,B1
-turn the tables,поменяться ролями,idiom,,,,,idioms,B1
-a turn up for the books,неожиданный поворот событий,idiom,,,,,idioms,B1
-at every turn,на каждом шагу,idiom,,,,,idioms,B1
-take the scenic route,поехать живописным маршрутом,idiom,,,,,idioms,B1
-living out of a suitcase,жить на чемоданах,idiom,,,,,idioms,B1
-think outside the box,мыслить нестандартно,idiom,,,,,idioms,B1
-go off the beaten path,сойти с проторенной дорожки,idiom,,,,,idioms,B1
-in the middle of nowhere,в глуши,idiom,,,,,idioms,B1
-make a splash,произвести фурор,idiom,,,,,idioms,B1
-old wives' tale,"бабушкины сказки, суеверие",idiom,,,,,idioms,B1
-who will bell the cat,кто рискнёт взяться за опасное дело,idiom,,,,,idioms,B1
-go nuclear,взорваться от гнева,idiom,,,,,idioms,B1
-be above the salt,занимать почётное место,idiom,,,,,idioms,B1
-dude up,приодеться,phrasal verb,,,,,idioms,B1
-mickey mouse around,валять дурака,idiom,,,,,idioms,B1
+turn heads,привлекать внимание,phrase,,,,,idioms,B1
+turn the tables,поменяться ролями,phrase,,,,,idioms,B1
+a turn up for the books,неожиданный поворот событий,phrase,,,,,idioms,B1
+at every turn,на каждом шагу,phrase,,,,,idioms,B1
+take the scenic route,поехать живописным маршрутом,phrase,,,,,idioms,B1
+living out of a suitcase,жить на чемоданах,phrase,,,,,idioms,B1
+think outside the box,мыслить нестандартно,phrase,,,,,idioms,B1
+go off the beaten path,сойти с проторенной дорожки,phrase,,,,,idioms,B1
+in the middle of nowhere,в глуши,phrase,,,,,idioms,B1
+make a splash,произвести фурор,phrase,,,,,idioms,B1
+old wives' tale,"бабушкины сказки, суеверие",phrase,,,,,idioms,B1
+who will bell the cat,кто рискнёт взяться за опасное дело,phrase,,,,,idioms,B1
+go nuclear,взорваться от гнева,phrase,,,,,idioms,B1
+be above the salt,занимать почётное место,phrase,,,,,idioms,B1
+dude up,приодеться,phrase,,,,,idioms,B1
+mickey mouse around,валять дурака,phrase,,,,,idioms,B1
 used to,раньше (делал); привык,phrase,,,,,idioms,B1
 be used to,быть привычным к,phrase,,,,,idioms,B1
-come up with,придумать,phrasal verb,,,,,idioms,B1
+come up with,придумать,phrase,,,,,idioms,B1
 bad habits,вредные привычки,noun,,,,,idioms,B1
 past habits,прошлые привычки,noun,,,,,idioms,B1
 no sense,никакого смысла,phrase,,,,,idioms,B1

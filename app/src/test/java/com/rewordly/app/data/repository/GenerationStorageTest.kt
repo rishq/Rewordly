@@ -14,6 +14,7 @@ import com.rewordly.app.domain.model.toWord
 import com.rewordly.app.domain.service.VocabularyImportParser
 import com.rewordly.app.domain.usecase.StudyQueueBuilder
 import com.rewordly.app.testing.FakeGenerationHistoryDao
+import com.rewordly.app.testing.FakeSeedPackTracker
 import com.rewordly.app.testing.FakeWordDao
 import com.rewordly.app.testing.FakeWordProgressDao
 import com.rewordly.app.testing.SequentialIdProvider
@@ -110,7 +111,8 @@ class GenerationStorageTest {
         importParser = VocabularyImportParser(Json),
         idProvider = SequentialIdProvider(prefix = "ai"),
         timeProvider = TestTimeProvider(),
-        seedSource = VocabularySeedSource { "" },
+        packSource = WordPackSource { "" },
+        packTracker = FakeSeedPackTracker(),
     )
 
     @Test

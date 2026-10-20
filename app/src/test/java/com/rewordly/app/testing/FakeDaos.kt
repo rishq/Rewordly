@@ -21,6 +21,7 @@ import com.rewordly.app.data.local.toEntity
 import com.rewordly.app.domain.model.Word
 import com.rewordly.app.domain.model.WordProgress
 import com.rewordly.app.domain.model.WordStatus
+import com.rewordly.app.domain.repository.SeedPackTracker
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -78,12 +79,30 @@ class FakeWordDao(words: List<Word> = emptyList()) : WordDao {
         .filter { it.language == language && it.text.trim().lowercase() in keys }
         .map { WordKeyRow(it.id, it.text) }
 
+    override suspend fun findRows(language: String, sources: List<String>, keys: List<String>) = entities.value
+        .filter { it.language == language && it.source in sources && it.text.trim().lowercase() in keys }
+
+    override suspend fun findRowsByIds(ids: List<String>): List<WordEntity> {
+        val wanted = ids.toSet()
+        return entities.value.filter { it.id in wanted }
+    }
+
+    override suspend fun updateWords(words: List<WordEntity>) {
+        val byId = words.associateBy { it.id }
+        entities.value = entities.value.map { byId[it.id] ?: it }
+    }
+
     override suspend fun insertWords(words: List<WordEntity>) {
         entities.value = entities.value + words.filter { candidate -> entities.value.none { it.id == candidate.id } }
     }
 
     override suspend fun insertExamples(examples: List<WordExampleEntity>) {
         this.examples.value = this.examples.value + examples
+    }
+
+    override suspend fun removeExamples(wordIds: List<String>) {
+        val wanted = wordIds.toSet()
+        examples.value = examples.value.filterNot { it.wordId in wanted }
     }
 
     private fun populate(entity: WordEntity) = PopulatedWord(
@@ -213,5 +232,18 @@ class FakeGenerationHistoryDao : GenerationHistoryDao {
 
     override suspend fun clear() {
         rows.value = emptyList()
+    }
+}
+
+/** In-memory applied-version table for [SeedPackTracker]. */
+class FakeSeedPackTracker(
+    appliedVersions: Map<String, Int> = emptyMap(),
+) : SeedPackTracker {
+    val applied = MutableStateFlow(appliedVersions)
+
+    override suspend fun appliedVersions(): Map<String, Int> = applied.value
+
+    override suspend fun markApplied(id: String, version: Int) {
+        applied.value = applied.value + (id to version)
     }
 }

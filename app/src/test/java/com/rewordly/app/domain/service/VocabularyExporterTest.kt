@@ -82,7 +82,7 @@ class VocabularyExporterTest {
 
         val rows = CsvCodec.parse(csv)
         assertEquals(1, rows.size)
-        assertEquals(9, rows.single().size)
+        assertEquals(10, rows.single().size)
     }
 
     /**

@@ -3,10 +3,13 @@
 What the app reads, from where, and under what terms. Same table ships inside the app
 in `Настройки → О приложении` so attribution travels with the product.
 
-## Bundled starter vocabulary
+## Bundled word packs
 
-- **File:** `app/src/main/assets/seed_vocabulary.csv`
-- **Use:** starter word packs installed into Room on the very first run (`OfflineVocabularyRepository.ensureSeeded`).
+- **Files:** `app/src/main/assets/seed_vocabulary.csv` (B1 starter, 1258 rows) and
+  `app/src/main/assets/word_packs/a1_a2_core.json` (A1–A2 core, ~470 entries).
+- **Use:** starter word packs installed into Room on the first run and refreshed on a pack version
+  bump (`OfflineVocabularyRepository.ensureSeeded` via `WordPackCatalog`). Progress and review
+  history are kept, and content owned by other sources (AI, imports, lookups) is never touched.
 - **Source:** original to this project — authored for Rewordly, not copied from a commercial list.
 - **License:** follows the main repository license. Until a repository license is chosen, the data is
   treated as all-rights-reserved to the repository owner; once the repo gets a license (e.g. Apache-2.0
@@ -54,5 +57,6 @@ in `Настройки → О приложении` so attribution travels with 
 
 ## Verification checklist
 
-Run `./gradlew testDebugUnitTest` — `SeedVocabularyTest` validates the bundled pack shape, word
-uniqueness and CEFR levels.
+Run `./gradlew testDebugUnitTest` — `SeedVocabularyTest` validates the starter CSV shape and
+`WordPackCatalogTest` validates every catalog pack: parse, uniqueness, CEFR levels, part-of-speech
+tokens, pronunciation format and example pairing.

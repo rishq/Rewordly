@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.rewordly.app.core.database.entity.PopulatedWord
 import com.rewordly.app.core.database.entity.WordEntity
 import com.rewordly.app.core.database.entity.WordExampleEntity
@@ -58,15 +59,37 @@ interface WordDao {
     @Query("SELECT id, text FROM words WHERE language = :language AND LOWER(TRIM(text)) IN (:keys)")
     suspend fun findByNormalizedText(language: String, keys: List<String>): List<WordKeyRow>
 
+    /** Full rows for duplicate detection during pack sync; the caller filters by source. */
+    @Query("SELECT * FROM words WHERE language = :language AND LOWER(TRIM(text)) IN (:keys) AND source IN (:sources)")
+    suspend fun findRows(language: String, sources: List<String>, keys: List<String>): List<WordEntity>
+
+    /** Full rows by id, for callers that already know exactly which words they update. */
+    @Query("SELECT * FROM words WHERE id IN (:ids)")
+    suspend fun findRowsByIds(ids: List<String>): List<WordEntity>
+
+    @Update
+    suspend fun updateWords(words: List<WordEntity>)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertWords(words: List<WordEntity>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertExamples(examples: List<WordExampleEntity>)
 
+    @Query("DELETE FROM word_examples WHERE word_id IN (:wordIds)")
+    suspend fun removeExamples(wordIds: List<String>)
+
     @Transaction
     suspend fun insertVocabulary(words: List<WordEntity>, examples: List<WordExampleEntity>) {
         insertWords(words)
+        insertExamples(examples)
+    }
+
+    /** Replaces the examples of [wordIds] with [examples] in one transaction. */
+    @Transaction
+    suspend fun replaceExamples(wordIds: List<String>, examples: List<WordExampleEntity>) {
+        if (wordIds.isEmpty()) return
+        removeExamples(wordIds)
         insertExamples(examples)
     }
 }

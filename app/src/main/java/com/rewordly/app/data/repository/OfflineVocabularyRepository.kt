@@ -16,12 +16,12 @@ import com.rewordly.app.domain.model.Difficulty
 import com.rewordly.app.domain.model.LearningLanguage
 import com.rewordly.app.domain.model.PartOfSpeech
 import com.rewordly.app.domain.model.VocabularyEntry
-import com.rewordly.app.domain.model.VocabularyFileFormat
 import com.rewordly.app.domain.model.Word
 import com.rewordly.app.domain.model.WordKeys
 import com.rewordly.app.domain.model.WordProgress
 import com.rewordly.app.domain.model.WordSource
 import com.rewordly.app.domain.model.WordWithProgress
+import com.rewordly.app.domain.repository.SeedPackTracker
 import com.rewordly.app.domain.repository.VocabularyRepository
 import com.rewordly.app.domain.service.ImportLimits
 import com.rewordly.app.domain.service.VocabularyImportParser
@@ -39,33 +39,89 @@ class OfflineVocabularyRepository @Inject constructor(
     private val importParser: VocabularyImportParser,
     private val idProvider: IdProvider,
     private val timeProvider: TimeProvider,
-    private val seedSource: VocabularySeedSource,
+    private val packSource: WordPackSource,
+    private val packTracker: SeedPackTracker,
 ) : VocabularyRepository {
 
+    /**
+     * Syncs every bundled word pack.
+     *
+     * A pack is applied once per version: a fresh install inserts all of its words; on a later
+     * version bump missing words are inserted and stale bundled content is updated in place, so
+     * progress (bound to the word id) and review history survive untouched. Rows already owned by
+     * another source (AI generations, imports, lookups) are never touched, and words the user added
+     * by hand are left alone even when a pack later ships the same text. Applied versions live in
+     * DataStore; [OfflineVocabularyRepositoryTest] pins the behaviour.
+     */
     override suspend fun ensureSeeded(): AppResult<Unit> = safeDbCall {
-        if (wordDao.count() != 0) return@safeDbCall
-        val base = timeProvider.nowMillis()
-        // The bundled B1 starter vocabulary: the learn loop needs cards from the very first run.
-        val entries = importParser.parse(seedSource.read(), VocabularyFileFormat.CSV, ImportLimits()).entries
+        val appliedVersions = packTracker.appliedVersions()
+        WordPackCatalog.packs.forEachIndexed { packIndex, pack ->
+            if (((appliedVersions[pack.id] ?: 0) >= pack.version)) return@forEachIndexed
+
+            val content = packSource.read(pack.assetName)
+            val parsed = importParser.parse(content, importParser.detectFormat(pack.assetName, content), ImportLimits())
+            val entries = parsed.entries.map { it.entry }
+            if (entries.isNotEmpty()) {
+                applyPack(packIndex, entries)
+            }
+            packTracker.markApplied(pack.id, pack.version)
+        }
+        Unit
+    }
+
+    /**
+     * Inserts pack words that do not exist yet and refreshes bundled rows whose content changed.
+     * Rows owned by another source (AI, files, lookups) are skipped entirely.
+     */
+    private suspend fun applyPack(packIndex: Int, entries: List<VocabularyEntry>) {
+        val now = timeProvider.nowMillis()
+        val byNormalized = entries.associateBy { WordKeys.normalize(it.text) }
+        val existing = wordDao.findRows(
+            language = LearningLanguage.ENGLISH.tag,
+            sources = WordSource.entries.map(WordSource::name),
+            keys = byNormalized.keys.toList(),
+        ).associateBy { WordKeys.normalize(it.text) }
+
         var index = 0
-        val seedWords = mutableListOf<WordEntity>()
-        val seedExamples = mutableListOf<WordExampleEntity>()
-        for (parsedEntry in entries) {
-            val wordId = idProvider.newId()
-            seedWords += parsedEntry.entry.toEntity(id = wordId, createdAt = base + index)
-            parsedEntry.entry.examples.forEachIndexed { position, example ->
-                seedExamples += WordExampleEntity(
-                    id = idProvider.newId(),
-                    wordId = wordId,
-                    text = example.english,
-                    translation = example.russian,
-                    position = position,
-                )
+        val freshWords = mutableListOf<WordEntity>()
+        val freshExamples = mutableListOf<WordExampleEntity>()
+        val changedRows = mutableListOf<WordEntity>()
+        val changedIds = mutableListOf<String>()
+        val rebuildExamples = mutableListOf<WordExampleEntity>()
+        for ((key, entry) in byNormalized) {
+            val row = existing[key]
+            if (row == null) {
+                val wordId = idProvider.newId()
+                // Offsets keep the bundled order stable when sorted by created_at.
+                freshWords += entry.toEntity(id = wordId, createdAt = now + packIndex * 1_000_000L + index)
+                entry.examples.forEachIndexed { position, example ->
+                    freshExamples += WordExampleEntity(
+                        id = idProvider.newId(),
+                        wordId = wordId,
+                        text = example.english,
+                        translation = example.russian,
+                        position = position,
+                    )
+                }
+            } else if (row.source == WordSource.BUNDLED.name && row.contentDiffersFrom(entry)) {
+                val refreshed = row.refreshedWith(entry)
+                changedRows += refreshed
+                changedIds += row.id
+                entry.examples.forEachIndexed { position, example ->
+                    rebuildExamples += WordExampleEntity(
+                        id = idProvider.newId(),
+                        wordId = row.id,
+                        text = example.english,
+                        translation = example.russian,
+                        position = position,
+                    )
+                }
             }
             index++
         }
-        // Offsets keep the bundled order stable when sorted by created_at.
-        wordDao.insertVocabulary(words = seedWords, examples = seedExamples)
+        wordDao.insertVocabulary(words = freshWords, examples = freshExamples)
+        wordDao.updateWords(changedRows)
+        if (changedIds.isNotEmpty()) wordDao.replaceExamples(changedIds, rebuildExamples)
     }
 
     override fun observeWords(language: LearningLanguage): Flow<List<WordWithProgress>> =
@@ -126,8 +182,8 @@ class OfflineVocabularyRepository @Inject constructor(
     }
 
     /**
-     * A bundled CSV row is written the same way an imported row is: unknown enum names fall back,
-     * and the row carries no pronunciation or audio until the app fetches it.
+     * A bundled pack row is written the same way an imported row is: unknown enum names fall back,
+     * and the row carries no audio until the app fetches it.
      */
     private fun VocabularyEntry.toEntity(id: String, createdAt: Long): WordEntity {
         val partOfSpeech = partsOfSpeech().firstOrNull { it.name.equals(partOfSpeech.trim(), ignoreCase = true) }
@@ -138,7 +194,7 @@ class OfflineVocabularyRepository @Inject constructor(
             text = text,
             translation = translation,
             translationLanguage = SEED_TRANSLATION_LANGUAGE,
-            pronunciation = "",
+            pronunciation = pronunciation,
             partOfSpeech = (partOfSpeech ?: PartOfSpeech.PHRASE).name,
             difficulty = (level ?: Difficulty.A1).name,
             definition = definition,
@@ -152,6 +208,35 @@ class OfflineVocabularyRepository @Inject constructor(
             topic = topic,
         )
     }
+
+    /** True when any deck content a pack owns has changed and the row must be refreshed. */
+    private fun VocabularyEntry.resolvedPartOfSpeech(): String {
+        val match = partsOfSpeech().firstOrNull { it.name.equals(partOfSpeech.trim(), ignoreCase = true) }
+        return (match ?: PartOfSpeech.PHRASE).name
+    }
+
+    private fun VocabularyEntry.resolvedDifficulty(): String {
+        val level = difficulties().firstOrNull { it.name.equals(difficulty.trim(), ignoreCase = true) }
+        return (level ?: Difficulty.A1).name
+    }
+
+    private fun WordEntity.refreshedWith(pack: VocabularyEntry): WordEntity = copy(
+        translation = pack.translation,
+        pronunciation = pack.pronunciation,
+        partOfSpeech = pack.resolvedPartOfSpeech(),
+        difficulty = pack.resolvedDifficulty(),
+        definition = pack.definition,
+        definitionTranslation = pack.definitionTranslation,
+        topic = pack.topic,
+    )
+
+    private fun WordEntity.contentDiffersFrom(pack: VocabularyEntry): Boolean =
+        translation != pack.translation || pronunciation != pack.pronunciation ||
+            partOfSpeech != pack.resolvedPartOfSpeech() ||
+            difficulty != pack.resolvedDifficulty() ||
+            definition != pack.definition ||
+            definitionTranslation != pack.definitionTranslation ||
+            topic != pack.topic
 
     /** The row to start from when the word has no progress yet; the DAO fills it in inside its transaction. */
     private fun blankProgress(wordId: String, updatedAt: Long): WordProgressEntity =

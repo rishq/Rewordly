@@ -38,6 +38,7 @@ class VocabularyExporter @Inject constructor(private val json: Json) {
                         item.word.examples.joinToString(EXAMPLE_SEPARATOR) { it.translation },
                         item.word.topic,
                         item.word.difficulty.name,
+                        item.word.pronunciation,
                     ),
                 )
             }
@@ -58,6 +59,7 @@ class VocabularyExporter @Inject constructor(private val json: Json) {
                     definitionTranslation = item.word.definitionTranslation,
                     topic = item.word.topic,
                     difficulty = item.word.difficulty.name,
+                    pronunciation = item.word.pronunciation,
                     examples = item.word.examples.map { ImportJsonExample(it.text, it.translation) },
                 )
             },
@@ -78,6 +80,7 @@ class VocabularyExporter @Inject constructor(private val json: Json) {
             "example_translation",
             "topic",
             "difficulty",
+            "pronunciation",
         )
     }
 }

@@ -1,11 +1,13 @@
 package com.rewordly.app.data.repository
 
+import com.rewordly.app.core.datastore.DataStoreSeedPackTracker
 import com.rewordly.app.domain.repository.AiSettingsRepository
 import com.rewordly.app.domain.repository.DataManagementRepository
 import com.rewordly.app.domain.repository.GenerationHistoryRepository
 import com.rewordly.app.domain.repository.GenerationSettingsRepository
 import com.rewordly.app.domain.repository.ProgressRepository
 import com.rewordly.app.domain.repository.ReviewRepository
+import com.rewordly.app.domain.repository.SeedPackTracker
 import com.rewordly.app.domain.repository.SettingsRepository
 import com.rewordly.app.domain.repository.VocabularyGenerationRepository
 import com.rewordly.app.domain.repository.VocabularyRepository
@@ -20,6 +22,9 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
     @Binds
     abstract fun bindVocabularyRepository(impl: OfflineVocabularyRepository): VocabularyRepository
+
+    @Binds
+    abstract fun bindSeedPackTracker(impl: DataStoreSeedPackTracker): SeedPackTracker
 
     @Binds
     abstract fun bindProgressRepository(impl: DefaultProgressRepository): ProgressRepository

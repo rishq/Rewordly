@@ -48,7 +48,7 @@ Native Android app for learning English vocabulary through contextual cards (STE
 | Stage | What | Status |
 | --- | --- | --- |
 | 1 | Repository and documentation groundwork (this section, CI badge, data-source overview) | ✅ |
-| 2 | Bundled word packs with a validator instead of mock data | 🚧 |
+| 2 | Bundled word packs with a validator instead of mock data | ✅ |
 | 3 | Data sources & licenses in the About screen, AI privacy consent | 🚧 |
 | 4 | Verify AI provider default model names against vendor docs | 🚧 |
 | 5 | Learning engine: interval-based graduation, undo last answer | 🚧 |

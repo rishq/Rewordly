@@ -38,6 +38,8 @@ data class VocabularyEntry(
     val examples: List<VocabularyEntryExample> = emptyList(),
     val topic: String = "",
     val difficulty: String = "",
+    /** IPA transcription with surrounding slashes, e.g. `/ˈwɔːtə/`. Empty when the file has none. */
+    val pronunciation: String = "",
 )
 
 /** One example sentence with its translation, in the same shape as the rest of the app. */
