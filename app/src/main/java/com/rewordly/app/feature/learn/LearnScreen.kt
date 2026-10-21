@@ -15,6 +15,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,19 +33,19 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.GridView
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Keyboard
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -54,7 +55,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -68,6 +71,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -125,48 +129,92 @@ fun LearnContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
             .padding(horizontal = Dimens.screenPadding, vertical = Dimens.spaceSm),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(Dimens.spaceLg),
     ) {
-        SwipeableCard(
-            leftLabel = remembered,
-            rightLabel = forgotten,
-            onSwipeLeft = { onEvent(LearnUiEvent.Answer(remembered = true)) },
-            onSwipeRight = { onEvent(LearnUiEvent.Answer(remembered = false)) },
-            enabled = !state.isSubmitting && !state.correctPick,
-            resetKey = state.current.word.id,
-            modifier = Modifier
-                .widthIn(max = Dimens.maxContentWidth)
-                .fillMaxWidth(),
-        ) {
-            // Fading the outgoing word into the next one keeps the swipe-off, answer and new card one motion.
-            Crossfade(
-                targetState = state.current.word to state.revealed,
-                animationSpec = tween(motionMillis(220)),
-                label = "learn-card",
-            ) { (word, revealed) ->
-                StudyCard(word = word, revealed = revealed)
-            }
-        }
-        LearnSecondaryActions(state = state, onEvent = onEvent, onOpenWord = onOpenWord)
-        LearnModeSelector(state = state, onEvent = onEvent)
-        // The panel below grows and collapses instead of shoving the answer bar around.
-        val fadeTween = tween<Float>(motionMillis(200))
-        val sizeTween = tween<IntSize>(motionMillis(200))
-        AnimatedContent(
-            targetState = state.answerMode,
-            transitionSpec = {
-                (fadeIn(fadeTween) + expandVertically(sizeTween)) togetherWith
-                    (fadeOut(fadeTween) + shrinkVertically(sizeTween))
-            },
-            label = "learn-mode-panel",
-        ) { mode ->
-            when (mode) {
-                StudyMode.TYPE -> LearnTypingPanel(state = state, onEvent = onEvent)
-                StudyMode.OPTIONS -> LearnOptionsPanel(state = state, onEvent = onEvent)
-                StudyMode.SEE, null -> Box(Modifier.fillMaxWidth())
+        // The card and the panel scroll; the two answers stay pinned to the bottom of the screen.
+        BoxWithConstraints(modifier = Modifier.weight(1f)) {
+            // The card takes most of the room the screen has, so the word sits in a long card and the
+            // control under it still fits: a fixed height would push the control off the screen.
+            val cardHeight = (maxHeight * CARD_HEIGHT_FRACTION)
+                .coerceIn(Dimens.vocabularyCardMinHeight, MAX_CARD_HEIGHT)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(Dimens.spaceLg),
+            ) {
+                SwipeableCard(
+                    leftLabel = remembered,
+                    rightLabel = forgotten,
+                    onSwipeLeft = { onEvent(LearnUiEvent.Answer(remembered = true)) },
+                    onSwipeRight = { onEvent(LearnUiEvent.Answer(remembered = false)) },
+                    enabled = !state.isSubmitting && !state.correctPick,
+                    resetKey = state.current.word.id,
+                    modifier = Modifier
+                        .widthIn(max = Dimens.maxContentWidth)
+                        .fillMaxWidth(),
+                ) {
+                    // Fading the outgoing word into the next one keeps the swipe-off, answer and new card one motion.
+                    Crossfade(
+                        targetState = state.current.word to state.revealed,
+                        animationSpec = tween(motionMillis(220)),
+                        label = "learn-card",
+                    ) { (word, revealed) ->
+                        StudyCard(
+                            word = word,
+                            revealed = revealed,
+                            englishFirst = state.isFirstEncounter,
+                            cardHeight = cardHeight,
+                            saved = state.current.progress.isSaved,
+                            onToggleSaved = { onEvent(LearnUiEvent.ToggleSaved) },
+                            onOpenWord = { onOpenWord(state.current.word.id) },
+                        )
+                    }
+                }
+                // A word the user has never met has nothing to recall, so the only thing to do is to read it.
+                // A word in progress can be checked three ways, and the panel below answers the chosen way.
+                if (state.isFirstEncounter) {
+                    if (!state.revealed) {
+                        RevealButton(onClick = { onEvent(LearnUiEvent.Reveal) })
+                    }
+                } else {
+                    LearnModeSelector(state = state, onEvent = onEvent)
+                }
+                // The panel below grows and collapses instead of shoving the answer bar around.
+                val fadeTween = tween<Float>(motionMillis(200))
+                val sizeTween = tween<IntSize>(motionMillis(200))
+                AnimatedContent(
+                    targetState = state.panel,
+                    transitionSpec = {
+                        (fadeIn(fadeTween) + expandVertically(sizeTween)) togetherWith
+                            (fadeOut(fadeTween) + shrinkVertically(sizeTween))
+                    },
+                    label = "learn-mode-panel",
+                ) { panel ->
+                    when (panel) {
+                        LearnPanel.TYPE -> LearnTypingPanel(state = state, onEvent = onEvent)
+                        LearnPanel.OPTIONS -> LearnOptionsPanel(state = state, onEvent = onEvent)
+                        LearnPanel.VERDICT -> LearnVerdictPanel(state = state)
+                        LearnPanel.NONE -> Box(Modifier.fillMaxWidth())
+                    }
+                }
+                AnimatedVisibility(
+                    visible = state.submitFailed,
+                    enter = fadeIn(tween(motionMillis(200))) + expandVertically(tween(motionMillis(200))),
+                    exit = fadeOut(tween(motionMillis(150))) + shrinkVertically(tween(motionMillis(150))),
+                ) {
+                    Text(
+                        text = stringResource(R.string.study_submit_failed),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.error,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .widthIn(max = Dimens.maxContentWidth)
+                            .fillMaxWidth(),
+                    )
+                }
             }
         }
         StudyAnswerBar(
@@ -174,32 +222,28 @@ fun LearnContent(
             forgottenLabel = forgotten,
             onAnswer = { onEvent(LearnUiEvent.Answer(remembered = it)) },
             enabled = !state.isSubmitting && !state.correctPick,
-            modifier = Modifier.widthIn(max = Dimens.maxContentWidth),
+            modifier = Modifier
+                .widthIn(max = Dimens.maxContentWidth)
+                .padding(top = Dimens.spaceSm),
         )
-        AnimatedVisibility(
-            visible = state.submitFailed,
-            enter = fadeIn(tween(motionMillis(200))) + expandVertically(tween(motionMillis(200))),
-            exit = fadeOut(tween(motionMillis(150))) + shrinkVertically(tween(motionMillis(150))),
-        ) {
-            Text(
-                text = stringResource(R.string.study_submit_failed),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.error,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .widthIn(max = Dimens.maxContentWidth)
-                    .fillMaxWidth(),
-            )
-        }
     }
 }
 
 /**
- * The card faces the user with the Russian translation; the English word stays hidden until it is
- * revealed, so recalling it — by typing it or picking it out — is worth a real answer.
+ * The card face. A word in progress is shown as its Russian translation with the English word hidden,
+ * because the English word is what the user has to recall. A brand new word is the other way round: the
+ * English word is the new information and the translation is what the user reveals.
  */
 @Composable
-private fun StudyCard(word: Word, revealed: Boolean) {
+private fun StudyCard(
+    word: Word,
+    revealed: Boolean,
+    englishFirst: Boolean,
+    cardHeight: Dp,
+    saved: Boolean,
+    onToggleSaved: () -> Unit,
+    onOpenWord: () -> Unit,
+) {
     val colors = MaterialTheme.colorScheme
     val background = remember(colors) {
         Brush.verticalGradient(listOf(colors.primaryContainer, colors.surfaceContainerLowest))
@@ -208,59 +252,166 @@ private fun StudyCard(word: Word, revealed: Boolean) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = Dimens.vocabularyCardMinHeight),
+            .heightIn(min = cardHeight),
         shape = MaterialTheme.shapes.extraLarge,
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = Dimens.cardElevation),
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = Dimens.vocabularyCardMinHeight)
-                .background(background)
-                .padding(Dimens.cardPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(Dimens.spaceMd, Alignment.CenterVertically),
-        ) {
-            Text(
-                text = word.translation.text,
-                style = RewordlyTextStyles.cardWord,
-                color = colors.onSurface,
-                textAlign = TextAlign.Center,
-            )
-            AnimatedVisibility(
-                visible = revealed,
-                enter = fadeIn(tween(revealDuration)) + expandVertically(tween(revealDuration)),
-                exit = fadeOut(tween(revealDuration)) + shrinkVertically(tween(revealDuration)),
+        Box {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = cardHeight)
+                    .background(background)
+                    .padding(Dimens.cardPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(Dimens.spaceMd, Alignment.CenterVertically),
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(Dimens.spaceMd),
-                ) {
-                    HorizontalDivider(
-                        modifier = Modifier.width(Dimens.spaceHuge).padding(vertical = Dimens.spaceXs),
-                        color = colors.outlineVariant,
-                    )
+                if (englishFirst) {
+                    EnglishFace(word)
+                } else {
                     Text(
-                        text = word.text,
+                        text = word.translation.text,
                         style = RewordlyTextStyles.cardWord,
-                        color = colors.primary,
+                        color = colors.onSurface,
                         textAlign = TextAlign.Center,
                     )
-                    if (word.pronunciation.isNotBlank()) {
-                        Text(
-                            text = word.pronunciation,
-                            style = RewordlyTextStyles.pronunciation,
-                            color = colors.onSurfaceVariant,
+                }
+                AnimatedVisibility(
+                    visible = revealed,
+                    enter = fadeIn(tween(revealDuration)) + expandVertically(tween(revealDuration)),
+                    exit = fadeOut(tween(revealDuration)) + shrinkVertically(tween(revealDuration)),
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(Dimens.spaceMd),
+                    ) {
+                        HorizontalDivider(
+                            modifier = Modifier.width(Dimens.spaceHuge).padding(vertical = Dimens.spaceXs),
+                            color = colors.outlineVariant,
                         )
+                        if (englishFirst) {
+                            Text(
+                                text = word.translation.text,
+                                style = RewordlyTextStyles.cardWord,
+                                color = colors.onSurface,
+                                textAlign = TextAlign.Center,
+                            )
+                        } else {
+                            EnglishFace(word)
+                        }
                     }
                 }
             }
+            // Saving and the full entry are one overflow menu in the corner, not two buttons on the screen.
+            CardOverflowMenu(
+                saved = saved,
+                onToggleSaved = onToggleSaved,
+                onOpenWord = onOpenWord,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(Dimens.spaceSm),
+            )
+        }
+    }
+}
+
+/** The English word and how to say it. */
+@Composable
+private fun EnglishFace(word: Word) {
+    val colors = MaterialTheme.colorScheme
+    Text(
+        text = word.text,
+        style = RewordlyTextStyles.cardWord,
+        color = colors.onSurface,
+        textAlign = TextAlign.Center,
+    )
+    if (word.pronunciation.isNotBlank()) {
+        Text(
+            text = word.pronunciation,
+            style = RewordlyTextStyles.pronunciation,
+            color = colors.onSurfaceVariant,
+        )
+    }
+}
+
+/** The two actions that do not belong on the card face, behind one button in the corner. */
+@Composable
+private fun CardOverflowMenu(
+    saved: Boolean,
+    onToggleSaved: () -> Unit,
+    onOpenWord: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val moreLabel = stringResource(R.string.learn_more_actions)
+    val saveLabel = stringResource(if (saved) R.string.action_unsave else R.string.action_save)
+    val openLabel = stringResource(R.string.learn_open_word)
+    var expanded by remember { mutableStateOf(false) }
+    Box(modifier) {
+        IconButton(
+            onClick = { expanded = true },
+            modifier = Modifier.semantics { contentDescription = moreLabel },
+        ) {
+            Icon(imageVector = Icons.Outlined.MoreVert, contentDescription = null)
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+        ) {
+            DropdownMenuItem(
+                text = { Text(saveLabel) },
+                onClick = {
+                    expanded = false
+                    onToggleSaved()
+                },
+            )
+            DropdownMenuItem(
+                text = { Text(openLabel) },
+                onClick = {
+                    expanded = false
+                    onOpenWord()
+                },
+            )
+        }
+    }
+}
+
+/** The single control of a brand new word: read the translation. */
+@Composable
+private fun RevealButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val scheme = MaterialTheme.colorScheme
+    Surface(
+        onClick = onClick,
+        modifier = modifier
+            .widthIn(max = Dimens.maxContentWidth)
+            .fillMaxWidth(),
+        shape = MaterialTheme.shapes.large,
+        color = Color.Transparent,
+        contentColor = scheme.onSurface,
+        border = BorderStroke(width = 1.dp, color = scheme.outline),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = Dimens.minTouchTarget)
+                .padding(horizontal = Dimens.spaceMd, vertical = Dimens.spaceSm),
+            horizontalArrangement = Arrangement.spacedBy(Dimens.spaceSm, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Visibility,
+                contentDescription = null,
+                modifier = Modifier.size(Dimens.iconMd),
+            )
+            Text(
+                text = stringResource(R.string.learn_mode_see),
+                style = MaterialTheme.typography.labelLarge,
+            )
         }
     }
 }
 
 /**
- * The three ways to verify the card, as separate buttons the user taps to choose from.
+ * The three ways to verify a word in progress, as separate buttons the user taps to choose from.
  *
  * Only one mode can be active, so the buttons the user did not pick leave the screen: the card is
  * answered the way the user chose, not the way that happened to be pressed last. The empty slots keep
@@ -320,18 +471,13 @@ private fun ModeButton(
     }
     val scheme = MaterialTheme.colorScheme
     val motion = tween<Color>(motionMillis(150))
-    val container by animateColorAsState(
-        targetValue = if (selected) scheme.primaryContainer else scheme.surface,
-        animationSpec = motion,
-        label = "mode-container",
-    )
     val content by animateColorAsState(
-        targetValue = if (selected) scheme.onPrimaryContainer else scheme.onSurfaceVariant,
+        targetValue = if (selected) scheme.primary else scheme.onSurface,
         animationSpec = motion,
         label = "mode-content",
     )
     val border by animateColorAsState(
-        targetValue = if (selected) scheme.primary.copy(alpha = 0.5f) else scheme.outlineVariant,
+        targetValue = if (selected) scheme.primary else scheme.outline,
         animationSpec = motion,
         label = "mode-border",
     )
@@ -339,7 +485,7 @@ private fun ModeButton(
         onClick = onClick,
         modifier = modifier.semantics { contentDescription = label },
         shape = MaterialTheme.shapes.medium,
-        color = container,
+        color = Color.Transparent,
         contentColor = content,
         border = BorderStroke(width = 1.dp, color = border),
     ) {
@@ -399,13 +545,6 @@ private fun LearnTypingPanel(state: LearnUiState.Content, onEvent: (LearnUiEvent
                 modifier = Modifier.weight(1f),
             )
         }
-        AnimatedVisibility(
-            visible = state.typeMismatch,
-            enter = fadeIn(tween(motionMillis(200))) + expandVertically(tween(motionMillis(200))),
-            exit = fadeOut(tween(motionMillis(150))) + shrinkVertically(tween(motionMillis(150))),
-        ) {
-            MismatchText()
-        }
     }
 }
 
@@ -449,13 +588,39 @@ private fun LearnOptionsPanel(state: LearnUiState.Content, onEvent: (LearnUiEven
                 }
             }
         }
-        AnimatedVisibility(
-            visible = state.typeMismatch,
-            enter = fadeIn(tween(motionMillis(200))) + expandVertically(tween(motionMillis(200))),
-            exit = fadeOut(tween(motionMillis(150))) + shrinkVertically(tween(motionMillis(150))),
-        ) {
-            MismatchText()
-        }
+    }
+}
+
+/**
+ * A wrong answer ends the panel: the buttons are gone and the right word stands in their place, so the
+ * screen gives back the space and the answer is what the user reads.
+ */
+@Composable
+private fun LearnVerdictPanel(state: LearnUiState.Content) {
+    val colors = MaterialTheme.colorScheme
+    Column(
+        modifier = Modifier
+            .widthIn(max = Dimens.maxContentWidth)
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(Dimens.spaceSm),
+    ) {
+        Text(
+            text = stringResource(R.string.learn_type_mismatch),
+            style = MaterialTheme.typography.bodyMedium,
+            color = colors.error,
+        )
+        Text(
+            text = stringResource(R.string.learn_correct_answer),
+            style = MaterialTheme.typography.labelMedium,
+            color = colors.onSurfaceVariant,
+        )
+        Text(
+            text = state.current.word.text,
+            style = RewordlyTextStyles.cardTranslation,
+            color = colors.onSurface,
+            textAlign = TextAlign.Center,
+        )
     }
 }
 
@@ -477,7 +642,7 @@ private fun VariantButton(
         targetValue = when (feedback) {
             VariantFeedback.CORRECT -> good.copy(alpha = 0.18f)
             VariantFeedback.WRONG -> scheme.error.copy(alpha = 0.14f)
-            VariantFeedback.NONE -> scheme.surface
+            VariantFeedback.NONE -> Color.Transparent
         },
         animationSpec = motion,
         label = "variant-container",
@@ -495,7 +660,7 @@ private fun VariantButton(
         targetValue = when (feedback) {
             VariantFeedback.CORRECT -> good
             VariantFeedback.WRONG -> scheme.error
-            VariantFeedback.NONE -> scheme.outlineVariant
+            VariantFeedback.NONE -> scheme.outline
         },
         animationSpec = motion,
         label = "variant-border",
@@ -537,52 +702,10 @@ private fun VariantButton(
     }
 }
 
-@Composable
-private fun MismatchText() {
-    Text(
-        text = stringResource(R.string.learn_type_mismatch),
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.error,
-        textAlign = TextAlign.Center,
-        modifier = Modifier.fillMaxWidth(),
-    )
-}
-
-/** Save and open the full entry: secondary to answering, so they are compact icon buttons. */
-@Composable
-private fun LearnSecondaryActions(
-    state: LearnUiState.Content,
-    onEvent: (LearnUiEvent) -> Unit,
-    onOpenWord: (String) -> Unit,
-) {
-    val saved = state.current.progress.isSaved
-    val saveLabel = stringResource(if (saved) R.string.action_unsave else R.string.action_save)
-    val detailsDescription = stringResource(R.string.a11y_open_details, state.current.word.text)
-    Row(
-        modifier = Modifier
-            .widthIn(max = Dimens.maxContentWidth)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(Dimens.spaceSm, Alignment.CenterHorizontally),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        FilledTonalIconButton(
-            onClick = { onEvent(LearnUiEvent.ToggleSaved) },
-            modifier = Modifier.semantics { contentDescription = saveLabel },
-        ) {
-            Icon(
-                imageVector = if (saved) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
-                contentDescription = null,
-            )
-        }
-        FilledTonalIconButton(
-            onClick = { onOpenWord(state.current.word.id) },
-            modifier = Modifier.semantics { contentDescription = detailsDescription },
-        ) {
-            Icon(imageVector = Icons.Outlined.Info, contentDescription = null)
-        }
-    }
-}
-
 private val MODE_BUTTON_SIZE = 88.dp
 private val VARIANT_BUTTON_MIN_HEIGHT = 56.dp
 private const val OPTION_COLUMNS = 2
+
+/** How much of the room on screen the card takes, so the control under it always stays on screen. */
+private const val CARD_HEIGHT_FRACTION = 0.62f
+private val MAX_CARD_HEIGHT = 520.dp

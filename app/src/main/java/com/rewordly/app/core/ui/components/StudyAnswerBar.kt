@@ -23,12 +23,14 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.rewordly.app.core.ui.theme.Dimens
-import com.rewordly.app.core.ui.theme.extraColors
 
 /**
  * The two answers of a study card, side by side and impossible to miss: the left half says the word is
  * known/remembered, the right half says it still has to be studied. Tapping either half is exactly the
  * same as swiping the card that way, which also makes the gesture usable with a screen reader.
+ *
+ * Both halves share one neutral surface: the answers are told apart by their wording and by the arrow
+ * that names the swipe direction, not by a colour per answer.
  */
 @Composable
 fun StudyAnswerBar(
@@ -39,7 +41,6 @@ fun StudyAnswerBar(
     enabled: Boolean = true,
 ) {
     val scheme = MaterialTheme.colorScheme
-    val extra = MaterialTheme.extraColors
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -50,8 +51,7 @@ fun StudyAnswerBar(
             label = rememberedLabel,
             icon = Icons.AutoMirrored.Filled.ArrowBack,
             iconFirst = true,
-            container = extra.know,
-            content = scheme.onTertiary,
+            content = scheme.onSurface,
             enabled = enabled,
             onClick = { onAnswer(true) },
             modifier = Modifier
@@ -63,8 +63,7 @@ fun StudyAnswerBar(
             label = forgottenLabel,
             icon = Icons.AutoMirrored.Filled.ArrowForward,
             iconFirst = false,
-            container = extra.study,
-            content = scheme.onPrimary,
+            content = scheme.onSurface,
             enabled = enabled,
             onClick = { onAnswer(false) },
             modifier = Modifier
@@ -80,7 +79,6 @@ private fun AnswerHalf(
     label: String,
     icon: ImageVector,
     iconFirst: Boolean,
-    container: Color,
     content: Color,
     enabled: Boolean,
     onClick: () -> Unit,
@@ -91,7 +89,7 @@ private fun AnswerHalf(
         enabled = enabled,
         modifier = modifier,
         shape = MaterialTheme.shapes.extraLarge,
-        color = container,
+        color = MaterialTheme.colorScheme.surface,
         contentColor = content,
     ) {
         Row(
@@ -103,7 +101,11 @@ private fun AnswerHalf(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (iconFirst) AnswerIcon(icon)
-            Text(text = label, style = MaterialTheme.typography.labelLarge, textAlign = TextAlign.Center)
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelMedium,
+                textAlign = TextAlign.Center,
+            )
             if (!iconFirst) AnswerIcon(icon)
         }
     }
@@ -111,10 +113,15 @@ private fun AnswerHalf(
 
 @Composable
 private fun AnswerIcon(icon: ImageVector) {
-    Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(Dimens.iconSm))
+    Icon(
+        imageVector = icon,
+        contentDescription = null,
+        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.size(Dimens.iconSm),
+    )
 }
 
-private val ANSWER_BAR_HEIGHT = 72.dp
+private val ANSWER_BAR_HEIGHT = 60.dp
 
 /** Stable handles for UI tests: the two halves of [StudyAnswerBar]. */
 const val ANSWER_REMEMBERED_TAG = "answer_remembered"

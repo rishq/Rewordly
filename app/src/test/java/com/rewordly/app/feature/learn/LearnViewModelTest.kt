@@ -393,6 +393,7 @@ class LearnViewModelTest {
 
     @Test
     fun selectingATypeMode_foldsAndUnfoldsEachTime() = runTest {
+        wordsAlreadyInProgress()
         val vm = viewModel()
         vm.onEvent(LearnUiEvent.SelectMode(StudyMode.TYPE))
         assertEquals(StudyMode.TYPE, vm.content().answerMode)
@@ -411,6 +412,22 @@ class LearnViewModelTest {
         // The reveal never counts as an answer on its own; the answer bar still decides.
         vm.onEvent(LearnUiEvent.Answer(remembered = true))
         assertEquals(1, vm.content().index)
+    }
+
+    /** A word the user has never met has nothing to recall, so it has no typing and no options. */
+    @Test
+    fun aBrandNewWord_refusesTheTypingAndTheOptionsModes() = runTest {
+        val vm = viewModel()
+        vm.onEvent(LearnUiEvent.SelectMode(StudyMode.TYPE))
+        assertEquals(null, vm.content().answerMode)
+        vm.onEvent(LearnUiEvent.SelectMode(StudyMode.OPTIONS))
+        assertEquals(null, vm.content().answerMode)
+    }
+
+    @Test
+    fun aBrandNewWord_hasNoPanelUnderTheCard() = runTest {
+        val vm = viewModel()
+        assertEquals(LearnPanel.NONE, vm.content().panel)
     }
 
     @Test
@@ -464,6 +481,7 @@ class LearnViewModelTest {
 
     @Test
     fun theChosenMode_isGoneOnTheNextCard() = runTest {
+        wordsAlreadyInProgress()
         val vm = viewModel()
         vm.onEvent(LearnUiEvent.SelectMode(StudyMode.OPTIONS))
         assertEquals(StudyMode.OPTIONS, vm.content().answerMode)

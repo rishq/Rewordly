@@ -81,6 +81,9 @@
     <string name="learn_mode_type">Проверить себя: вписать слово</string>
     <string name="learn_mode_see">Посмотреть перевод</string>
     <string name="learn_mode_options">Выбрать из вариантов</string>
+    <string name="learn_more_actions">Ещё действия со словом</string>
+    <string name="learn_open_word">Открыть слово</string>
+    <string name="learn_correct_answer">Правильный ответ</string>
     <string name="study_swipe_hint">Свайпните карточку влево или вправо, чтобы ответить</string>
     <string name="study_answer_known">Я знаю это слово</string>
     <string name="study_answer_study">Учить это слово</string>

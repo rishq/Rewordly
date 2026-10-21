@@ -72,6 +72,9 @@
     <string name="learn_mode_type">Check yourself: type the word</string>
     <string name="learn_mode_see">See the translation</string>
     <string name="learn_mode_options">Pick from the options</string>
+    <string name="learn_more_actions">More actions for this word</string>
+    <string name="learn_open_word">Open the word</string>
+    <string name="learn_correct_answer">Correct answer</string>
     <string name="study_swipe_hint">Swipe the card left or right to answer</string>
     <string name="study_answer_known">I already know this word</string>
     <string name="study_answer_study">Study this word</string>

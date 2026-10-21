@@ -63,12 +63,29 @@ sealed interface LearnUiState {
          * ("did you remember it?"), so the two answers need different wording.
          */
         val isFirstEncounter: Boolean get() = current.progress.isUntouched
+
+        /**
+         * What sits under the card. Only one thing at a time: the panel of the chosen mode, or the right
+         * answer once a wrong answer ended that panel.
+         */
+        val panel: LearnPanel
+            get() = when {
+                correctPick -> LearnPanel.OPTIONS
+                typeMismatch -> LearnPanel.VERDICT
+                answerMode == StudyMode.TYPE -> LearnPanel.TYPE
+                answerMode == StudyMode.OPTIONS -> LearnPanel.OPTIONS
+                else -> LearnPanel.NONE
+            }
     }
 }
 
+/** The one thing that sits under the card. */
+enum class LearnPanel { NONE, TYPE, OPTIONS, VERDICT }
+
 /**
- * How the user verifies the card: the Russian translation is always face up, so the answer to produce or
- * check is the English word. See shows it, Type asks for it (with a letter hint), Options offers choices.
+ * How the user verifies the card. A word in progress shows the Russian translation, so the answer to
+ * produce or check is the English word: See shows it, Type asks for it (with a letter hint), Options
+ * offers choices. A brand new word has nothing to recall and only offers See.
  */
 enum class StudyMode { TYPE, SEE, OPTIONS }
 
@@ -197,7 +214,15 @@ class LearnViewModel @Inject constructor(
             is LearnUiEvent.Answer -> answer(event.remembered)
             is LearnUiEvent.SelectMode -> {
                 val current = flags.value
+                // A word the user has never met has nothing to recall, so there is nothing to type or to
+                // pick from: the only mode it has is reading the translation. The card the state knows is
+                // compared with the card the session is on, so a stale state never refuses a mode.
+                val state = uiState.value as? LearnUiState.Content
+                val isFirstEncounter = state != null &&
+                    state.index == session.value?.currentPosition &&
+                    state.isFirstEncounter
                 flags.value = when {
+                    isFirstEncounter && event.mode != StudyMode.SEE -> current
                     // The eye folds the panel away without un-revealing what the user already saw.
                     event.mode == StudyMode.SEE && current.answerMode == StudyMode.SEE ->
                         current.copy(answerMode = null)

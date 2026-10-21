@@ -25,6 +25,6 @@ object Dimens {
     val progressRing = 88.dp
     val activityBarHeight = 96.dp
     val cardElevation = 2.dp
-    val vocabularyCardMinHeight = 300.dp
+    val vocabularyCardMinHeight = 200.dp
     val maxContentWidth = 600.dp
 }
