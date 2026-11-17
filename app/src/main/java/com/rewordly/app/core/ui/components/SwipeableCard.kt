@@ -2,7 +2,6 @@ package com.rewordly.app.core.ui.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -18,13 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.util.VelocityTracker
+import androidx.compose.ui.input.pointer.util.addPointerInputChange
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import com.rewordly.app.core.ui.motionMillis
+import com.rewordly.app.core.ui.rememberMotionEnabled
 import com.rewordly.app.core.ui.theme.Dimens
 import kotlinx.coroutines.launch
 
@@ -34,8 +35,8 @@ enum class SwipeSide { LEFT, RIGHT }
 /**
  * Wraps [content] in a card the user can throw sideways to answer without hunting for a button.
  *
- * - Dragging past [SWIPE_THRESHOLD] flings the card off screen and reports the direction.
- * - Dragging less than that springs the card back, so a nervous finger never answers by accident.
+ * - Dragging past [SWIPE_THRESHOLD], or flicking fast enough, flings the card off screen and reports the direction.
+ * - A slow drag under both thresholds springs the card back, so a nervous finger never answers by accident.
  * - A badge slides in on the uncovered edge to say what the gesture is about to do.
  *
  * The same two answers are always reachable as real buttons (see [StudyAnswerBar]) and as
@@ -56,11 +57,12 @@ fun SwipeableCard(
     content: @Composable () -> Unit,
 ) {
     val threshold = with(LocalDensity.current) { SWIPE_THRESHOLD.toPx() }
+    val velocityThreshold = with(LocalDensity.current) { SWIPE_VELOCITY_THRESHOLD.toPx() }
+    val motionEnabled = rememberMotionEnabled()
     // Keyed on the card, so a new word (or a failed answer) starts centred without a frame of stale offset.
     val offset = remember(resetKey) { Animatable(0f) }
     val scope = rememberCoroutineScope()
     val scheme = MaterialTheme.colorScheme
-    val flingDuration = motionMillis(FLING_MILLIS)
     val actions = remember(leftLabel, rightLabel, onSwipeLeft, onSwipeRight) {
         listOf(
             CustomAccessibilityAction(leftLabel) {
@@ -79,25 +81,51 @@ fun SwipeableCard(
             .semantics { customActions = actions }
             .pointerInput(enabled, resetKey) {
                 if (!enabled) return@pointerInput
+                val velocityTracker = VelocityTracker()
                 detectHorizontalDragGestures(
+                    onDragStart = { velocityTracker.resetTracking() },
                     onDragEnd = {
+                        val velocity = velocityTracker.calculateVelocity().x
                         val travelled = offset.value
                         val width = size.width.toFloat().coerceAtLeast(1f)
+                        // Distance counts, but so does a fast flick over a short distance: the card
+                        // leaves when the finger says "throw", not only when it says "far enough".
+                        val flingLeft = travelled <= -threshold ||
+                            (velocity <= -velocityThreshold && travelled < threshold)
+                        val flingRight = travelled >= threshold ||
+                            (velocity >= velocityThreshold && travelled > -threshold)
                         when {
-                            travelled <= -threshold -> scope.launch {
-                                offset.animateTo(-width, tween(flingDuration))
+                            flingLeft -> scope.launch {
+                                if (motionEnabled) {
+                                    offset.animateTo(-width, FLING_SPRING, initialVelocity = velocity)
+                                } else {
+                                    offset.snapTo(-width)
+                                }
                                 onSwipeLeft()
                             }
-                            travelled >= threshold -> scope.launch {
-                                offset.animateTo(width, tween(flingDuration))
+                            flingRight -> scope.launch {
+                                if (motionEnabled) {
+                                    offset.animateTo(width, FLING_SPRING, initialVelocity = velocity)
+                                } else {
+                                    offset.snapTo(width)
+                                }
                                 onSwipeRight()
                             }
-                            else -> scope.launch { offset.animateTo(0f, spring()) }
+                            else -> scope.launch {
+                                // A snap-back is a correction, not a fling: quick, no lingering overshoot.
+                                if (motionEnabled) {
+                                    offset.animateTo(0f, SNAP_BACK_SPRING, initialVelocity = velocity)
+                                } else {
+                                    offset.snapTo(0f)
+                                }
+                            }
                         }
                     },
-                    onDragCancel = { scope.launch { offset.animateTo(0f, spring()) } },
+                    onDragCancel = { scope.launch { offset.snapTo(0f) } },
                     onHorizontalDrag = { change, dragAmount ->
                         change.consume()
+                        // While the finger is down the card IS the finger: 1:1 tracking, no easing.
+                        velocityTracker.addPointerInputChange(change)
                         scope.launch { offset.snapTo(offset.value + dragAmount) }
                     },
                 )
@@ -165,7 +193,16 @@ private fun BoxScope.SwipeBadge(
 
 /** How far the card must travel before letting go counts as an answer. */
 private val SWIPE_THRESHOLD = 96.dp
-private const val FLING_MILLIS = 220
+
+/** A fast flick answers even before the card has travelled the full distance. */
+private val SWIPE_VELOCITY_THRESHOLD = 400.dp
+
+/** The release keeps the speed of the finger, so no two flings land the same way. */
+private val FLING_SPRING = spring<Float>(dampingRatio = 1f, stiffness = 500f, visibilityThreshold = 1f)
+
+/** A failed gesture is corrected quickly, with no visible overshoot. */
+private val SNAP_BACK_SPRING = spring<Float>(dampingRatio = 0.9f, stiffness = 700f, visibilityThreshold = 1f)
+
 private const val ROTATION_DIVISOR = 60f
 private const val MAX_ROTATION = 12f
 private const val BADGE_ROTATION = 8f

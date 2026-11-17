@@ -214,15 +214,9 @@ class LearnViewModel @Inject constructor(
             is LearnUiEvent.Answer -> answer(event.remembered)
             is LearnUiEvent.SelectMode -> {
                 val current = flags.value
-                // A word the user has never met has nothing to recall, so there is nothing to type or to
-                // pick from: the only mode it has is reading the translation. The card the state knows is
-                // compared with the card the session is on, so a stale state never refuses a mode.
-                val state = uiState.value as? LearnUiState.Content
-                val isFirstEncounter = state != null &&
-                    state.index == session.value?.currentPosition &&
-                    state.isFirstEncounter
+                // All three modes stay available on every card, including a word the user meets for the
+                // first time: the user decides how to study it rather than being limited to a reveal.
                 flags.value = when {
-                    isFirstEncounter && event.mode != StudyMode.SEE -> current
                     // The eye folds the panel away without un-revealing what the user already saw.
                     event.mode == StudyMode.SEE && current.answerMode == StudyMode.SEE ->
                         current.copy(answerMode = null)

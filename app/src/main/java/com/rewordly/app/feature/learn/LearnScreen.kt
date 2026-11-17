@@ -78,8 +78,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rewordly.app.R
 import com.rewordly.app.core.ui.components.EmptyState
+import com.rewordly.app.core.ui.components.ExampleSentence
 import com.rewordly.app.core.ui.components.LoadingState
 import com.rewordly.app.core.ui.components.PrimaryButton
+import com.rewordly.app.core.ui.components.PronunciationButton
 import com.rewordly.app.core.ui.components.SecondaryButton
 import com.rewordly.app.core.ui.components.StudyAnswerBar
 import com.rewordly.app.core.ui.components.SwipeableCard
@@ -173,15 +175,6 @@ fun LearnContent(
                         )
                     }
                 }
-                // A word the user has never met has nothing to recall, so the only thing to do is to read it.
-                // A word in progress can be checked three ways, and the panel below answers the chosen way.
-                if (state.isFirstEncounter) {
-                    if (!state.revealed) {
-                        RevealButton(onClick = { onEvent(LearnUiEvent.Reveal) })
-                    }
-                } else {
-                    LearnModeSelector(state = state, onEvent = onEvent)
-                }
                 // The panel below grows and collapses instead of shoving the answer bar around.
                 val fadeTween = tween<Float>(motionMillis(200))
                 val sizeTween = tween<IntSize>(motionMillis(200))
@@ -217,6 +210,10 @@ fun LearnContent(
                 }
             }
         }
+        // A taller card with its examples must not push the three study modes off the screen: all three
+        // are pinned next to the answer buttons, while only the card and its panel scroll.
+        Spacer(Modifier.height(Dimens.spaceSm))
+        LearnModeSelector(state = state, onEvent = onEvent)
         StudyAnswerBar(
             rememberedLabel = remembered,
             forgottenLabel = forgotten,
@@ -301,6 +298,9 @@ private fun StudyCard(
                         }
                     }
                 }
+                // Everything useful about the word is on the card from the first glance: how it is written,
+                // how it sounds and the sentences it appears in. Nothing here waits for a reveal.
+                WordInfo(word = word)
             }
             // Saving and the full entry are one overflow menu in the corner, not two buttons on the screen.
             CardOverflowMenu(
@@ -315,22 +315,45 @@ private fun StudyCard(
     }
 }
 
-/** The English word and how to say it. */
+/** The English word. Its transcription, audio and examples live in [WordInfo] so they show up front. */
 @Composable
 private fun EnglishFace(word: Word) {
-    val colors = MaterialTheme.colorScheme
     Text(
         text = word.text,
         style = RewordlyTextStyles.cardWord,
-        color = colors.onSurface,
+        color = MaterialTheme.colorScheme.onSurface,
         textAlign = TextAlign.Center,
     )
-    if (word.pronunciation.isNotBlank()) {
-        Text(
-            text = word.pronunciation,
-            style = RewordlyTextStyles.pronunciation,
-            color = colors.onSurfaceVariant,
+}
+
+/** Transcription, a play button and the word's sentences — all visible before the user reveals anything. */
+@Composable
+private fun WordInfo(word: Word) {
+    val colors = MaterialTheme.colorScheme
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(Dimens.spaceSm),
+    ) {
+        HorizontalDivider(
+            modifier = Modifier.width(Dimens.spaceHuge).padding(vertical = Dimens.spaceXs),
+            color = colors.outlineVariant,
         )
+        if (word.pronunciation.isNotBlank()) {
+            Text(
+                text = word.pronunciation,
+                style = RewordlyTextStyles.pronunciation,
+                color = colors.onSurfaceVariant,
+            )
+        }
+        PronunciationButton(
+            text = word.text,
+            label = stringResource(R.string.action_listen),
+            language = word.language,
+        )
+        word.examples.forEach { example ->
+            ExampleSentence(example = example, targetWord = word.text, playable = true)
+        }
     }
 }
 
@@ -375,47 +398,9 @@ private fun CardOverflowMenu(
     }
 }
 
-/** The single control of a brand new word: read the translation. */
-@Composable
-private fun RevealButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val scheme = MaterialTheme.colorScheme
-    Surface(
-        onClick = onClick,
-        modifier = modifier
-            .widthIn(max = Dimens.maxContentWidth)
-            .fillMaxWidth(),
-        shape = MaterialTheme.shapes.large,
-        color = Color.Transparent,
-        contentColor = scheme.onSurface,
-        border = BorderStroke(width = 1.dp, color = scheme.outline),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = Dimens.minTouchTarget)
-                .padding(horizontal = Dimens.spaceMd, vertical = Dimens.spaceSm),
-            horizontalArrangement = Arrangement.spacedBy(Dimens.spaceSm, Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Visibility,
-                contentDescription = null,
-                modifier = Modifier.size(Dimens.iconMd),
-            )
-            Text(
-                text = stringResource(R.string.learn_mode_see),
-                style = MaterialTheme.typography.labelLarge,
-            )
-        }
-    }
-}
-
 /**
- * The three ways to verify a word in progress, as separate buttons the user taps to choose from.
- *
- * Only one mode can be active, so the buttons the user did not pick leave the screen: the card is
- * answered the way the user chose, not the way that happened to be pressed last. The empty slots keep
- * their width, so the row does not jump when the other buttons disappear.
+ * The three ways to verify a word, always all on screen. One mode can be active at a time and is marked
+ * as selected, but the other two never leave the row: the user can switch modes without the UI jumping.
  */
 @Composable
 private fun LearnModeSelector(state: LearnUiState.Content, onEvent: (LearnUiEvent) -> Unit) {
@@ -432,7 +417,6 @@ private fun LearnModeSelector(state: LearnUiState.Content, onEvent: (LearnUiEven
             label = typeLabel,
             icon = Icons.Outlined.Keyboard,
             selected = state.answerMode == StudyMode.TYPE,
-            visible = state.answerMode == null || state.answerMode == StudyMode.TYPE,
             onClick = { onEvent(LearnUiEvent.SelectMode(StudyMode.TYPE)) },
             modifier = Modifier.weight(1f),
         )
@@ -440,7 +424,6 @@ private fun LearnModeSelector(state: LearnUiState.Content, onEvent: (LearnUiEven
             label = seeLabel,
             icon = Icons.Outlined.Visibility,
             selected = state.answerMode == StudyMode.SEE,
-            visible = state.answerMode == null || state.answerMode == StudyMode.SEE,
             onClick = { onEvent(LearnUiEvent.SelectMode(StudyMode.SEE)) },
             modifier = Modifier.weight(1f),
         )
@@ -448,7 +431,6 @@ private fun LearnModeSelector(state: LearnUiState.Content, onEvent: (LearnUiEven
             label = optionsLabel,
             icon = Icons.Outlined.GridView,
             selected = state.answerMode == StudyMode.OPTIONS,
-            visible = state.answerMode == null || state.answerMode == StudyMode.OPTIONS,
             onClick = { onEvent(LearnUiEvent.SelectMode(StudyMode.OPTIONS)) },
             modifier = Modifier.weight(1f),
         )
@@ -460,15 +442,9 @@ private fun ModeButton(
     label: String,
     icon: ImageVector,
     selected: Boolean,
-    visible: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    if (!visible) {
-        // The slot keeps its width, so the row does not jump when the other modes leave the screen.
-        Spacer(modifier)
-        return
-    }
     val scheme = MaterialTheme.colorScheme
     val motion = tween<Color>(motionMillis(150))
     val content by animateColorAsState(

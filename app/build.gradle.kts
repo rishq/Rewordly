@@ -43,6 +43,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        manifestPlaceholders["appLabel"] = "@string/app_name"
 
         buildConfigField("String", "API_BASE_URL", "\"$apiBaseUrl\"")
 
@@ -69,6 +70,7 @@ android {
         debug {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
+            manifestPlaceholders["appLabel"] = "Rewordly TEST"
             isMinifyEnabled = false
         }
         release {

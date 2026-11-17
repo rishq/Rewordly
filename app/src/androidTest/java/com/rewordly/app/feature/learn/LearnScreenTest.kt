@@ -92,6 +92,18 @@ class LearnScreenTest {
         compose.onNodeWithText(items[0].word.text, useUnmergedTree = true).assertIsDisplayed()
     }
 
+    /** Transcription, audio and sentences are on the card before anything is revealed. */
+    @Test
+    fun theCard_showsHowTheWordSoundsAndHowItIsUsedRightAway() {
+        show(firstEncounter = false, revealed = false)
+        val word = items[0].word
+        compose.onNodeWithText(word.pronunciation, useUnmergedTree = true).performScrollTo().assertIsDisplayed()
+        compose.onNodeWithText(uiString(R.string.action_listen)).performScrollTo().assertIsDisplayed()
+        compose.onNodeWithText(word.examples.first().text, substring = true, useUnmergedTree = true)
+            .performScrollTo()
+            .assertIsDisplayed()
+    }
+
     /** A word the user has never met is new information, so it is the English word that is face up. */
     @Test
     fun aBrandNewWord_showsTheWord_butKeepsTheTranslationHidden() {
@@ -100,27 +112,20 @@ class LearnScreenTest {
         compose.onNodeWithText(items[0].word.translation.text, useUnmergedTree = true).assertDoesNotExist()
     }
 
-    /** A brand new word has nothing to recall, so there is no mode to pick. */
+    /** All three modes stay available, even on a word the user meets for the first time. */
     @Test
-    fun aBrandNewWord_offersOnlyTheRevealButton() {
+    fun aBrandNewWord_offersAllThreeModes() {
         show(firstEncounter = true)
+        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_type)).assertIsDisplayed()
         compose.onNodeWithContentDescription(uiString(R.string.learn_mode_see)).assertIsDisplayed()
-        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_type)).assertDoesNotExist()
-        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_options)).assertDoesNotExist()
+        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_options)).assertIsDisplayed()
     }
 
     @Test
-    fun theRevealButton_reportsTheReveal() {
+    fun theSeeMode_reportsSelectMode() {
         show(firstEncounter = true)
         compose.onNodeWithContentDescription(uiString(R.string.learn_mode_see)).performClick()
-        assertEquals(listOf<LearnUiEvent>(LearnUiEvent.Reveal), events)
-    }
-
-    /** Once the translation is shown the button has done its job and leaves the screen. */
-    @Test
-    fun afterTheReveal_theRevealButtonIsGone() {
-        show(firstEncounter = true, revealed = true)
-        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_see)).assertDoesNotExist()
+        assertEquals(listOf<LearnUiEvent>(LearnUiEvent.SelectMode(StudyMode.SEE)), events)
     }
 
     @Test
@@ -139,11 +144,11 @@ class LearnScreenTest {
     }
 
     @Test
-    fun afterAModeIsChosen_theOtherModeButtonsLeaveTheScreen() {
+    fun afterAModeIsChosen_allThreeModeButtonsStayOnScreen() {
         show(firstEncounter = false, answerMode = StudyMode.SEE)
         compose.onNodeWithContentDescription(uiString(R.string.learn_mode_see)).assertIsDisplayed()
-        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_type)).assertDoesNotExist()
-        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_options)).assertDoesNotExist()
+        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_type)).assertIsDisplayed()
+        compose.onNodeWithContentDescription(uiString(R.string.learn_mode_options)).assertIsDisplayed()
     }
 
     @Test

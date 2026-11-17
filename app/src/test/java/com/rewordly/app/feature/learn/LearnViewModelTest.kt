@@ -414,14 +414,14 @@ class LearnViewModelTest {
         assertEquals(1, vm.content().index)
     }
 
-    /** A word the user has never met has nothing to recall, so it has no typing and no options. */
+    /** All three modes stay usable on a word the user meets for the first time. */
     @Test
-    fun aBrandNewWord_refusesTheTypingAndTheOptionsModes() = runTest {
+    fun aBrandNewWord_acceptsAllThreeModes() = runTest {
         val vm = viewModel()
         vm.onEvent(LearnUiEvent.SelectMode(StudyMode.TYPE))
-        assertEquals(null, vm.content().answerMode)
+        assertEquals(StudyMode.TYPE, vm.content().answerMode)
         vm.onEvent(LearnUiEvent.SelectMode(StudyMode.OPTIONS))
-        assertEquals(null, vm.content().answerMode)
+        assertEquals(StudyMode.OPTIONS, vm.content().answerMode)
     }
 
     @Test
