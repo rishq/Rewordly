@@ -18,6 +18,12 @@ the text of a word you explicitly look up, and only to fulfil that request:
 
 No data is shared with third parties for advertising, analytics or any other purpose.
 
+**Android Auto Backup.** Enabled by default (`allowBackup=true`, `fullBackupOnly=true`,
+`data_extraction_rules.xml`). It copies the Room database, DataStore and app files into the *user's own*
+Google Drive account; Rewordly never receives those copies and cannot read them. This is a Google
+device service, not developer-side collection, so it does not change the answers above. Users can opt
+out in Settings → Data → Cloud backup (`RewordlyBackupAgent` skips `onFullBackup()` when off).
+
 ## Security practices
 
 - **Data encrypted in transit**: Yes — all endpoints are HTTPS (`FreeApisModule.kt`,

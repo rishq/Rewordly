@@ -1,7 +1,9 @@
 package com.rewordly.app.feature.settings
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rewordly.app.core.backup.BackupSettings
 import com.rewordly.app.domain.model.AiProvider
 import com.rewordly.app.domain.model.AiSettings
 import com.rewordly.app.domain.model.Difficulty
@@ -14,9 +16,12 @@ import com.rewordly.app.domain.model.UserSettings
 import com.rewordly.app.domain.repository.AiSettingsRepository
 import com.rewordly.app.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -56,13 +61,19 @@ sealed interface SettingsUiEvent {
 
     /** Null or blank removes the stored key. */
     data class SetAiApiKey(val apiKey: String?) : SettingsUiEvent
+
+    data class SetCloudBackup(val enabled: Boolean) : SettingsUiEvent
 }
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val aiSettingsRepository: AiSettingsRepository,
+    @ApplicationContext private val context: Context,
 ) : ViewModel() {
+    private val _cloudBackupEnabled = MutableStateFlow(BackupSettings.isEnabled(context))
+    val cloudBackupEnabled: StateFlow<Boolean> = _cloudBackupEnabled.asStateFlow()
+
     val uiState: StateFlow<SettingsUiState> = combine(
         settingsRepository.settings,
         aiSettingsRepository.settings,
@@ -86,6 +97,10 @@ class SettingsViewModel @Inject constructor(
                 is SettingsUiEvent.SetAiProvider -> aiSettingsRepository.setProvider(event.provider)
                 is SettingsUiEvent.SetAiModel -> aiSettingsRepository.setModel(event.model)
                 is SettingsUiEvent.SetAiApiKey -> aiSettingsRepository.setApiKey(event.apiKey)
+                is SettingsUiEvent.SetCloudBackup -> {
+                    BackupSettings.setEnabled(context, event.enabled)
+                    _cloudBackupEnabled.value = event.enabled
+                }
             }
         }
     }

@@ -6,8 +6,9 @@ _Действует для Android-приложения Rewordly («прилож
 ## English
 
 **What the app does.** Rewordly is a vocabulary trainer. Your words, progress, review history and
-settings are stored **only on your device** (Room database + DataStore). There is no account, no
-analytics, no advertising and no third-party trackers.
+settings are stored on your device (Room database + DataStore) and, unless you disable it, in your
+own Google Drive via Android Auto Backup. There is no Rewordly account, no analytics, no advertising
+and no third-party trackers.
 
 **Information the app never collects.** We operate no backend that receives your data by default.
 The app does not read contacts, location, microphone or camera. No device identifiers are collected.
@@ -28,11 +29,18 @@ identifier; the HTTP User-Agent is `Rewordly/<version>`.
 Android Keystore before it is written to disk. It never leaves the device except in the encrypted
 request to the provider you chose.
 
-**Backups and exports.** Creating a backup or CSV export writes a file to a location you pick
-through the Android file picker. Nothing is uploaded.
+**Automatic cloud backup.** Unless you turn it off in Settings → Data → Cloud backup, Android Auto
+Backup copies your app data (words, progress, review history and settings) into your own Google
+Drive account. On Android 9+ it is end-to-end encrypted with your device screen lock where the
+device supports it, and the copy is restored automatically when you reinstall the app. Turning the
+switch off stops future backups; it does not delete a copy already in your Drive.
+
+**Backups and exports.** A manual backup or CSV export writes a file to a location you pick through
+the Android file picker. The app itself never uploads those files.
 
 **Deleting data.** Uninstalling the app or using in-app data cleanup permanently deletes all local
-data. There is nothing stored server-side to delete.
+data. There is nothing on our servers to delete; a cloud backup, if enabled, is held in your Google
+Drive and is managed by Google.
 
 **Children.** The app contains no content targeted at children and does not knowingly collect data
 from anyone, including children.
@@ -42,8 +50,9 @@ from anyone, including children.
 ## Русский
 
 **Что делает приложение.** Rewordly — тренажёр словарного запаса. Слова, прогресс, история
-повторений и настройки хранятся **только на устройстве** (база Room + DataStore). Нет аккаунтов,
-аналитики, рекламы и сторонних трекеров.
+повторений и настройки хранятся на устройстве (база Room + DataStore) и, если вы это не отключили,
+в вашем собственном Google Drive через Android Auto Backup. Аккаунта Rewordly, аналитики, рекламы
+и сторонних трекеров нет.
 
 **Что приложение не собирает.** По умолчанию нет нашего сервера, принимающего ваши данные.
 Приложение не читает контакты, геолокацию, микрофон и камеру. Идентификаторы устройства не
@@ -64,11 +73,18 @@ from anyone, including children.
 **Ваш API-ключ.** Ключ AI-провайдера шифруется ключом из Android Keystore перед записью на диск.
 Он покидает устройство только внутри зашифрованного запроса к выбранному вами провайдеру.
 
-**Резервные копии и экспорт.** Создание бэкапа или CSV-экспорта записывает файл туда, куда вы
-укажете через системный файловый пикер. Ничего не выгружается в сеть.
+**Автоматическая резервная копия.** Пока вы не выключите её в «Настройки → Данные → Резервная копия
+в облаке», Android Auto Backup копирует данные приложения (слова, прогресс, историю повторений и
+настройки) в ваш собственный аккаунт Google Drive. На Android 9+ копия шифруется сквозным шифрованием
+с помощью блокировки экрана, где это поддерживается, и восстанавливается автоматически при
+переустановке. Выключение переключателя останавливает новые копии, но не удаляет уже сохранённую.
+
+**Резервные копии и экспорт.** Ручной бэкап или CSV-экспорт записывает файл туда, куда вы укажете
+через системный файловый пикер. Само приложение эти файлы никуда не выгружает.
 
 **Удаление данных.** Удаление приложения или встроенная очистка данных необратимо стирает все
-локальные данные. На серверах хранить нечего.
+локальные данные. На наших серверах хранить нечего; облачная копия, если она включена, лежит в вашем
+Google Drive и управляется Google.
 
 **Дети.** Приложение не содержит контента для детей и не собирает данные ни от кого, включая детей.
 

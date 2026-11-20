@@ -29,6 +29,7 @@ import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Flag
@@ -128,6 +129,7 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val cloudBackupEnabled by viewModel.cloudBackupEnabled.collectAsStateWithLifecycle()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -148,6 +150,7 @@ fun SettingsScreen(
             is SettingsUiState.Content -> SettingsContent(
                 settings = state.settings,
                 ai = state.ai,
+                cloudBackupEnabled = cloudBackupEnabled,
                 onEvent = viewModel::onEvent,
                 onOpenPlacement = onOpenPlacement,
                 onOpenDataManagement = onOpenDataManagement,
@@ -161,6 +164,7 @@ fun SettingsScreen(
 private fun SettingsContent(
     settings: UserSettings,
     ai: AiSettings,
+    cloudBackupEnabled: Boolean,
     onEvent: (SettingsUiEvent) -> Unit,
     onOpenPlacement: () -> Unit,
     onOpenDataManagement: () -> Unit,
@@ -302,6 +306,10 @@ private fun SettingsContent(
             HorizontalDivider(Modifier.padding(vertical = Dimens.spaceSm))
 
             GroupHeader(R.string.settings_group_data)
+            CloudBackupRow(
+                enabled = cloudBackupEnabled,
+                onToggle = { onEvent(SettingsUiEvent.SetCloudBackup(it)) },
+            )
             SettingsRow(
                 icon = Icons.Outlined.Storage,
                 title = stringResource(R.string.settings_data_management),
@@ -709,6 +717,17 @@ private fun SettingsRow(icon: ImageVector, title: String, value: String?, onClic
         supportingContent = value?.let { { Text(it) } },
         leadingContent = { Icon(icon, contentDescription = null) },
         modifier = Modifier.clickable(role = Role.Button, onClick = onClick),
+    )
+}
+
+@Composable
+private fun CloudBackupRow(enabled: Boolean, onToggle: (Boolean) -> Unit) {
+    ListItem(
+        headlineContent = { Text(stringResource(R.string.settings_cloud_backup)) },
+        supportingContent = { Text(stringResource(R.string.settings_cloud_backup_hint)) },
+        leadingContent = { Icon(Icons.Outlined.Cloud, contentDescription = null) },
+        trailingContent = { Switch(checked = enabled, onCheckedChange = null) },
+        modifier = Modifier.toggleable(value = enabled, role = Role.Switch, onValueChange = onToggle),
     )
 }
 

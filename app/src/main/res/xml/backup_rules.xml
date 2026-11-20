@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Used on API 30 and below; data_extraction_rules.xml covers API 31+. -->
+<full-backup-content>
+  <include domain="root" path="." />
+</full-backup-content>

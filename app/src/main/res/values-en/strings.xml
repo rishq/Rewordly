@@ -535,6 +535,8 @@
 
     <!-- Data: import, export, backup -->
     <string name="settings_group_data">Data</string>
+    <string name="settings_cloud_backup">Cloud backup</string>
+    <string name="settings_cloud_backup_hint">Keeps words and progress after reinstall</string>
     <string name="settings_data_management">Import and export</string>
     <string name="settings_data_management_hint">CSV and JSON files, backup</string>
 

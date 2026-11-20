@@ -588,6 +588,8 @@
 
     <!-- Данные: импорт, экспорт, резервная копия -->
     <string name="settings_group_data">Данные</string>
+    <string name="settings_cloud_backup">Резервная копия в облаке</string>
+    <string name="settings_cloud_backup_hint">Слова и прогресс сохранятся после переустановки</string>
     <string name="settings_data_management">Импорт и экспорт</string>
     <string name="settings_data_management_hint">Файлы CSV и JSON, резервная копия</string>
 

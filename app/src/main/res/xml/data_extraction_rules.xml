@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <data-extraction-rules>
-  <!-- User writing is private: exclude it from cloud backup and device transfer. -->
-  <cloud-backup>
-    <exclude domain="root" />
-    <exclude domain="database" />
-    <exclude domain="sharedpref" />
-    <exclude domain="file" />
+  <!-- Backup is opt-out: the on/off switch lives in Settings and is checked by RewordlyBackupAgent. -->
+  <cloud-backup disableIfNoEncryptionCapabilities="true">
+    <include domain="root" path="." />
   </cloud-backup>
   <device-transfer>
-    <exclude domain="root" />
-    <exclude domain="database" />
-    <exclude domain="sharedpref" />
-    <exclude domain="file" />
+    <include domain="root" path="." />
   </device-transfer>
 </data-extraction-rules>
